@@ -7,9 +7,9 @@ export const Head = styled.div`
   margin-bottom: 22px;
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<{ step: number }>`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: ${(props) => `repeat(${props.step}, 1fr)`};
   grid-column-gap: 10px;
 `;
 
@@ -19,6 +19,7 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  user-select: none;
 `;
 
 export const Title = styled.p`

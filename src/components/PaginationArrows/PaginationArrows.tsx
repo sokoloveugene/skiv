@@ -2,13 +2,29 @@ import React from "react";
 import * as s from "./PaginationArrows.styled";
 import { ReactComponent as PaginationArrow } from "../../assets/icons/PaginationArrow.svg";
 
-const PaginationArrows: React.FC = () => {
+interface PaginationArrowsI {
+  next: () => void;
+  prev: () => void;
+  disabledNext: boolean;
+  disabledPrev: boolean;
+}
+
+const PaginationArrows: React.FC<PaginationArrowsI> = ({
+  next,
+  prev,
+  disabledNext,
+  disabledPrev,
+}) => {
   return (
     <s.Container>
-      <s.SvgContainer>
+      <s.SvgContainer onClick={prev} disabled={disabledPrev} role="button">
         <PaginationArrow />
       </s.SvgContainer>
-      <s.SvgContainerRotated disabled>
+      <s.SvgContainerRotated
+        onClick={next}
+        disabled={disabledNext}
+        role="button"
+      >
         <PaginationArrow />
       </s.SvgContainerRotated>
     </s.Container>

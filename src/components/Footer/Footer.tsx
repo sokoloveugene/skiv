@@ -1,6 +1,7 @@
 import React from "react";
 import SocialLinks from "../SocialLinks";
 import * as s from "./Footer.styled";
+import { dictionary } from "../../consts/dictionary";
 
 interface SubCategoryI {
   title: string;
@@ -25,7 +26,7 @@ const Footer: React.FC = () => {
 
       <s.Wrapper>
         <s.Title>КОНТАКТИ</s.Title>
-        <s.SubTitle>+ 380679468434</s.SubTitle>
+        <s.SubTitle>{dictionary.phoneNumber}</s.SubTitle>
         <SocialLinks />
       </s.Wrapper>
     </s.Container>
