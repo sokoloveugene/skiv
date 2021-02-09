@@ -1,7 +1,19 @@
-import styled from "styled-components";
-import colors from "../../consts/colors";
+import styled, { keyframes } from "styled-components";
+import { colors } from "../../consts/colors";
+
+const slide = keyframes`
+  0% {
+    backdrop-filter: blur(1px);
+    left: -100%;
+  }
+  100% {
+    backdrop-filter: blur(2px);
+    left: 0;
+  }
+`;
 
 export const Shadow = styled.div`
+  z-index: 999;
   position: fixed;
   top: 0;
   left: 0;
@@ -9,14 +21,15 @@ export const Shadow = styled.div`
   min-width: 100vw;
   display: flex;
   backdrop-filter: blur(2px);
+  animation: 0.1s ${slide} linear;
 `;
 
 export const MenuContainer = styled.div`
-  min-height: 100%;
+  height: 100vh;
+  overflow-y: scroll;
   flex-basis: 40%;
-  background-color: ${colors.brown};
-  z-index: 2;
-  padding: 37px 130px;
+  background: ${colors.brown};
+  padding: 37px 30px;
   display: flex;
   flex-direction: column;
 `;

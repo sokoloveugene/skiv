@@ -21,7 +21,6 @@ const SideBar: React.FC<SideBarI> = ({ onClose }) => {
           onClick={onClose}
           role="button"
         />
-        {/* <input type="text" onChange={handleChange} /> */}
 
         <SideBarCategories />
 

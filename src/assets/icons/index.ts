@@ -16,6 +16,9 @@ import Instagram from "./Instagram.svg";
 import Facebook from "./Facebook.svg";
 import Viber from "./Viber.svg";
 
+// PAGINATION
+import PaginationArrow from "./PaginationArrow.svg";
+
 export {
   Burger,
   Logo,
@@ -29,4 +32,5 @@ export {
   Viber,
   Plus,
   Minus,
+  PaginationArrow,
 };

@@ -1,3 +1,1 @@
-import SideBarCategories from "./SideBarCategories";
-
-export default SideBarCategories;
+export { default } from "./SideBarCategories";

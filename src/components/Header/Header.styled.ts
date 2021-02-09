@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import colors from "../../consts/colors";
+import { colors } from "../../consts/colors";
 
 export const HeaderContainer = styled.div`
   min-height: 96px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 130px;
 `;
 
 export const Burger = styled.img`

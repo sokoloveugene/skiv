@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import colors from "../consts/colors";
+import { colors } from "../consts/colors";
 
 const Divider = styled.div`
   height: 1px;
