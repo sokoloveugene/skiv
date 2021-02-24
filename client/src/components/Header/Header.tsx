@@ -10,6 +10,7 @@ import {
   Cart,
 } from "../../assets/icons";
 import Search from "../Search";
+import { DividerFullWidth } from "../../ui/ui.styled";
 
 const Header: React.FC = () => {
   const [liked, setLiked] = useState<boolean>(false);
@@ -53,6 +54,7 @@ const Header: React.FC = () => {
           </s.ControlItem>
         </s.ControlGroup>
       </s.HeaderContainer>
+      <DividerFullWidth />
 
       {menu && <SideBar onClose={() => setMenu(false)} />}
       {search && <Search />}
