@@ -1,33 +1,24 @@
 import React from "react";
-// TODO replece fetch logic
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import * as s from "./App.styled";
+import HomePage from "../../pages/HomePage";
 import Header from "../Header";
 import Footer from "../Footer";
 
-import Banner from "../Banner";
-import { dictionary } from "../../consts/dictionary";
-// TODO delete images imports
-import imageLeft from "../../assets/images/BannerLeft.png";
-import imageRight from "../../assets/images/BannerRight.png";
-
-import Carousel from "../Carousel";
-
 const App: React.FC = () => {
-  // const [items, setitems] = useState<any>([]);
-
   return (
     <s.MainContainer>
       <s.GlobalStyle />
       <Header />
       <s.Content>
-        <Banner
-          imageLeftSrc={imageLeft}
-          imageRightSrc={imageRight}
-          title={dictionary.bannerTitle}
-        />
-        <Carousel title="Новинки" items={[]} />
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <HomePage />
+            </Route>
+          </Switch>
+        </Router>
       </s.Content>
-
       <Footer />
     </s.MainContainer>
   );
