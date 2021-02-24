@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 // TODO replece fetch logic
-import axios from "axios";
 import * as s from "./App.styled";
 import Header from "../Header";
 import Footer from "../Footer";
@@ -14,7 +13,7 @@ import imageRight from "../../assets/images/BannerRight.png";
 import Carousel from "../Carousel";
 
 const App: React.FC = () => {
-  const [items, setitems] = useState<any>([]);
+  // const [items, setitems] = useState<any>([]);
 
   return (
     <s.MainContainer>
@@ -26,7 +25,7 @@ const App: React.FC = () => {
           imageRightSrc={imageRight}
           title={dictionary.bannerTitle}
         />
-        <Carousel title="Новинки" items={items} />
+        <Carousel title="Новинки" items={[]} />
       </s.Content>
 
       <Footer />
