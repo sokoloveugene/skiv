@@ -4,6 +4,7 @@ import * as s from "./App.styled";
 import HomePage from "../../pages/HomePage";
 import ProductPage from "../../pages/ProductPage";
 import CatalogPage from "../../pages/CatalogPage";
+import Cart from "../../pages/Cart";
 import Header from "../Header";
 import Footer from "../Footer";
 
@@ -23,6 +24,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/catalog">
               <CatalogPage />
+            </Route>
+            <Route path="/cart">
+              <Cart />
             </Route>
           </Switch>
         </Router>
