@@ -22,6 +22,9 @@ import PaginationArrow from "./PaginationArrow.svg";
 // OTHER
 import ArrowDown from "./ArrowDown.svg";
 
+// SORT
+import Sorting from "./Sorting.svg";
+
 export {
   Burger,
   Logo,
@@ -37,4 +40,5 @@ export {
   Minus,
   PaginationArrow,
   ArrowDown,
+  Sorting,
 };
