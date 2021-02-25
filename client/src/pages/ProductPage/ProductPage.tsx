@@ -12,6 +12,7 @@ import { WishNotActive } from "../../assets/icons";
 import { colors } from "../../consts/colors";
 import Currency from "../../components/Currency";
 import DropDown from "../../components/DropDown";
+import SelectSize from "../../components/SelectSize";
 import NotificationPortal from "../../components/NotificationPortal/NotificationPortal";
 
 const SideImage = styled.img<{ active?: boolean }>`
@@ -121,6 +122,7 @@ const ProductPage: React.FC = () => {
         <RightContainer>
           <ProductTitle>Куртка</ProductTitle>
           <Currency customMargin="0px 0px 46px 0px" value={1234} />
+          <SelectSize />
           <Button
             customMargin="0px 0px 32px 0px"
             maxWidth="206px"
