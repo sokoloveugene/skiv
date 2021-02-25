@@ -57,7 +57,7 @@ const Header: React.FC = () => {
       <DividerFullWidth />
 
       {menu && <SideBar onClose={() => setMenu(false)} />}
-      {search && <Search />}
+      {search && <Search onClose={() => setSearch(false)} />}
     </>
   );
 };

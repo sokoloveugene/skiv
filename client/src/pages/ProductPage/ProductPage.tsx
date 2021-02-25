@@ -14,6 +14,7 @@ import Currency from "../../components/Currency";
 import DropDown from "../../components/DropDown";
 import SelectSize from "../../components/SelectSize";
 import NotificationPortal from "../../components/NotificationPortal/NotificationPortal";
+import { testProducts } from "../../mockData";
 
 const SideImage = styled.img<{ active?: boolean }>`
   height: 100%;
@@ -162,7 +163,7 @@ const ProductPage: React.FC = () => {
       </Container>
       <NotificationPortal open />
       <Divider customMargin="67px 0px 42px 0px" />
-      <Carousel title="Вам може сподобатись" items={[]} />
+      <Carousel title="Вам може сподобатись" items={testProducts} />
     </>
   );
 };

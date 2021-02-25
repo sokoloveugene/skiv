@@ -1,4 +1,5 @@
 import React from "react";
+import currency from "../../helpers/currencyFormatter";
 import ProportionWrapper from "../ProportionWrapper/ProportionWrapper";
 import * as s from "./ItemCard.styled";
 
@@ -20,14 +21,9 @@ const ItemCard: React.FC<ItemCardI> = ({ item }) => {
       <ProportionWrapper horizontalRation={374} verticatRation={500}>
         <s.Image src={item.image} />
       </ProportionWrapper>
-      {/* <s.WrapperProportion>
-        <s.WrapperProportionInner>
-          <s.Image src={item.image} />
-        </s.WrapperProportionInner>
-      </s.WrapperProportion> */}
       <s.Tag>{item.tag}</s.Tag>
       <s.Name>{item.name}</s.Name>
-      <s.Price>₴ {item.price}</s.Price>
+      <s.Price>{currency(item.price)}</s.Price>
     </s.Card>
   );
 };
