@@ -19,6 +19,9 @@ import Viber from "./Viber.svg";
 // PAGINATION
 import PaginationArrow from "./PaginationArrow.svg";
 
+// OTHER
+import ArrowDown from "./ArrowDown.svg";
+
 export {
   Burger,
   Logo,
@@ -33,4 +36,5 @@ export {
   Plus,
   Minus,
   PaginationArrow,
+  ArrowDown,
 };

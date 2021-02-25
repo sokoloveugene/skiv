@@ -24,24 +24,27 @@ const SelectSize: React.FC = () => {
   };
 
   return (
-    <s.Container>
-      {selectSizeData.map((el) => (
-        <s.Label
-          key={el.id}
-          checked={el.id === selectedOption?.id}
-          disabled={!el.available}
-        >
-          <s.HiddenCheckbox
-            name="size"
-            type="radio"
-            onChange={() => handleChange(el)}
+    <>
+      <s.Title>Розмiр</s.Title>
+      <s.Container>
+        {selectSizeData.map((el) => (
+          <s.Label
+            key={el.id}
             checked={el.id === selectedOption?.id}
             disabled={!el.available}
-          />
-          {el.title}
-        </s.Label>
-      ))}
-    </s.Container>
+          >
+            <s.HiddenCheckbox
+              name="size"
+              type="radio"
+              onChange={() => handleChange(el)}
+              checked={el.id === selectedOption?.id}
+              disabled={!el.available}
+            />
+            {el.title}
+          </s.Label>
+        ))}
+      </s.Container>
+    </>
   );
 };
 

@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const WrapperProportion = styled.div<{ x: number; y: number }>`
   position: relative;
   width: 100%;
-  margin-bottom: 12px;
 
   &:before {
     content: "";
