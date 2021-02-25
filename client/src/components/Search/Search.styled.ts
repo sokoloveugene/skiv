@@ -7,7 +7,14 @@ export const Container = styled.div`
   border-bottom: 1px solid ${colors.white};
 `;
 
+export const Form = styled.form`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const SearchInput = styled.input`
+  flex-grow: 1;
   border: none;
   background-color: transparent;
   color: ${colors.white};
@@ -37,7 +44,15 @@ export const ShadowBlur = styled.div`
   background-color: #00000050;
 `;
 
-export const SearchIcon = styled.img`
+export const IconWrapper = styled.button`
   height: 24px;
   width: 24px;
+  background-color: transparent;
+  border: none;
+  display: block;
+
+  & > svg > circle,
+  rect {
+    stroke: ${colors.white};
+  }
 `;
