@@ -6,4 +6,5 @@ export const colors = {
   brown: "#887569",
   textColor: "#887569",
   disabled: "#E8DDD5",
+  lightGray: "#cdcbca",
 };

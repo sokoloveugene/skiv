@@ -5,12 +5,15 @@ import HomePage from "../../pages/HomePage";
 import Header from "../Header";
 import Footer from "../Footer";
 
+import SelectSize from "../SelectSize"
+
 const App: React.FC = () => {
   return (
     <s.MainContainer>
       <s.GlobalStyle />
       <Header />
       <s.Content>
+        <SelectSize />
         <Router>
           <Switch>
             <Route exact path="/">
