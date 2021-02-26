@@ -11,15 +11,15 @@ import Footer from "../Footer";
 const App: React.FC = () => {
   return (
     <s.MainContainer>
-      <s.GlobalStyle />
-      <Header />
-      <s.Content>
-        <Router>
+      <Router>
+        <s.GlobalStyle />
+        <Header />
+        <s.Content>
           <Switch>
             <Route exact path="/">
               <HomePage />
             </Route>
-            <Route path="/product">
+            <Route path="/product/:id">
               <ProductPage />
             </Route>
             <Route path="/catalog">
@@ -29,9 +29,9 @@ const App: React.FC = () => {
               <Cart />
             </Route>
           </Switch>
-        </Router>
-      </s.Content>
-      <Footer />
+        </s.Content>
+        <Footer />
+      </Router>
     </s.MainContainer>
   );
 };

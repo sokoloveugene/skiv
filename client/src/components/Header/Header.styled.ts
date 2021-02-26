@@ -3,9 +3,31 @@ import { colors } from "../../consts/colors";
 
 export const HeaderContainer = styled.div`
   min-height: 96px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  justify-content: center;
+`;
+
+export const HeaderBlock = styled.div<{
+  start?: boolean;
+  center?: boolean;
+  end?: boolean;
+}>`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: ${(props) => {
+    switch (true) {
+      case props.start:
+        return "flex-start";
+      case props.center:
+        return " center";
+      case props.end:
+        return "flex-end";
+      default:
+        return "";
+    }
+  }};
 `;
 
 export const Burger = styled.img`
@@ -27,6 +49,7 @@ export const ControlGroup = styled.div`
 export const ControlItem = styled.li`
   margin-right: 30px;
   position: relative;
+  cursor: pointer;
   &:last-child {
     margin-right: 0;
   }

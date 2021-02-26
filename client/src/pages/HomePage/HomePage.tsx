@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from "../../components/Carousel";
 
 // TODO delete images imports
@@ -6,9 +6,16 @@ import imageLeft from "../../assets/images/BannerLeft.png";
 import imageRight from "../../assets/images/BannerRight.png";
 import Banner from "../../components/Banner";
 import { dictionary } from "../../consts/dictionary";
-import { testProducts } from "../../mockData";
+import { ProductI } from "../../types";
+import { getAllProducts } from "../../api/productsApi";
 
 const HomePage: React.FC = () => {
+  const [products, setProducts] = useState<ProductI[]>([]);
+
+  useEffect(() => {
+    getAllProducts(setProducts);
+  }, []);
+
   return (
     <>
       <Banner
@@ -16,7 +23,7 @@ const HomePage: React.FC = () => {
         imageRightSrc={imageRight}
         title={dictionary.bannerTitle}
       />
-      <Carousel title="Новинки" items={testProducts} />
+      <Carousel title="Новинки" items={products} />
     </>
   );
 };

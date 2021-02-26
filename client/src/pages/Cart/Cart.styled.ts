@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { colors } from "../../consts/colors";
 
+export const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const PageTitle = styled.h1`
   font-size: 36px;
   line-height: 42px;
@@ -9,7 +14,10 @@ export const PageTitle = styled.h1`
   margin: 44px 0px 77px 0px;
 `;
 
-export const CartItemsContainer = styled.div``;
+export const CartItemsContainer = styled.div`
+  flex-basis: 60%;
+  margin-right: 10%;
+`;
 
 export const Row = styled.div`
   display: grid;

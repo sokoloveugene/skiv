@@ -1,9 +1,21 @@
 import instance from "./instance";
+import { ProductI } from "../types";
 
-// TODO create data interface
-type ProductInterface = any;
+export const getAllProducts = async (onLoad?: (data: ProductI[]) => void) => {
+  const { data } = await instance.get<ProductI[]>("/api/products");
+  if (data && onLoad) {
+    onLoad(data);
+  }
+  return data;
+};
 
-const fetchAllProducts = async () => {
-  const { data } = await instance.get<ProductInterface[]>("/api/products");
+export const getProductById = async (
+  id: string,
+  onLoad?: (data: ProductI) => void
+) => {
+  const { data } = await instance.get<ProductI>(`/api/products/${id}`);
+  if (data && onLoad) {
+    onLoad(data);
+  }
   return data;
 };

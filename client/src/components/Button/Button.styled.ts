@@ -7,6 +7,7 @@ export const Button = styled.button<{
   maxWidth?: string;
   transparent?: boolean;
 }>`
+  justify-content: center;
   display: flex;
   align-items: center;
   background-color: ${(props) =>

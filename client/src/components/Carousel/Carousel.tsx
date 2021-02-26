@@ -3,12 +3,12 @@ import ItemCard from "../ItemCard";
 import * as s from "./Carousel.styled";
 import PaginationArrows from "../PaginationArrows";
 import Button from "../Button";
+import { ProductI } from "../../types";
 
-// TODO create data from backend interface
 interface CarouselI {
   title: string;
   step?: number;
-  items: any[];
+  items: ProductI[];
 }
 
 const Carousel: React.FC<CarouselI> = ({ title, step = 3, items = [] }) => {
@@ -54,8 +54,8 @@ const Carousel: React.FC<CarouselI> = ({ title, step = 3, items = [] }) => {
       </s.Head>
 
       <s.Container step={step}>
-        {dataToShow.map((item) => (
-          <ItemCard key={item.id} item={item} />
+        {dataToShow.map((item: ProductI) => (
+          <ItemCard key={item._id} item={item} />
         ))}
       </s.Container>
       {!showAll && (

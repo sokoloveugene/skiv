@@ -1,25 +1,17 @@
 import React, { useState } from "react";
+import { SizeOptionI } from "../../types";
 import * as s from "./SelectSize.styled";
 
-interface SelectOptionI {
-  id: number;
-  title: string;
-  available: number;
+interface SelectSizeI {
+  options: Array<SizeOptionI>;
 }
 
-const selectSizeData = [
-  { id: 1, title: "XS", available: 2 },
-  { id: 2, title: "S", available: 2 },
-  { id: 3, title: "M", available: 2 },
-  { id: 4, title: "L", available: 0 },
-];
-
-const SelectSize: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<SelectOptionI | null>(
+const SelectSize: React.FC<SelectSizeI> = ({ options }) => {
+  const [selectedOption, setSelectedOption] = useState<SizeOptionI | null>(
     null
   );
 
-  const handleChange = (value: SelectOptionI) => {
+  const handleChange = (value: SizeOptionI) => {
     setSelectedOption(value);
   };
 
@@ -27,17 +19,17 @@ const SelectSize: React.FC = () => {
     <>
       <s.Title>Розмiр</s.Title>
       <s.Container>
-        {selectSizeData.map((el) => (
+        {options.map((el) => (
           <s.Label
-            key={el.id}
-            checked={el.id === selectedOption?.id}
+            key={el._id}
+            checked={el._id === selectedOption?._id}
             disabled={!el.available}
           >
             <s.HiddenCheckbox
               name="size"
               type="radio"
               onChange={() => handleChange(el)}
-              checked={el.id === selectedOption?.id}
+              checked={el._id === selectedOption?._id}
               disabled={!el.available}
             />
             {el.title}
