@@ -1,40 +1,28 @@
 const { Schema, model } = require("mongoose");
 
-const reviewSchema = new Schema(
-  {
-    name: { type: String, required: true, default: "Guest" },
-    rating: { type: Number, required: true },
-    comment: {
-      type: String,
-      required: true,
-      default: "Guest",
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
+const additionalSchema = new Schema({
+  title: { type: String, required: true },
+  data: [{ type: String }],
+});
+
+const sizeSchema = new Schema({
+  title: { type: String, required: true },
+  available: { type: Number, default: 0 },
+});
 
 const schema = new Schema({
+  image: [{ type: String, required: true }],
+  tag: { type: String, default: null },
   name: { type: String, required: true },
-  category: { type: String, default: null },
   price: { type: Number, required: true },
-  image: { type: String, required: true },
+  price_old: { type: Number, default: null },
+  sizes: [sizeSchema],
   description: {
     type: String,
     required: true,
   },
-  rating: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  countInStock: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  rewievs: [reviewSchema],
+  category: { type: String, required: true },
+  additional: [additionalSchema],
 });
 
 module.exports = model("Product", schema);
