@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 import SideBar from "../SideBar";
 import * as s from "./Header.styled";
 import {
@@ -12,6 +13,19 @@ import {
 } from "../../assets/icons";
 import Search from "../Search";
 import { DividerFullWidth } from "../../ui/ui.styled";
+import { useStoreContext } from "../../store/storeContext";
+
+const CartIconWithBange: React.FC = observer(() => {
+  const history = useHistory();
+  const { cartStore } = useStoreContext();
+
+  return (
+    <s.ControlItem onClick={() => history.push("/cart")}>
+      <s.ControlIcon src={Cart} alt="cart icon" role="button" />
+      {!!cartStore.itemsInCart && <s.Badge>{cartStore.itemsInCart}</s.Badge>}
+    </s.ControlItem>
+  );
+});
 
 const Header: React.FC = () => {
   const [liked, setLiked] = useState<boolean>(false);
@@ -62,10 +76,7 @@ const Header: React.FC = () => {
                 role="button"
               />
             </s.ControlItem>
-            <s.ControlItem onClick={() => history.push("/cart")}>
-              <s.ControlIcon src={Cart} alt="cart icon" role="button" />
-              <s.Badge>13</s.Badge>
-            </s.ControlItem>
+            <CartIconWithBange />
           </s.ControlGroup>
         </s.HeaderBlock>
       </s.HeaderContainer>

@@ -10,9 +10,7 @@ export const Title = styled.h3`
 `;
 
 export const Container = styled.div`
-  width: 250px;
   display: flex;
-  justify-content: space-between;
   margin-bottom: 54px;
 `;
 
@@ -47,5 +45,9 @@ export const Label = styled.label<{
     top: 42%;
     right: 48%;
     transform: translate(-50%, -45%) rotate(45deg);
+  }
+
+  & + & {
+    margin-left: 25px;
   }
 `;

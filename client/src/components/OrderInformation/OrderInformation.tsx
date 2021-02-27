@@ -1,7 +1,7 @@
 import React from "react";
 import * as s from "./OrderInformation.styled";
 import currency from "../../helpers/currencyFormatter";
-import Button from "../../components/Button";
+import Button from "../Button";
 
 const OrderInformation = () => {
   return (

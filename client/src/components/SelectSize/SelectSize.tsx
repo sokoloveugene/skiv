@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { SizeOptionI } from "../../types";
 import * as s from "./SelectSize.styled";
 
 interface SelectSizeI {
   options: Array<SizeOptionI>;
+  selectedOption: SizeOptionI | null;
+  setSelectedOption: (option: SizeOptionI) => void;
 }
 
-const SelectSize: React.FC<SelectSizeI> = ({ options }) => {
-  const [selectedOption, setSelectedOption] = useState<SizeOptionI | null>(
-    null
-  );
-
+const SelectSize: React.FC<SelectSizeI> = ({
+  options,
+  selectedOption,
+  setSelectedOption,
+}) => {
   const handleChange = (value: SizeOptionI) => {
     setSelectedOption(value);
   };

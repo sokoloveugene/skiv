@@ -11,13 +11,16 @@ import DropDown from "../../components/DropDown";
 import SelectSize from "../../components/SelectSize";
 import NotificationPortal from "../../components/NotificationPortal/NotificationPortal";
 import { getProductById } from "../../api/productsApi";
-import { ProductI } from "../../types";
+import { ProductI, SizeOptionI } from "../../types";
 import * as s from "./ProductPage.styled";
+import { useStoreContext } from "../../store/storeContext";
 
 const ProductPage: React.FC = () => {
+  const { cartStore } = useStoreContext();
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<ProductI | null>(null);
   const [mainImageUrl, setMainImageUrl] = useState("");
+  const [size, setSize] = useState<SizeOptionI | null>(null);
 
   const onLoad = (loadedProduct: ProductI) => {
     setProduct(loadedProduct);
@@ -30,6 +33,10 @@ const ProductPage: React.FC = () => {
 
   const handleSelectImage = (e: React.MouseEvent<HTMLImageElement>) => {
     setMainImageUrl(e.currentTarget.dataset.url || "");
+  };
+
+  const handleAddToCart = () => {
+    cartStore.addToCart(product?._id || "", size);
   };
 
   if (!product) return null;
@@ -59,11 +66,15 @@ const ProductPage: React.FC = () => {
         <s.RightContainer>
           <s.ProductTitle>{product.name}</s.ProductTitle>
           <Currency customMargin="0px 0px 46px 0px" value={product.price} />
-          <SelectSize options={product.sizes} />
+          <SelectSize
+            selectedOption={size}
+            setSelectedOption={setSize}
+            options={product.sizes}
+          />
           <Button
             customMargin="0px 0px 32px 0px"
             maxWidth="206px"
-            onClick={() => null}
+            onClick={handleAddToCart}
             title="Add to cart"
           />
           <Button
