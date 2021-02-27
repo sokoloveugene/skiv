@@ -55,3 +55,12 @@ export const Image = styled.img`
   height: 100%;
   object-fit: cover;
 `;
+
+export const ControlIcon = styled.img`
+  display: block;
+  height: 20px;
+  min-width: 20px;
+  position: absolute;
+  top: 4%;
+  right: 4%;
+`;

@@ -27,16 +27,24 @@ const CartIconWithBange: React.FC = observer(() => {
   );
 });
 
+const WishIcon: React.FC = observer(() => {
+  const { wishStore } = useStoreContext();
+
+  return (
+    <s.ControlItem>
+      <s.ControlIcon
+        src={wishStore.hasWishes ? WishActive : WishNotActive}
+        alt="wish icon"
+        role="button"
+      />
+    </s.ControlItem>
+  );
+});
+
 const Header: React.FC = () => {
-  const [liked, setLiked] = useState<boolean>(false);
   const [menu, setMenu] = useState<boolean>(false);
   const [search, setSearch] = useState<boolean>(false);
-
   const history = useHistory();
-
-  const toggleLike = () => {
-    setLiked((prev) => !prev);
-  };
 
   return (
     <>
@@ -69,13 +77,7 @@ const Header: React.FC = () => {
                 onClick={() => setSearch(true)}
               />
             </s.ControlItem>
-            <s.ControlItem onClick={toggleLike}>
-              <s.ControlIcon
-                src={liked ? WishActive : WishNotActive}
-                alt="wish icon"
-                role="button"
-              />
-            </s.ControlItem>
+            <WishIcon />
             <CartIconWithBange />
           </s.ControlGroup>
         </s.HeaderBlock>

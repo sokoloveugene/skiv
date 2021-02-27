@@ -12,6 +12,10 @@ autorun(() => {
   setLocalStorage("cart", rootStore.cartStore.cart);
 });
 
+autorun(() => {
+  setLocalStorage("wishList", rootStore.wishStore.wishList);
+});
+
 ReactDOM.render(
   <React.StrictMode>
     <Store store={rootStore}>
