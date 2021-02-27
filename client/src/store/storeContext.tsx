@@ -3,7 +3,7 @@ import RootStore from "./rootStore";
 
 const StoreContext = createContext<RootStore>({} as RootStore);
 
-export const useStoreContext = () => {
+export const useStoreContext = (): RootStore => {
   return useContext(StoreContext);
 };
 

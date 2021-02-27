@@ -3,7 +3,7 @@ import * as s from "./OrderInformation.styled";
 import currency from "../../helpers/currencyFormatter";
 import Button from "../Button";
 
-const OrderInformation = () => {
+const OrderInformation: React.FC = () => {
   return (
     <s.Container>
       <s.Title>INFORMATION ABOUT ORDER</s.Title>

@@ -7,7 +7,7 @@ import OrderInformation from "../../components/OrderInformation";
 
 const headers = ["Продукт", "Цiна", "Кiлькiсть", "Всього"];
 
-const Cart = () => {
+const Cart: React.FC = () => {
   return (
     <>
       <s.PageTitle>Shopping cart</s.PageTitle>

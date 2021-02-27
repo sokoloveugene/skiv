@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 import ProportionWrapper from "../../components/ProportionWrapper";
 import { Divider } from "../../ui/ui.styled";
 // import Carousel from "../../components/Carousel";
@@ -15,31 +16,38 @@ import { ProductI, SizeOptionI } from "../../types";
 import * as s from "./ProductPage.styled";
 import { useStoreContext } from "../../store/storeContext";
 
-const ProductPage: React.FC = () => {
+const ProductPage: React.FC = observer(() => {
   const { cartStore } = useStoreContext();
   const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<ProductI | null>(null);
   const [mainImageUrl, setMainImageUrl] = useState("");
   const [size, setSize] = useState<SizeOptionI | null>(null);
 
-  const onLoad = (loadedProduct: ProductI) => {
-    setProduct(loadedProduct);
-    setMainImageUrl(loadedProduct.image[0]);
-  };
+  const onLoad = useCallback(
+    (loadedProduct: ProductI) => {
+      cartStore.setCurrentProduct(loadedProduct);
+      setMainImageUrl(loadedProduct.image[0]);
+    },
+    [cartStore]
+  );
 
   useEffect(() => {
     getProductById(id, onLoad);
-  }, [id]);
+
+    return () => {
+      cartStore.setCurrentProduct(null);
+    };
+  }, [id, onLoad, cartStore]);
 
   const handleSelectImage = (e: React.MouseEvent<HTMLImageElement>) => {
     setMainImageUrl(e.currentTarget.dataset.url || "");
   };
 
   const handleAddToCart = () => {
-    cartStore.addToCart(product?._id || "", size);
+    cartStore.addToCart(size);
+    setSize(null);
   };
 
-  if (!product) return null;
+  if (!cartStore.productInView) return null;
 
   return (
     <>
@@ -47,7 +55,7 @@ const ProductPage: React.FC = () => {
       <s.Container>
         <s.LeftContainer>
           <s.PreviewContainer>
-            {product.image.map((url) => (
+            {cartStore.productInView.image.map((url) => (
               <s.PreviewListItem>
                 <s.SideImage
                   active={mainImageUrl === url}
@@ -64,12 +72,15 @@ const ProductPage: React.FC = () => {
           </ProportionWrapper>
         </s.LeftContainer>
         <s.RightContainer>
-          <s.ProductTitle>{product.name}</s.ProductTitle>
-          <Currency customMargin="0px 0px 46px 0px" value={product.price} />
+          <s.ProductTitle>{cartStore.productInView.name}</s.ProductTitle>
+          <Currency
+            customMargin="0px 0px 46px 0px"
+            value={cartStore.productInView.price}
+          />
           <SelectSize
             selectedOption={size}
             setSelectedOption={setSize}
-            options={product.sizes}
+            options={cartStore.sizeOptions}
           />
           <Button
             customMargin="0px 0px 32px 0px"
@@ -86,7 +97,7 @@ const ProductPage: React.FC = () => {
             title="Додати до бажань"
           />
 
-          {product.additional.map((a, idx, arr) => (
+          {cartStore.productInView.additional.map((a, idx, arr) => (
             <>
               <DropDown title={a.title} data={a.data} />
               {idx + 1 !== arr.length && (
@@ -101,6 +112,6 @@ const ProductPage: React.FC = () => {
       {/* <Carousel title="Вам може сподобатись" items={testProducts} /> */}
     </>
   );
-};
+});
 
 export default ProductPage;

@@ -1,5 +1,5 @@
 import React from "react";
-import ItemCard from "../../components/ItemCard";
+// import ItemCard from "../../components/ItemCard";
 import SideNavigation from "../../components/SideNavigation";
 import * as s from "./CatalogPage.styled";
 // import { testProducts } from "../../mockData";

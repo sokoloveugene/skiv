@@ -3,7 +3,7 @@ import { SizeOptionI } from "../../types";
 import * as s from "./SelectSize.styled";
 
 interface SelectSizeI {
-  options: Array<SizeOptionI>;
+  options: Array<SizeOptionI> | undefined;
   selectedOption: SizeOptionI | null;
   setSelectedOption: (option: SizeOptionI) => void;
 }
@@ -16,6 +16,8 @@ const SelectSize: React.FC<SelectSizeI> = ({
   const handleChange = (value: SizeOptionI) => {
     setSelectedOption(value);
   };
+
+  if (!options) return null;
 
   return (
     <>

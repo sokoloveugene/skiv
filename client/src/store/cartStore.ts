@@ -1,46 +1,72 @@
 import { makeAutoObservable } from "mobx";
-import { getLocalStorage, setLocalStorage } from "../helpers/localStorage";
-import { SizeOptionI } from "../types";
+import { getLocalStorage } from "../helpers/localStorage";
+import { ProductI, SizeOptionI } from "../types";
 
-interface SelectedProductI {
+interface CartItemI {
   _id: string;
-  size: SizeOptionI;
-  amount: number;
+  sizes: {
+    [key: string]: number;
+  };
 }
 
 class CartStore {
-  cart: SelectedProductI[];
+  cart: CartItemI[];
+
+  productInView: ProductI | null = null;
 
   constructor() {
     makeAutoObservable(this);
     this.cart = getLocalStorage("cart", []);
   }
 
-  addToCart(_id: string, size?: SizeOptionI | null): void {
-    if (!_id || !size || !size.available) return;
+  setCurrentProduct(product: ProductI | null): void {
+    this.productInView = product;
+  }
 
-    const sameProduct = this.cart.find(
-      (cartItem) => cartItem._id === _id && cartItem.size?._id === size._id
-    );
+  addToCart(size?: SizeOptionI | null): void {
+    if (!this.productInView?._id || !size || !size.available) return;
 
-    if (sameProduct && sameProduct.size.available > sameProduct.amount) {
-      sameProduct.amount += 1;
-    }
+    const { _id } = this.productInView;
+
+    const sameProduct = this.cart.find((cartItem) => cartItem._id === _id);
 
     if (!sameProduct) {
-      this.cart.push({ _id, size, amount: 1 });
+      this.cart.push({ _id, sizes: { [size._id]: 1 } });
+      return;
     }
 
-    setLocalStorage("cart", this.cart);
+    if (!Object.prototype.hasOwnProperty.call(sameProduct.sizes, size._id)) {
+      // same product in cart but no same size
+      sameProduct.sizes[size._id] = 1;
+      return;
+    }
+
+    if (size.available) {
+      // same product, same size, available to add one more
+      sameProduct.sizes[size._id] += 1;
+    }
   }
 
   get itemsInCart(): number {
     return (
       this.cart.reduce((acc, cartItem) => {
-        const sum = acc + cartItem.amount;
-        return sum;
+        const nums = Object.values(cartItem.sizes);
+        return acc + nums.reduce((a, n) => a + n, 0);
       }, 0) || 0
     );
+  }
+
+  get sizeOptions(): SizeOptionI[] | undefined {
+    const sameProduct = this.cart.find(
+      (cartItem) => cartItem._id === this.productInView?._id
+    );
+    if (!sameProduct) return this.productInView?.sizes;
+
+    return this.productInView?.sizes.map((size) => {
+      return sameProduct.sizes[size._id]
+        ? { ...size, available: size.available - sameProduct.sizes[size._id] }
+        : size;
+    });
   }
 }
 

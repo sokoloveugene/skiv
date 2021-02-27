@@ -4,7 +4,7 @@ import useOutsideAction from "../../hooks/useClickOutside";
 import * as s from "./Search.styled";
 
 interface SearchI {
-  onClose: () => any;
+  onClose: () => void;
 }
 
 const Search: React.FC<SearchI> = ({ onClose }) => {
@@ -13,7 +13,6 @@ const Search: React.FC<SearchI> = ({ onClose }) => {
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(search);
     setSearch("");
     onClose();
   };
