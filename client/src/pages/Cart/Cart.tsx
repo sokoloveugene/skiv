@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite";
 import ShoppingCartItem from "../../components/ShoppingCartItem";
 import * as s from "./Cart.styled";
 import { Divider } from "../../ui/ui.styled";
-// import { testCart } from "../../mockData";
 import OrderInformation from "../../components/OrderInformation";
 import { useStoreContext } from "../../store/storeContext";
 
@@ -24,26 +23,22 @@ const Cart: React.FC = observer(() => {
         <s.CartItemsContainer>
           <s.Row>
             {headers.map((h, idx) => (
-              <>
+              <s.KeyWrapper key={h}>
                 {idx !== 0 ? (
                   <s.Сentered>
-                    <s.HeaderTitle key={h}>{h}</s.HeaderTitle>
+                    <s.HeaderTitle>{h}</s.HeaderTitle>
                   </s.Сentered>
                 ) : (
-                  <s.HeaderTitle key={h}>{h}</s.HeaderTitle>
+                  <s.HeaderTitle>{h}</s.HeaderTitle>
                 )}
-              </>
+              </s.KeyWrapper>
             ))}
           </s.Row>
 
           <Divider customMargin="27px 0px 10px 0px" />
 
           {cartStore.cartData.map((item) => {
-            return (
-              <>
-                <ShoppingCartItem product={item} />
-              </>
-            );
+            return <ShoppingCartItem key={item._id} product={item} />;
           })}
         </s.CartItemsContainer>
 

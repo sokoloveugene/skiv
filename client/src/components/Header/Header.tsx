@@ -49,7 +49,7 @@ const Header: React.FC = () => {
   return (
     <>
       <s.HeaderContainer>
-        <s.HeaderBlock start>
+        <s.HeaderBlock position="start">
           <s.Burger
             onClick={() => setMenu(true)}
             src={Burger}
@@ -58,7 +58,7 @@ const Header: React.FC = () => {
           />
         </s.HeaderBlock>
 
-        <s.HeaderBlock center>
+        <s.HeaderBlock position="center">
           <s.LogoLink
             onClick={() => history.push("/")}
             src={Logo}
@@ -67,7 +67,7 @@ const Header: React.FC = () => {
           />
         </s.HeaderBlock>
 
-        <s.HeaderBlock end>
+        <s.HeaderBlock position="end">
           <s.ControlGroup>
             <s.ControlItem>
               <s.ControlIcon

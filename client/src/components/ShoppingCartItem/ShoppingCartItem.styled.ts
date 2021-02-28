@@ -77,3 +77,5 @@ export const Number = styled.p`
   font-size: 18px;
   line-height: 22px;
 `;
+
+export const KeyWrapper = styled.div``;

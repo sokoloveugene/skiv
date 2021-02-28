@@ -91,6 +91,15 @@ class CartStore {
 
     this.cartData = products;
   }
+
+  // addOne(productId: string, sizeId: string): void {
+  //   if (!productId || !sizeId) return;
+  //   const productInCartData = this.cartData.find(
+  //     (product) => product._id === productId
+  //   );
+  //   const targetSize = productInCartData?.sizes;
+
+  // }
 }
 
 export default CartStore;

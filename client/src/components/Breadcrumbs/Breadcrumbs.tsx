@@ -14,16 +14,18 @@ const TextItem = styled.span`
   margin-right: 18px;
 `;
 
+const Wrapper = styled.div``;
+
 const data = ["Головна", "Каталог", "Куртки"];
 
 const Breadcrumbs: React.FC = () => {
   return (
     <Container>
       {data.map((i, idx, arr) => (
-        <>
-          <TextItem key={i}>{i}</TextItem>
+        <Wrapper key={i}>
+          <TextItem>{i}</TextItem>
           {idx + 1 !== arr.length && <TextItem>/</TextItem>}
-        </>
+        </Wrapper>
       ))}
     </Container>
   );

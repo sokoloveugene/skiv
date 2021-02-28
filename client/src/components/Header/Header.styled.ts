@@ -10,19 +10,17 @@ export const HeaderContainer = styled.div`
 `;
 
 export const HeaderBlock = styled.div<{
-  start?: boolean;
-  center?: boolean;
-  end?: boolean;
+  position?: "start" | "center" | "end";
 }>`
   display: flex;
   align-items: center;
-  justify-content: ${(props) => {
+  justify-content: ${({ position }) => {
     switch (true) {
-      case props.start:
+      case position === "start":
         return "flex-start";
-      case props.center:
+      case position === "center":
         return " center";
-      case props.end:
+      case position === "end":
         return "flex-end";
       default:
         return "";

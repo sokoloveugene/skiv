@@ -35,3 +35,5 @@ export const HeaderTitle = styled.p`
   line-height: 22px;
   color: ${colors.brown};
 `;
+
+export const KeyWrapper = styled.div``;

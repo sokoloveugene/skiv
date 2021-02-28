@@ -10,7 +10,7 @@ import { WishNotActive } from "../../assets/icons";
 import Currency from "../../components/Currency";
 import DropDown from "../../components/DropDown";
 import SelectSize from "../../components/SelectSize";
-import NotificationPortal from "../../components/NotificationPortal/NotificationPortal";
+import NotificationPortal from "../../components/NotificationPortal";
 import { getProductById } from "../../api/productsApi";
 import { ProductI, SizeOptionI } from "../../types";
 import * as s from "./ProductPage.styled";
@@ -56,7 +56,7 @@ const ProductPage: React.FC = observer(() => {
         <s.LeftContainer>
           <s.PreviewContainer>
             {cartStore.productInView.image.map((url) => (
-              <s.PreviewListItem>
+              <s.PreviewListItem key={url}>
                 <s.SideImage
                   active={mainImageUrl === url}
                   data-url={url}
@@ -98,12 +98,12 @@ const ProductPage: React.FC = observer(() => {
           />
 
           {cartStore.productInView.additional.map((a, idx, arr) => (
-            <>
+            <s.KeyWrapper key={a.title}>
               <DropDown title={a.title} data={a.data} />
               {idx + 1 !== arr.length && (
                 <Divider customMargin="8px 0px 20px 0px" />
               )}
-            </>
+            </s.KeyWrapper>
           ))}
         </s.RightContainer>
       </s.Container>

@@ -18,7 +18,7 @@ const ShoppingCartItem: React.FC<ShoppingCartItemI> = ({ product }) => {
         if (!size.ordered) return null;
 
         return (
-          <>
+          <s.KeyWrapper key={size._id}>
             <s.Row>
               <s.ProductMainInfo>
                 <s.ImageWrapper>
@@ -51,7 +51,7 @@ const ShoppingCartItem: React.FC<ShoppingCartItemI> = ({ product }) => {
               </s.CloseButton>
             </s.Row>
             <Divider customMargin="11px 0px" />
-          </>
+          </s.KeyWrapper>
         );
       })}
     </>

@@ -60,3 +60,5 @@ export const ProductTitle = styled.p`
   color: ${colors.brown};
   margin-bottom: 18px;
 `;
+
+export const KeyWrapper = styled.div``;
