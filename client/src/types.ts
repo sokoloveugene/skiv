@@ -2,6 +2,7 @@ export interface SizeOptionI {
   _id: number;
   title: string;
   available: number;
+  ordered?: number;
 }
 
 interface AdditionalI {

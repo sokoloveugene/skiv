@@ -21,3 +21,16 @@ export const getProductById = async (
   }
   return data;
 };
+
+export const getProductsByIds = async (
+  ids: Array<string>,
+  onLoad?: (data: ProductI[]) => void
+): Promise<ProductI[]> => {
+  const { data } = await instance.post<ProductI[]>(`/api/products/byIds`, {
+    ids,
+  });
+  if (data && onLoad) {
+    onLoad(data);
+  }
+  return data || [];
+};

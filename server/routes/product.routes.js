@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const { body, validationResult } = require("express-validator");
 const router = Router();
 const Product = require("../models/Product");
 
@@ -13,7 +14,6 @@ router.get("/", async (req, res) => {
     res.status(500).json("Something went wrong, please try again");
   }
 });
-
 
 // @desc    Fetch product by ID
 // @route   GET /api/products/:id
@@ -32,5 +32,40 @@ router.get("/:id", async (req, res) => {
     res.status(500).json("Something went wrong, please try again");
   }
 });
+
+// @desc    Fetch product by array of id (ids: [string])
+// @route   POST /api/products/byIds
+// @access  Public
+router.post(
+  "/byIds",
+  body("ids").custom((value) => {
+    if (!Array.isArray(value)) {
+      throw new Error("Bad request");
+    }
+    if (value.length === 0) {
+      throw new Error("At least one id is requred");
+    }
+    return true;
+  }),
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const { ids } = req.body;
+
+      const records = await Product.find().where("_id").in(ids).exec();
+
+      if (records) {
+        return res.json(records);
+      }
+    } catch (e) {
+      res.status(500).json("Something went wrong, please try again");
+    }
+  }
+);
 
 module.exports = router;

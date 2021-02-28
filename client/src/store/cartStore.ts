@@ -1,6 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { getLocalStorage } from "../helpers/localStorage";
 import { ProductI, SizeOptionI } from "../types";
+import { getProductsByIds } from "../api/productsApi";
 
 interface CartItemI {
   _id: string;
@@ -13,6 +14,8 @@ class CartStore {
   cart: CartItemI[];
 
   productInView: ProductI | null = null;
+
+  cartData: ProductI[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -67,6 +70,26 @@ class CartStore {
         ? { ...size, available: size.available - sameProduct.sizes[size._id] }
         : size;
     });
+  }
+
+  async fetchCartProducts(): Promise<void> {
+    const ids = this.cart.map((cartItem) => cartItem._id);
+    const products = await getProductsByIds(ids);
+
+    this.cart.forEach((cartItem) => {
+      const { _id: cartItemId, sizes: cartItemSizes } = cartItem;
+
+      const targetProduct = products.find((p) => p._id === cartItemId);
+
+      if (targetProduct) {
+        targetProduct.sizes = targetProduct.sizes.map((ts) => ({
+          ...ts,
+          ordered: cartItemSizes[ts._id] || 0,
+        }));
+      }
+    });
+
+    this.cartData = products;
   }
 }
 
