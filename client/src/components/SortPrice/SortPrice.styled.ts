@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { colors } from "../../consts/colors";
 
 export const Container = styled.div`
+  margin-left: auto;
   position: relative;
   display: flex;
   width: fit-content;
+  margin-bottom: 35px;
 `;
 
 export const SvgIcon = styled.img`

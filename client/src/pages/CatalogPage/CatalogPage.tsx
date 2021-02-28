@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import ItemCard from "../../components/ItemCard";
+import SortPrice from "../../components/SortPrice";
 import { colors } from "../../consts/colors";
 import { parseQuery } from "../../helpers/parseQuery";
 import { testProducts } from "../../mockData";
@@ -81,6 +82,7 @@ const CatalogPage: React.FC = () => {
         </NavigationList>
       </SideNavigation>
       <ContentWrapper>
+        <SortPrice />
         <CardsWrapper>
           {testProducts.map((product) => (
             <ItemCard key={product.id} item={product} />
