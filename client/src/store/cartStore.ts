@@ -92,14 +92,115 @@ class CartStore {
     this.cartData = products;
   }
 
-  // addOne(productId: string, sizeId: string): void {
-  //   if (!productId || !sizeId) return;
-  //   const productInCartData = this.cartData.find(
-  //     (product) => product._id === productId
-  //   );
-  //   const targetSize = productInCartData?.sizes;
+  prepareToOperation(
+    productId: string,
+    sizeId: string
+  ): {
+    productInCartData: ProductI | undefined;
+    productInSavedCart: CartItemI | undefined;
+    targetSize: SizeOptionI | undefined;
+  } {
+    const defaultReturn = {
+      productInCartData: undefined,
+      productInSavedCart: undefined,
+      targetSize: undefined,
+    };
 
-  // }
+    const productInCartData = this.cartData.find(
+      (product) => product._id === productId
+    );
+
+    const productInSavedCart = this.cart.find(
+      (cartItem) => cartItem._id === productId
+    );
+
+    if (!productInCartData || !productInSavedCart) return defaultReturn;
+
+    const targetSize = productInCartData.sizes.find(
+      (size) => size._id === sizeId
+    );
+
+    if (!targetSize) return defaultReturn;
+
+    return {
+      productInCartData,
+      productInSavedCart,
+      targetSize,
+    };
+  }
+
+  addOne(productId: string, sizeId: string): void {
+    if (!productId || !sizeId) return;
+
+    const {
+      productInCartData,
+      productInSavedCart,
+      targetSize,
+    } = this.prepareToOperation(productId, sizeId);
+
+    if (
+      !productInCartData ||
+      !productInSavedCart ||
+      !targetSize ||
+      !targetSize.ordered
+    )
+      return;
+
+    if (targetSize.available > targetSize.ordered) {
+      targetSize.ordered += 1;
+      productInSavedCart.sizes[sizeId] += 1;
+    }
+  }
+
+  removeOne(productId: string, sizeId: string): void {
+    if (!productId || !sizeId) return;
+
+    const {
+      productInCartData,
+      productInSavedCart,
+      targetSize,
+    } = this.prepareToOperation(productId, sizeId);
+
+    if (
+      !productInCartData ||
+      !productInSavedCart ||
+      !targetSize ||
+      !targetSize.ordered
+    )
+      return;
+
+    if (targetSize.ordered > 1) {
+      targetSize.ordered -= 1;
+      productInSavedCart.sizes[sizeId] -= 1;
+    }
+  }
+
+  removeAll(productId: string, sizeId: string): void {
+    if (!productId || !sizeId) return;
+
+    const {
+      productInCartData,
+      productInSavedCart,
+      targetSize,
+    } = this.prepareToOperation(productId, sizeId);
+
+    if (
+      !productInCartData ||
+      !productInSavedCart ||
+      !targetSize ||
+      !targetSize.ordered
+    )
+      return;
+
+    targetSize.ordered = 0;
+    delete productInSavedCart.sizes[sizeId];
+    const shouldDeleteProductId = !Object.keys(productInSavedCart.sizes).length;
+    if (shouldDeleteProductId) {
+      this.cart = this.cart.filter(
+        (cartItem) => cartItem._id !== productInSavedCart._id
+      );
+    }
+  }
 }
 
 export default CartStore;

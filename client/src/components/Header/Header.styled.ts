@@ -10,22 +10,11 @@ export const HeaderContainer = styled.div`
 `;
 
 export const HeaderBlock = styled.div<{
-  position?: "start" | "center" | "end";
+  position?: "flex-start" | "center" | "flex-end";
 }>`
   display: flex;
   align-items: center;
-  justify-content: ${({ position }) => {
-    switch (true) {
-      case position === "start":
-        return "flex-start";
-      case position === "center":
-        return " center";
-      case position === "end":
-        return "flex-end";
-      default:
-        return "";
-    }
-  }};
+  justify-content: ${(props) => props.position};
 `;
 
 export const Burger = styled.img`

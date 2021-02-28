@@ -1,5 +1,5 @@
 export interface SizeOptionI {
-  _id: number;
+  _id: string;
   title: string;
   available: number;
   ordered?: number;

@@ -49,7 +49,7 @@ const Header: React.FC = () => {
   return (
     <>
       <s.HeaderContainer>
-        <s.HeaderBlock position="start">
+        <s.HeaderBlock position="flex-start">
           <s.Burger
             onClick={() => setMenu(true)}
             src={Burger}
@@ -67,7 +67,7 @@ const Header: React.FC = () => {
           />
         </s.HeaderBlock>
 
-        <s.HeaderBlock position="end">
+        <s.HeaderBlock position="flex-end">
           <s.ControlGroup>
             <s.ControlItem>
               <s.ControlIcon
