@@ -1,4 +1,6 @@
+// eslint-disable-next-line
 import CartStore from "./cartStore";
+import ProductStore from "./productStore";
 import WishStore from "./wishStore";
 
 class RootStore {
@@ -6,9 +8,12 @@ class RootStore {
 
   wishStore: WishStore;
 
+  productStore: ProductStore;
+
   constructor() {
-    this.cartStore = new CartStore();
+    this.cartStore = new CartStore(this);
     this.wishStore = new WishStore();
+    this.productStore = new ProductStore();
   }
 }
 

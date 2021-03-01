@@ -1,4 +1,6 @@
 import { makeAutoObservable } from "mobx";
+// eslint-disable-next-line
+import RootStore from "./rootStore";
 import { getLocalStorage } from "../helpers/localStorage";
 import { ProductI, SizeOptionI } from "../types";
 import { getProductsByIds } from "../api/productsApi";
@@ -11,25 +13,22 @@ interface CartItemI {
 }
 
 class CartStore {
-  cart: CartItemI[];
+  rootStore: RootStore;
 
-  productInView: ProductI | null = null;
+  cart: CartItemI[];
 
   similarProducts: Array<ProductI> = [];
 
   cartData: ProductI[] = [];
 
-  constructor() {
+  constructor(rootStore: RootStore) {
     makeAutoObservable(this);
+    this.rootStore = rootStore;
     this.cart = getLocalStorage("cart", []);
   }
 
-  setCurrentProduct(product: ProductI | null): void {
-    this.productInView = product;
-  }
-
-  setSimilarProducts(products: Array<ProductI>): void {
-    this.similarProducts = products;
+  get productInView(): ProductI | null {
+    return this.rootStore.productStore.productInView;
   }
 
   addToCart(size?: SizeOptionI | null): void {

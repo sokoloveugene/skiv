@@ -17,27 +17,27 @@ import * as s from "./ProductPage.styled";
 import { useStoreContext } from "../../store/storeContext";
 
 const ProductPage: React.FC = observer(() => {
-  const { cartStore } = useStoreContext();
+  const { cartStore, productStore } = useStoreContext();
   const { id } = useParams<{ id: string }>();
   const [mainImageUrl, setMainImageUrl] = useState("");
   const [size, setSize] = useState<SizeOptionI | null>(null);
 
   const onLoad = useCallback(
     (res: ProductWithSimilarI) => {
-      cartStore.setCurrentProduct(res.product);
-      cartStore.setSimilarProducts(res.similarProducts);
+      productStore.setCurrentProduct(res.product);
+      productStore.setSimilarProducts(res.similarProducts);
       setMainImageUrl(res.product.image[0]);
     },
-    [cartStore]
+    [productStore]
   );
 
   useEffect(() => {
     getProductById(id, onLoad);
 
     return () => {
-      cartStore.setCurrentProduct(null);
+      productStore.setCurrentProduct(null);
     };
-  }, [id, onLoad, cartStore]);
+  }, [id, onLoad, productStore]);
 
   const handleSelectImage = (e: React.MouseEvent<HTMLImageElement>) => {
     setMainImageUrl(e.currentTarget.dataset.url || "");
@@ -48,7 +48,7 @@ const ProductPage: React.FC = observer(() => {
     setSize(null);
   };
 
-  if (!cartStore.productInView) return null;
+  if (!productStore.productInView) return null;
 
   return (
     <>
@@ -56,7 +56,7 @@ const ProductPage: React.FC = observer(() => {
       <s.Container>
         <s.LeftContainer>
           <s.PreviewContainer>
-            {cartStore.productInView.image.map((url) => (
+            {productStore.productInView.image.map((url) => (
               <s.PreviewListItem key={url}>
                 <s.SideImage
                   active={mainImageUrl === url}
@@ -73,10 +73,10 @@ const ProductPage: React.FC = observer(() => {
           </ProportionWrapper>
         </s.LeftContainer>
         <s.RightContainer>
-          <s.ProductTitle>{cartStore.productInView.name}</s.ProductTitle>
+          <s.ProductTitle>{productStore.productInView.name}</s.ProductTitle>
           <Currency
             customMargin="0px 0px 46px 0px"
-            value={cartStore.productInView.price}
+            value={productStore.productInView.price}
           />
           <SelectSize
             selectedOption={size}
@@ -98,7 +98,7 @@ const ProductPage: React.FC = observer(() => {
             title="Додати до бажань"
           />
 
-          {cartStore.productInView.additional.map((a, idx, arr) => (
+          {productStore.productInView.additional.map((a, idx, arr) => (
             <s.KeyWrapper key={a.title}>
               <DropDown title={a.title} data={a.data} />
               {idx + 1 !== arr.length && (
@@ -110,10 +110,10 @@ const ProductPage: React.FC = observer(() => {
       </s.Container>
       <NotificationPortal open />
       <Divider customMargin="67px 0px 42px 0px" />
-      {cartStore.similarProducts.length > 0 && (
+      {productStore.similarProducts.length > 0 && (
         <Carousel
           title="Вам може сподобатись"
-          items={cartStore.similarProducts}
+          items={productStore.similarProducts}
         />
       )}
     </>
