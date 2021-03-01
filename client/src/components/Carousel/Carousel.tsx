@@ -43,7 +43,7 @@ const Carousel: React.FC<CarouselI> = ({ title, step = 3, items = [] }) => {
     <>
       <s.Head>
         <s.Title>{title}</s.Title>
-        {!showAll && (
+        {!showAll && items.length > step && (
           <PaginationArrows
             next={showNext}
             prev={showPrev}
@@ -58,7 +58,7 @@ const Carousel: React.FC<CarouselI> = ({ title, step = 3, items = [] }) => {
           <ItemCard key={item._id} item={item} />
         ))}
       </s.Container>
-      {!showAll && (
+      {!showAll && items.length > step && (
         <Button
           customMargin="50px auto 0 auto"
           onClick={() => setShowAll(true)}

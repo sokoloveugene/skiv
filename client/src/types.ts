@@ -23,3 +23,8 @@ export interface ProductI {
   category: string;
   additional: Array<AdditionalI>;
 }
+
+export interface ProductWithSimilarI {
+  product: ProductI;
+  similarProducts: Array<ProductI>;
+}

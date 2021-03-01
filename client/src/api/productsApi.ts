@@ -1,5 +1,5 @@
 import instance from "./instance";
-import { ProductI } from "../types";
+import { ProductI, ProductWithSimilarI } from "../types";
 
 export const getAllProducts = async (
   onLoad?: (data: ProductI[]) => void
@@ -13,9 +13,11 @@ export const getAllProducts = async (
 
 export const getProductById = async (
   id: string,
-  onLoad?: (data: ProductI) => void
-): Promise<ProductI> => {
-  const { data } = await instance.get<ProductI>(`/api/products/${id}`);
+  onLoad?: (data: ProductWithSimilarI) => void
+): Promise<ProductWithSimilarI> => {
+  const { data } = await instance.get<ProductWithSimilarI>(
+    `/api/products/${id}`
+  );
   if (data && onLoad) {
     onLoad(data);
   }

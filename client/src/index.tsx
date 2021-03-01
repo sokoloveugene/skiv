@@ -2,14 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { autorun } from "mobx";
 import { enableLogging } from "mobx-logger";
-import { highlightUpdates } from "react-highlight-updates";
 import { Store } from "./store/storeContext";
 import RootStore from "./store/rootStore";
 import App from "./components/App/App";
 import { setLocalStorage } from "./helpers/localStorage";
 
 enableLogging();
-highlightUpdates();
 
 const rootStore = new RootStore();
 

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import ProportionWrapper from "../../components/ProportionWrapper";
 import { Divider } from "../../ui/ui.styled";
-// import Carousel from "../../components/Carousel";
+import Carousel from "../../components/Carousel";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Button from "../../components/Button";
 import { WishNotActive } from "../../assets/icons";
@@ -12,7 +12,7 @@ import DropDown from "../../components/DropDown";
 import SelectSize from "../../components/SelectSize";
 import NotificationPortal from "../../components/NotificationPortal";
 import { getProductById } from "../../api/productsApi";
-import { ProductI, SizeOptionI } from "../../types";
+import { ProductWithSimilarI, SizeOptionI } from "../../types";
 import * as s from "./ProductPage.styled";
 import { useStoreContext } from "../../store/storeContext";
 
@@ -23,9 +23,10 @@ const ProductPage: React.FC = observer(() => {
   const [size, setSize] = useState<SizeOptionI | null>(null);
 
   const onLoad = useCallback(
-    (loadedProduct: ProductI) => {
-      cartStore.setCurrentProduct(loadedProduct);
-      setMainImageUrl(loadedProduct.image[0]);
+    (res: ProductWithSimilarI) => {
+      cartStore.setCurrentProduct(res.product);
+      cartStore.setSimilarProducts(res.similarProducts);
+      setMainImageUrl(res.product.image[0]);
     },
     [cartStore]
   );
@@ -109,7 +110,12 @@ const ProductPage: React.FC = observer(() => {
       </s.Container>
       <NotificationPortal open />
       <Divider customMargin="67px 0px 42px 0px" />
-      {/* <Carousel title="Вам може сподобатись" items={testProducts} /> */}
+      {cartStore.similarProducts.length > 0 && (
+        <Carousel
+          title="Вам може сподобатись"
+          items={cartStore.similarProducts}
+        />
+      )}
     </>
   );
 });

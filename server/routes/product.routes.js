@@ -24,7 +24,16 @@ router.get("/:id", async (req, res) => {
     const product = await Product.findById(id);
 
     if (product) {
-      return res.json(product);
+      const category = product.category;
+      const similarProducts = await Product.find({
+        _id: { $ne: product._id },
+        category,
+      }).limit(3);
+
+      return res.json({
+        product,
+        similarProducts,
+      });
     }
 
     res.status(404).json({ message: "Product not found" });

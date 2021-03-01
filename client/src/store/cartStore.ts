@@ -15,6 +15,8 @@ class CartStore {
 
   productInView: ProductI | null = null;
 
+  similarProducts: Array<ProductI> = [];
+
   cartData: ProductI[] = [];
 
   constructor() {
@@ -24,6 +26,10 @@ class CartStore {
 
   setCurrentProduct(product: ProductI | null): void {
     this.productInView = product;
+  }
+
+  setSimilarProducts(products: Array<ProductI>): void {
+    this.similarProducts = products;
   }
 
   addToCart(size?: SizeOptionI | null): void {
@@ -63,6 +69,7 @@ class CartStore {
     const sameProduct = this.cart.find(
       (cartItem) => cartItem._id === this.productInView?._id
     );
+
     if (!sameProduct) return this.productInView?.sizes;
 
     return this.productInView?.sizes.map((size) => {
@@ -200,6 +207,19 @@ class CartStore {
         (cartItem) => cartItem._id !== productInSavedCart._id
       );
     }
+  }
+
+  get totalCost(): number {
+    return this.cartData.reduce((total, item) => {
+      const { sizes, price } = item;
+      const totalBySize = sizes.reduce((acc, size) => {
+        if (!size.ordered) return acc;
+        const updatedTotalBySize = acc + size.ordered * price;
+        return updatedTotalBySize;
+      }, 0);
+      const updatedTotal = total + totalBySize;
+      return updatedTotal;
+    }, 0);
   }
 }
 
