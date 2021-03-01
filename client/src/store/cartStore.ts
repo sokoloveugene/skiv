@@ -15,10 +15,12 @@ interface CartItemI {
 class CartStore {
   rootStore: RootStore;
 
+  // localStorege cart
   cart: CartItemI[];
 
   similarProducts: Array<ProductI> = [];
 
+  // updated cart data
   cartData: ProductI[] = [];
 
   constructor(rootStore: RootStore) {

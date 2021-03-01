@@ -77,4 +77,18 @@ router.post(
   }
 );
 
+// @desc    Fetch products by category
+// @route   GET /api/products/category/:category
+// @access  Public
+router.get("/category/:category", async (req, res) => {
+  try {
+    const category = req.params.category.toLocaleLowerCase();
+    const products = await Product.find({ category });
+
+    return res.json(products);
+  } catch (e) {
+    res.status(500).json("Something went wrong, please try again");
+  }
+});
+
 module.exports = router;
