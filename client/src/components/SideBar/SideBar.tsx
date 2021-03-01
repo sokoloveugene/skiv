@@ -1,9 +1,9 @@
 import React from "react";
+import useOutsideAction from "hooks/useClickOutside";
+import { Close } from "assets/icons";
 import SocialLinks from "../SocialLinks";
 import SideBarCategories from "../SideBarCategories";
 import * as s from "./SideBar.styled";
-import { Close } from "../../assets/icons";
-import useOutsideAction from "../../hooks/useClickOutside";
 
 interface SideBarI {
   onClose: () => void;

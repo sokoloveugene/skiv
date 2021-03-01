@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { colors } from "../../consts/colors";
-import currency from "../../helpers/currencyFormatter";
+import { colors } from "consts/colors";
+import currency from "helpers/currencyFormatter";
 
 const Text = styled.p<{ customMargin?: string }>`
   font-size: 24px;

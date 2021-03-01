@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Plus, Minus } from "../../assets/icons";
+import { Plus, Minus } from "assets/icons";
+import { Divider } from "ui/ui.styled";
 import { CategoryI } from "./types";
-import { Divider } from "../../ui/ui.styled";
 import { mokedCategories, mockedExtra } from "./mocked";
 import * as s from "./SideBarCategories.styled";
 

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import SideBar from "../SideBar";
-import * as s from "./Header.styled";
 import {
   Burger,
   Logo,
@@ -10,10 +8,12 @@ import {
   WishActive,
   WishNotActive,
   Cart,
-} from "../../assets/icons";
+} from "assets/icons";
+import { DividerFullWidth } from "ui/ui.styled";
+import { useStoreContext } from "store/storeContext";
 import Search from "../Search";
-import { DividerFullWidth } from "../../ui/ui.styled";
-import { useStoreContext } from "../../store/storeContext";
+import SideBar from "../SideBar";
+import * as s from "./Header.styled";
 
 const CartIconWithBange: React.FC = observer(() => {
   const history = useHistory();

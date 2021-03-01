@@ -1,5 +1,5 @@
 import React from "react";
-import { SizeOptionI } from "../../types";
+import { SizeOptionI } from "types";
 import * as s from "./SelectSize.styled";
 
 interface SelectSizeI {

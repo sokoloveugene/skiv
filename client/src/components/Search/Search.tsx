@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { ReactComponent as SearchIcon } from "../../assets/icons/SearchIcon.svg";
-import useOutsideAction from "../../hooks/useClickOutside";
+import useOutsideAction from "hooks/useClickOutside";
+import { ReactComponent as SearchIcon } from "assets/icons/SearchIcon.svg";
 import * as s from "./Search.styled";
 
 interface SearchI {

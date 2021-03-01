@@ -1,20 +1,20 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import ProportionWrapper from "../../components/ProportionWrapper";
-import { Divider } from "../../ui/ui.styled";
-import Carousel from "../../components/Carousel";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import Button from "../../components/Button";
-import { WishNotActive } from "../../assets/icons";
-import Currency from "../../components/Currency";
-import DropDown from "../../components/DropDown";
-import SelectSize from "../../components/SelectSize";
-import NotificationPortal from "../../components/NotificationPortal";
-import { getProductById } from "../../api/productsApi";
-import { ProductWithSimilarI, SizeOptionI } from "../../types";
+import { useStoreContext } from "store/storeContext";
+import { ProductWithSimilarI, SizeOptionI } from "types";
+import { getProductById } from "api/productsApi";
+import { Divider } from "ui/ui.styled";
+import { WishNotActive } from "assets/icons";
+import ProportionWrapper from "components/ProportionWrapper";
+import Carousel from "components/Carousel";
+import Breadcrumbs from "components/Breadcrumbs";
+import Button from "components/Button";
+import Currency from "components/Currency";
+import DropDown from "components/DropDown";
+import SelectSize from "components/SelectSize";
+import NotificationPortal from "components/NotificationPortal";
 import * as s from "./ProductPage.styled";
-import { useStoreContext } from "../../store/storeContext";
 
 const ProductPage: React.FC = observer(() => {
   const { cartStore, productStore } = useStoreContext();
@@ -52,7 +52,7 @@ const ProductPage: React.FC = observer(() => {
 
   return (
     <>
-      <Breadcrumbs />
+      <Breadcrumbs category={productStore.productInView.category} />
       <s.Container>
         <s.LeftContainer>
           <s.PreviewContainer>

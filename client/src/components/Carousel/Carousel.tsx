@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { ProductI } from "types";
 import ItemCard from "../ItemCard";
-import * as s from "./Carousel.styled";
 import PaginationArrows from "../PaginationArrows";
 import Button from "../Button";
-import { ProductI } from "../../types";
+import * as s from "./Carousel.styled";
 
 interface CarouselI {
   title: string;

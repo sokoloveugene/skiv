@@ -1,13 +1,14 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import currency from "../../helpers/currencyFormatter";
+import { useHistory } from "react-router-dom";
+import { ReactComponent as Close } from "assets/icons/Close.svg";
+import { ReactComponent as Minus } from "assets/icons/Minus.svg";
+import { ReactComponent as Plus } from "assets/icons/Plus.svg";
+import { Divider } from "ui/ui.styled";
+import { ProductI } from "types";
+import { useStoreContext } from "store/storeContext";
+import currency from "helpers/currencyFormatter";
 import * as s from "./ShoppingCartItem.styled";
-import { ReactComponent as Close } from "../../assets/icons/Close.svg";
-import { ReactComponent as Minus } from "../../assets/icons/Minus.svg";
-import { ReactComponent as Plus } from "../../assets/icons/Plus.svg";
-import { Divider } from "../../ui/ui.styled";
-import { ProductI } from "../../types";
-import { useStoreContext } from "../../store/storeContext";
 
 interface ShoppingCartItemI {
   product: ProductI;
@@ -16,6 +17,12 @@ interface ShoppingCartItemI {
 const ShoppingCartItem: React.FC<ShoppingCartItemI> = observer(
   ({ product }) => {
     const { cartStore } = useStoreContext();
+
+    const history = useHistory();
+
+    const handleRedirectToProduct = () => {
+      history.push(`product/${product._id}`);
+    };
 
     return (
       <>
@@ -26,7 +33,7 @@ const ShoppingCartItem: React.FC<ShoppingCartItemI> = observer(
             <s.KeyWrapper key={size._id}>
               <s.Row>
                 <s.ProductMainInfo>
-                  <s.ImageWrapper>
+                  <s.ImageWrapper onClick={handleRedirectToProduct}>
                     <s.Image src={product.image[0]} alt="product" />
                   </s.ImageWrapper>
                   <s.TitleContainer>

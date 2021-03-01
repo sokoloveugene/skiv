@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { getLocalStorage } from "../helpers/localStorage";
+import { getLocalStorage } from "helpers/localStorage";
 
 class WishStore {
   wishList: string[];

@@ -3,4 +3,11 @@ module.exports = {
   rules: {
     "no-underscore-dangle": "off",
   },
+  settings: {
+    "import/resolver": {
+      node: {
+        paths: ["src"],
+      },
+    },
+  },
 };

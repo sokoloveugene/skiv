@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors } from "../../consts/colors";
+import { colors } from "consts/colors";
 
 export const SideImage = styled.img<{ active?: boolean }>`
   height: 100%;

@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import currency from "../../helpers/currencyFormatter";
-import { useStoreContext } from "../../store/storeContext";
-import { ProductI } from "../../types";
+import { useStoreContext } from "store/storeContext";
+import { ProductI } from "types";
+import { WishActive, WishNotActive } from "assets/icons";
+import currency from "helpers/currencyFormatter";
 import ProportionWrapper from "../ProportionWrapper/ProportionWrapper";
-import { WishActive, WishNotActive } from "../../assets/icons";
 import * as s from "./ItemCard.styled";
 
 interface ItemCardI {

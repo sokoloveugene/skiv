@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import currency from "../../helpers/currencyFormatter";
+import currency from "helpers/currencyFormatter";
 import * as s from "./NotificationPortal.styled";
 
 interface NotificationPortalI {

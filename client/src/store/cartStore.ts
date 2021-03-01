@@ -1,9 +1,9 @@
 import { makeAutoObservable } from "mobx";
 // eslint-disable-next-line
 import RootStore from "./rootStore";
-import { getLocalStorage } from "../helpers/localStorage";
-import { ProductI, SizeOptionI } from "../types";
-import { getProductsByIds } from "../api/productsApi";
+import { getLocalStorage } from "helpers/localStorage";
+import { ProductI, SizeOptionI } from "types";
+import { getProductsByIds } from "api/productsApi";
 
 interface CartItemI {
   _id: string;

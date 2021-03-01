@@ -36,3 +36,16 @@ export const getProductsByIds = async (
   }
   return data || [];
 };
+
+export const getProductByCategory = async (
+  category: string,
+  onLoad?: (data: ProductI[]) => void
+): Promise<ProductI[]> => {
+  const { data } = await instance.get<ProductI[]>(
+    `/api/products/category/${category}`
+  );
+  if (data && onLoad) {
+    onLoad(data);
+  }
+  return data;
+};

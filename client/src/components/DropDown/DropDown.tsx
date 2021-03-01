@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { ArrowDown } from "assets/icons";
 import * as s from "./DropDown.styled";
-import { ArrowDown } from "../../assets/icons";
 
 interface DropDownI {
   title: string;

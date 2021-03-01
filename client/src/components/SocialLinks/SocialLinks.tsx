@@ -1,6 +1,6 @@
 import React from "react";
+import { Instagram, Facebook, Viber } from "assets/icons";
 import * as s from "./SocialLinks.styled";
-import { Instagram, Facebook, Viber } from "../../assets/icons";
 
 const socialArray = [
   { icon: Viber, link: "#", alt: "viber icon" },

@@ -1,6 +1,6 @@
 import React from "react";
+import { ReactComponent as PaginationArrow } from "assets/icons/PaginationArrow.svg";
 import * as s from "./PaginationArrows.styled";
-import { ReactComponent as PaginationArrow } from "../../assets/icons/PaginationArrow.svg";
 
 interface PaginationArrowsI {
   next: () => void;

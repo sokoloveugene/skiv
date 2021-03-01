@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import ShoppingCartItem from "../../components/ShoppingCartItem";
+import { useStoreContext } from "store/storeContext";
+import { Divider } from "ui/ui.styled";
+import OrderInformation from "components/OrderInformation";
+import ShoppingCartItem from "components/ShoppingCartItem";
 import * as s from "./Cart.styled";
-import { Divider } from "../../ui/ui.styled";
-import OrderInformation from "../../components/OrderInformation";
-import { useStoreContext } from "../../store/storeContext";
 
 const headers = ["Продукт", "Цiна", "Кiлькiсть", "Всього"];
 

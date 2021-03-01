@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import * as s from "./App.styled";
-import HomePage from "../../pages/HomePage";
-import ProductPage from "../../pages/ProductPage";
-import CatalogPage from "../../pages/CatalogPage";
-import Cart from "../../pages/Cart";
+import ProductPage from "pages/ProductPage";
+import HomePage from "pages/HomePage";
+import CatalogPage from "pages/CatalogPage";
+import Cart from "pages/Cart";
 import Header from "../Header";
 import Footer from "../Footer";
+import * as s from "./App.styled";
 
 const App: React.FC = () => {
   return (

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors } from "../../consts/colors";
+import { colors } from "consts/colors";
 
 export const Title = styled.h3`
   font-size: 18px;

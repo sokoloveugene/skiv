@@ -1,7 +1,7 @@
 import React from "react";
+import { dictionary } from "consts/dictionary";
 import SocialLinks from "../SocialLinks";
 import * as s from "./Footer.styled";
-import { dictionary } from "../../consts/dictionary";
 
 interface SubCategoryI {
   title: string;

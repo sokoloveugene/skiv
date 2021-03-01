@@ -1,8 +1,8 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import { useStoreContext } from "../../store/storeContext";
-import currency from "../../helpers/currencyFormatter";
+import { useStoreContext } from "store/storeContext";
+import currency from "helpers/currencyFormatter";
 import Button from "../Button";
 import * as s from "./OrderInformation.styled";
 

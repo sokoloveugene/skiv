@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { parseQuery } from "../../helpers/parseQuery";
+import { parseQuery } from "helpers/parseQuery";
 import * as s from "./SideNavigation.styled";
 
 const links = [
