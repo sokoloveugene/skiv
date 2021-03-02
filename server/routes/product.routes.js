@@ -48,6 +48,12 @@ router.get("/:id", async (req, res) => {
 router.get("/category/:category", async (req, res) => {
   try {
     const category = req.params.category.toLocaleLowerCase();
+
+    if (category === "all") {
+      const products = await Product.find();
+      return res.json(products);
+    }
+    
     const products = await Product.find({ category });
 
     return res.json(products);

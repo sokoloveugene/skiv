@@ -42,7 +42,7 @@ export const getProductByCategory = async (
   onLoad?: (data: ProductI[]) => void
 ): Promise<ProductI[]> => {
   const { data } = await instance.get<ProductI[]>(
-    `/api/products/category/${category}`
+    `/api/products/category/${category || "all"}`
   );
   if (data && onLoad) {
     onLoad(data);

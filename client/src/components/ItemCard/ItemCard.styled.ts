@@ -50,12 +50,6 @@ export const WrapperProportionInner = styled.div`
   right: 0;
 `;
 
-export const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
 export const ControlIcon = styled.img`
   display: block;
   height: 20px;
@@ -63,4 +57,20 @@ export const ControlIcon = styled.img`
   position: absolute;
   top: 4%;
   right: 4%;
+  opacity: 0;
+  transition: opacity 0.3s;
+
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+export const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  &:hover + ${ControlIcon} {
+    opacity: 1;
+  }
 `;
