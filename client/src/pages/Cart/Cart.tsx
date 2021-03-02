@@ -41,8 +41,9 @@ const Cart: React.FC = observer(() => {
             return <ShoppingCartItem key={item._id} product={item} />;
           })}
         </s.CartItemsContainer>
-
-        <OrderInformation />
+        <s.OrderInformationWrapper>
+          <OrderInformation />
+        </s.OrderInformationWrapper>
       </s.Wrapper>
     </>
   );

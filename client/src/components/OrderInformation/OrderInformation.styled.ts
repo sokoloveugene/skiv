@@ -2,7 +2,12 @@ import styled from "styled-components";
 import { colors } from "consts/colors";
 
 export const Container = styled.div`
-  flex-basis: 30%;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 `;
 
 export const Title = styled.p`

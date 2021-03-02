@@ -37,3 +37,7 @@ export const HeaderTitle = styled.p`
 `;
 
 export const KeyWrapper = styled.div``;
+
+export const OrderInformationWrapper = styled.div`
+  flex-basis: 30%;
+`;

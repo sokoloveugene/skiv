@@ -49,13 +49,13 @@ export const Badge = styled.span`
   position: absolute;
   top: -2px;
   left: 12px;
-  border-radius: 50%;
+  border-radius: 8px;
   background-color: ${colors.peach};
   color: ${colors.white};
   height: 16px;
   min-width: 16px;
   font-size: 12px;
-  padding: 2px;
+  padding: 0px 4px;
 `;
 
 export const ControlIcon = styled.img`

@@ -35,13 +35,8 @@ const OrderInformation: React.FC = observer(() => {
         title="Checkout"
         onClick={() => null}
         customMargin="42px 0px 22px 0px"
-        maxWidth="90%"
       />
-      <Button
-        title="Continue Shopping"
-        onClick={handleContinueShopping}
-        maxWidth="90%"
-      />
+      <Button title="Continue Shopping" onClick={handleContinueShopping} />
     </s.Container>
   );
 });
