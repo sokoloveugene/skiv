@@ -28,3 +28,17 @@ export interface ProductWithSimilarI {
   product: ProductI;
   similarProducts: Array<ProductI>;
 }
+
+export interface CartItemI {
+  _id: string;
+  sizes: {
+    [key: string]: number;
+  };
+}
+
+export interface CartNotificationI {
+  name: string;
+  sizeTitle: string;
+  price: number;
+  image: string;
+}

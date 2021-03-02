@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { useWish } from "hooks/useWish";
 import { useStoreContext } from "store/storeContext";
 import { ProductWithSimilarI, SizeOptionI } from "types";
 import { getProductById } from "api/productsApi";
 import { Divider } from "ui/ui.styled";
-import { WishNotActive } from "assets/icons";
+import { WishNotActive, WishActive } from "assets/icons";
 import ProportionWrapper from "components/ProportionWrapper";
 import Carousel from "components/Carousel";
 import Breadcrumbs from "components/Breadcrumbs";
@@ -21,6 +22,7 @@ const ProductPage: React.FC = observer(() => {
   const { id } = useParams<{ id: string }>();
   const [mainImageUrl, setMainImageUrl] = useState("");
   const [size, setSize] = useState<SizeOptionI | null>(null);
+  const [isWished, wishHandler] = useWish(id);
 
   const onLoad = useCallback(
     (res: ProductWithSimilarI) => {
@@ -93,9 +95,9 @@ const ProductPage: React.FC = observer(() => {
             transparent
             customMargin="0px auto 88px 0px"
             customPadding="0px"
-            icon={WishNotActive}
-            onClick={() => null}
-            title="Додати до бажань"
+            icon={isWished ? WishActive : WishNotActive}
+            onClick={wishHandler}
+            title={isWished ? "Видалити з бажань" : "Додати до бажань"}
           />
 
           {productStore.productInView.additional.map((a, idx, arr) => (
@@ -108,7 +110,7 @@ const ProductPage: React.FC = observer(() => {
           ))}
         </s.RightContainer>
       </s.Container>
-      <NotificationPortal open />
+      <NotificationPortal />
       <Divider customMargin="67px 0px 42px 0px" />
       {productStore.similarProducts.length > 0 && (
         <Carousel

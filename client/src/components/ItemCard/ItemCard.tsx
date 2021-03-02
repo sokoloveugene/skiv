@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useHistory } from "react-router-dom";
-import { useStoreContext } from "store/storeContext";
+import { useWish } from "hooks/useWish";
 import { ProductI } from "types";
 import { WishActive, WishNotActive } from "assets/icons";
 import currency from "helpers/currencyFormatter";
@@ -12,21 +12,9 @@ interface ItemCardI {
 }
 
 const ItemCard: React.FC<ItemCardI> = ({ item }) => {
-  const { wishStore } = useStoreContext();
-  const [isWished, setWished] = useState(() => wishStore.isWish(item._id));
   const history = useHistory();
   const wishIconRef = useRef<HTMLImageElement>(null);
-
-  const wishHandler = (): void => {
-    const { _id } = item;
-    if (isWished) {
-      setWished(false);
-      wishStore.removeFromWishList(_id);
-    } else {
-      setWished(true);
-      wishStore.addToWishList(_id);
-    }
-  };
+  const [isWished, wishHandler] = useWish(item._id);
 
   const handleRedirect = (e: React.MouseEvent<HTMLDivElement>, id: string) => {
     if (e.target === wishIconRef.current) {

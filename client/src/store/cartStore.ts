@@ -2,15 +2,8 @@ import { makeAutoObservable } from "mobx";
 // eslint-disable-next-line
 import RootStore from "./rootStore";
 import { getLocalStorage } from "helpers/localStorage";
-import { ProductI, SizeOptionI } from "types";
+import { ProductI, SizeOptionI, CartItemI, CartNotificationI } from "types";
 import { getProductsByIds } from "api/productsApi";
-
-interface CartItemI {
-  _id: string;
-  sizes: {
-    [key: string]: number;
-  };
-}
 
 class CartStore {
   rootStore: RootStore;
@@ -19,6 +12,8 @@ class CartStore {
   cart: CartItemI[];
 
   similarProducts: Array<ProductI> = [];
+
+  notification: CartNotificationI | null = null;
 
   // updated cart data
   cartData: ProductI[] = [];
@@ -38,22 +33,32 @@ class CartStore {
 
     const { _id } = this.productInView;
 
+    const notificationData = {
+      name: this.productInView.name,
+      sizeTitle: size.title,
+      price: this.productInView.price,
+      image: this.productInView.image[0],
+    };
+
     const sameProduct = this.cart.find((cartItem) => cartItem._id === _id);
 
     if (!sameProduct) {
       this.cart.push({ _id, sizes: { [size._id]: 1 } });
+      this.setNotification(notificationData);
       return;
     }
 
     if (!Object.prototype.hasOwnProperty.call(sameProduct.sizes, size._id)) {
       // same product in cart but no same size
       sameProduct.sizes[size._id] = 1;
+      this.setNotification(notificationData);
       return;
     }
 
     if (size.available) {
       // same product, same size, available to add one more
       sameProduct.sizes[size._id] += 1;
+      this.setNotification(notificationData);
     }
   }
 
@@ -221,6 +226,10 @@ class CartStore {
       const updatedTotal = total + totalBySize;
       return updatedTotal;
     }, 0);
+  }
+
+  setNotification(data: CartNotificationI | null): void {
+    this.notification = data;
   }
 }
 

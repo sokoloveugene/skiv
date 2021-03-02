@@ -31,6 +31,7 @@ const Search: React.FC<SearchI> = ({ onClose }) => {
       <s.Container ref={contentRef}>
         <s.Form onSubmit={handleSearch}>
           <s.SearchInput
+            autoFocus
             value={search}
             onChange={handleChange}
             type="text"
