@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import useOutsideAction from "hooks/useClickOutside";
 import { ReactComponent as SearchIcon } from "assets/icons/SearchIcon.svg";
 import * as s from "./Search.styled";
@@ -10,11 +11,12 @@ interface SearchI {
 const Search: React.FC<SearchI> = ({ onClose }) => {
   const [search, setSearch] = useState("");
   const [contentRef] = useOutsideAction(onClose);
+  const history = useHistory();
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSearch("");
     onClose();
+    history.push({ pathname: "/find", search: `?search=${search}` });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

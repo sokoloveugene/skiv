@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ProductPage from "pages/ProductPage";
 import HomePage from "pages/HomePage";
 import CatalogPage from "pages/CatalogPage";
+import SearchPage from "pages/SearchPage";
 import Cart from "pages/Cart";
 import Header from "../Header";
 import Footer from "../Footer";
@@ -27,6 +28,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/cart">
               <Cart />
+            </Route>
+            <Route path="/find">
+              <SearchPage />
             </Route>
           </Switch>
         </s.Content>

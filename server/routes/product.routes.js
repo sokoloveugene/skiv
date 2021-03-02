@@ -42,6 +42,20 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// @desc    Fetch products by category
+// @route   GET /api/products/category/:category
+// @access  Public
+router.get("/category/:category", async (req, res) => {
+  try {
+    const category = req.params.category.toLocaleLowerCase();
+    const products = await Product.find({ category });
+
+    return res.json(products);
+  } catch (e) {
+    res.status(500).json("Something went wrong, please try again");
+  }
+});
+
 // @desc    Fetch product by array of id (ids: [string])
 // @route   POST /api/products/byIds
 // @access  Public
@@ -77,15 +91,15 @@ router.post(
   }
 );
 
-// @desc    Fetch products by category
-// @route   GET /api/products/category/:category
+// @desc    Fetch products by ({ search: string })
+// @route   POST /api/products/find
 // @access  Public
-router.get("/category/:category", async (req, res) => {
+router.post("/find", async (req, res) => {
   try {
-    const category = req.params.category.toLocaleLowerCase();
-    const products = await Product.find({ category });
-
-    return res.json(products);
+    const { search } = req.body;
+    const regex = new RegExp(search, "ig");
+    const products = await Product.find({ name: regex });
+    res.json(products);
   } catch (e) {
     res.status(500).json("Something went wrong, please try again");
   }

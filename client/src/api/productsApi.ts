@@ -49,3 +49,16 @@ export const getProductByCategory = async (
   }
   return data;
 };
+
+export const getProductsBySearch = async (
+  search: string,
+  onLoad?: (data: ProductI[]) => void
+): Promise<ProductI[]> => {
+  const { data } = await instance.post<ProductI[]>("/api/products/find", {
+    search,
+  });
+  if (data && onLoad) {
+    onLoad(data);
+  }
+  return data;
+};

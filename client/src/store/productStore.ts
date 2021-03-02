@@ -8,6 +8,8 @@ class ProductStore {
 
   categoryProducts: Array<ProductI> = [];
 
+  searchResults: Array<ProductI> = [];
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -22,6 +24,10 @@ class ProductStore {
 
   setCategoryProducts(products: Array<ProductI>): void {
     this.categoryProducts = products;
+  }
+
+  setSearchResults(products: Array<ProductI>): void {
+    this.searchResults = products;
   }
 }
 
