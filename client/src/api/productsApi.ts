@@ -38,12 +38,13 @@ export const getProductsByIds = async (
 };
 
 export const getProductByCategory = async (
-  category: string,
+  params: { category: string; sortBy: string },
   onLoad?: (data: ProductI[]) => void
 ): Promise<ProductI[]> => {
-  const { data } = await instance.get<ProductI[]>(
-    `/api/products/category/${category || "all"}`
-  );
+  const { data } = await instance.post<ProductI[]>("/api/products/catalog", {
+    category: params.category,
+    sortBy: params.sortBy || "date",
+  });
   if (data && onLoad) {
     onLoad(data);
   }

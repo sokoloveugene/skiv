@@ -37,7 +37,7 @@ class CartStore {
       name: this.productInView.name,
       sizeTitle: size.title,
       price: this.productInView.price,
-      image: this.productInView.image[0],
+      image: this.productInView.images[0],
     };
 
     const sameProduct = this.cart.find((cartItem) => cartItem._id === _id);

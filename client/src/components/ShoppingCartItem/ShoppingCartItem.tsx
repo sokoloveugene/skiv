@@ -34,7 +34,7 @@ const ShoppingCartItem: React.FC<ShoppingCartItemI> = observer(
               <s.Row>
                 <s.ProductMainInfo>
                   <s.ImageWrapper onClick={handleRedirectToProduct}>
-                    <s.Image src={product.image[0]} alt="product" />
+                    <s.Image src={product.images[0]} alt="product" />
                   </s.ImageWrapper>
                   <s.TitleContainer>
                     <s.Title>{product.name}</s.Title>

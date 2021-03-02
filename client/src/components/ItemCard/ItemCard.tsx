@@ -27,7 +27,7 @@ const ItemCard: React.FC<ItemCardI> = ({ item }) => {
   return (
     <s.Card key={item._id} onClick={(e) => handleRedirect(e, item._id)}>
       <ProportionWrapper horizontalRation={374} verticatRation={500}>
-        <s.Image src={item.image[0]} />
+        <s.Image src={item.images[0]} />
         <s.ControlIcon
           ref={wishIconRef}
           src={isWished ? WishActive : WishNotActive}

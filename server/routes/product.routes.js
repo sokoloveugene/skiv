@@ -42,19 +42,27 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// @desc    Fetch products by category
-// @route   GET /api/products/category/:category
+// @desc    Fetch products by { category: string, sortBy: string }
+// @route   POST /api/products/category/:category
 // @access  Public
-router.get("/category/:category", async (req, res) => {
+router.post("/catalog", async (req, res) => {
   try {
-    const category = req.params.category.toLocaleLowerCase();
+    const { category, sortBy } = req.body;
 
-    if (category === "all") {
-      const products = await Product.find();
-      return res.json(products);
-    }
-    
-    const products = await Product.find({ category });
+    const getSortOption = (sortBy) => {
+      switch (sortBy) {
+        case "price-high":
+          return { price: -1 };
+        case "price-low":
+          return { price: 1 };
+        default:
+          return { createdAt: "desc" };
+      }
+    };
+
+    const products = await Product.find(category ? { category } : {}).sort(
+      getSortOption(sortBy)
+    );
 
     return res.json(products);
   } catch (e) {

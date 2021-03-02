@@ -7,7 +7,7 @@ connectDB();
 
 const products = [
   {
-    image: [
+    images: [
       "https://img.loveandlive.ua/r/CA8uoi2p01c/fit/640/640/ce/1/plain/images/products/1/7304/327007368/2H2A4904-min.jpg",
       "https://img.loveandlive.ua/images/products/1/7303/327007367/2H2A4892-min.jpg",
       "https://img.loveandlive.ua/images/products/1/7302/327007366/2H2A4889-min.jpg",
@@ -44,7 +44,7 @@ const products = [
     ],
   },
   {
-    image: [
+    images: [
       "https://img.loveandlive.ua/r/mCGzCMjxslU/fit/640/640/ce/1/plain/images/products/1/3603/367054355/IMG_3686.jpg",
       "https://img.loveandlive.ua/images/products/1/3598/367054350/IMG_3672.jpg",
       "https://img.loveandlive.ua/images/products/1/3599/367054351/IMG_3673.jpg",
@@ -81,7 +81,7 @@ const products = [
     ],
   },
   {
-    image: [
+    images: [
       "https://img.loveandlive.ua/r/r_ZdTvWRJz4/fit/640/640/ce/1/plain/images/products/1/1665/381847169/LL4-05757.01-20__1_.jpg",
       "https://img.loveandlive.ua/images/products/1/1667/381847171/LL4-05757.01-20__3_.jpg",
       "https://img.loveandlive.ua/images/products/1/1668/381847172/LL4-05757.01-20__4_.jpg",
@@ -117,7 +117,7 @@ const products = [
     ],
   },
   {
-    image: [
+    images: [
       "https://img.loveandlive.ua/r/S97m6t5q88U/fit/640/640/ce/1/plain/images/products/1/5335/366703831/IMG_3149.jpg",
       "https://img.loveandlive.ua/images/products/1/5333/366703829/IMG_3139.jpg",
       "https://img.loveandlive.ua/images/products/1/5334/366703830/IMG_3148.jpg",
@@ -153,7 +153,7 @@ const products = [
     ],
   },
   {
-    image: [
+    images: [
       "https://img.loveandlive.ua/r/0f70kFGaKjU/fit/640/640/ce/1/plain/images/products/1/1931/409388939/3N7A0659.jpg",
       "https://img.loveandlive.ua/images/products/1/1930/409388938/3N7A0652.jpg",
       "https://img.loveandlive.ua/images/products/1/1932/409388940/3N7A0662.jpg",

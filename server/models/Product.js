@@ -10,19 +10,22 @@ const sizeSchema = new Schema({
   available: { type: Number, default: 0 },
 });
 
-const schema = new Schema({
-  image: [{ type: String, required: true }],
-  tag: { type: String, default: null },
-  name: { type: String, required: true },
-  price: { type: Number, required: true },
-  price_old: { type: Number, default: null },
-  sizes: [sizeSchema],
-  description: {
-    type: String,
-    required: true,
+const schema = new Schema(
+  {
+    images: [{ type: String, required: true }],
+    tag: { type: String, default: null },
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+    price_old: { type: Number, default: null },
+    sizes: [sizeSchema],
+    description: {
+      type: String,
+      required: true,
+    },
+    category: { type: String, required: true },
+    additional: [additionalSchema],
   },
-  category: { type: String, required: true },
-  additional: [additionalSchema],
-});
+  { timestamps: true }
+);
 
 module.exports = model("Product", schema);

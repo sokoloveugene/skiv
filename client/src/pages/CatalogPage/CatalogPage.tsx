@@ -6,6 +6,7 @@ import { parseQuery } from "helpers/parseQuery";
 import { useStoreContext } from "store/storeContext";
 import ItemCard from "components/ItemCard";
 import SideNavigation from "components/SideNavigation";
+import SortSelector from "components/SortSelector";
 import { ProductI } from "types";
 import * as s from "./CatalogPage.styled";
 
@@ -20,10 +21,17 @@ const CatalogPage: React.FC = observer(() => {
     [productStore]
   );
 
+  const onClean = useCallback(() => {
+    productStore.setCategoryProducts([]);
+  }, [productStore]);
+
   useEffect(() => {
     const category = parseQuery(search, "category");
-    getProductByCategory(category, onLoad);
-  }, [search, onLoad]);
+    const sortBy = parseQuery(search, "sortBy");
+    getProductByCategory({ category, sortBy }, onLoad);
+
+    return onClean;
+  }, [search, onLoad, onClean]);
 
   return (
     <s.Container>
@@ -31,6 +39,7 @@ const CatalogPage: React.FC = observer(() => {
         <SideNavigation />
       </s.Navigation>
       <s.Content>
+        <SortSelector />
         <s.CardsWrapper>
           {productStore.categoryProducts.map((product) => (
             <ItemCard key={product._id} item={product} />

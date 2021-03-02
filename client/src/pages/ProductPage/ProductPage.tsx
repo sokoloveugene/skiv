@@ -28,7 +28,7 @@ const ProductPage: React.FC = observer(() => {
     (res: ProductWithSimilarI) => {
       productStore.setCurrentProduct(res.product);
       productStore.setSimilarProducts(res.similarProducts);
-      setMainImageUrl(res.product.image[0]);
+      setMainImageUrl(res.product.images[0]);
     },
     [productStore]
   );
@@ -58,7 +58,7 @@ const ProductPage: React.FC = observer(() => {
       <s.Container>
         <s.LeftContainer>
           <s.PreviewContainer>
-            {productStore.productInView.image.map((url) => (
+            {productStore.productInView.images.map((url) => (
               <s.PreviewListItem key={url}>
                 <s.SideImage
                   active={mainImageUrl === url}

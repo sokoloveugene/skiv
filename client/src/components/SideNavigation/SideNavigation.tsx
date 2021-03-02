@@ -4,7 +4,7 @@ import { parseQuery } from "helpers/parseQuery";
 import * as s from "./SideNavigation.styled";
 
 const links = [
-  { title: "Все", query: "all" },
+  { title: "Все", query: "" },
   { title: "Пальто та куртки", query: "jackets" },
   { title: "Костюми", query: "costumes" },
   { title: "Джинси", query: "jeans" },
@@ -20,15 +20,21 @@ const SideNavigation: React.FC = () => {
   const { search } = useLocation();
 
   const [category, setCategory] = useState(
-    parseQuery(search, "category") || "all"
+    parseQuery(search, "category") || ""
   );
 
   const history = useHistory();
 
   const handleSelectCategory = (query: string): void => {
     setCategory(query);
-    // TODO push via new URL
-    history.push(`?category=${query}`);
+
+    const searchParams = new URLSearchParams(search);
+    searchParams.set("category", query);
+
+    history.push({
+      pathname: "/catalog",
+      search: searchParams.toString(),
+    });
   };
 
   return (

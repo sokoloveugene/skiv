@@ -13,7 +13,7 @@ interface AdditionalI {
 // TODO category enum
 export interface ProductI {
   _id: string;
-  image: Array<string>;
+  images: Array<string>;
   tag: string | null;
   name: string;
   price: number;
