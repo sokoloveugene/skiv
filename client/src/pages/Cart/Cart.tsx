@@ -16,6 +16,8 @@ const Cart: React.FC = observer(() => {
     cartStore.fetchCartProducts();
   }, [cartStore]);
 
+  if (cartStore.cartDataLoading) return null;
+
   return (
     <>
       <s.PageTitle>Кошик</s.PageTitle>

@@ -18,6 +18,8 @@ class CartStore {
   // updated cart data
   cartData: ProductI[] = [];
 
+  cartDataLoading = false;
+
   constructor(rootStore: RootStore) {
     makeAutoObservable(this);
     this.rootStore = rootStore;
@@ -86,6 +88,7 @@ class CartStore {
   }
 
   async fetchCartProducts(): Promise<void> {
+    this.cartDataLoading = true;
     const ids = this.cart.map((cartItem) => cartItem._id);
     const products = await getProductsByIds(ids);
 
@@ -103,6 +106,7 @@ class CartStore {
     });
 
     this.cartData = products;
+    this.cartDataLoading = false;
   }
 
   prepareToOperation(

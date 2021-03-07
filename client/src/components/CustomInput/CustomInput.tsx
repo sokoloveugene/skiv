@@ -6,10 +6,14 @@ import * as s from "./CustomInput.styled";
 type InputProps = React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
-> & { label: string; mask?: normalizeOptionType };
+> & {
+  label: string;
+  mask?: normalizeOptionType;
+  errorMessage: string | undefined;
+};
 
 const CustomInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, mask, ...props }, ref) => {
+  ({ errorMessage, label, mask, ...props }, ref) => {
     const [inputValue, setInputValue] = useState("");
     const [hasValue, setHasValue] = useState(false);
 
@@ -30,9 +34,10 @@ const CustomInput = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <>
+      <s.Container>
         <s.Label hasValue={hasValue}>{label}</s.Label>
         <s.Input
+          hasError={!!errorMessage}
           {...props}
           onChange={handleChange}
           autoComplete="off"
@@ -41,7 +46,8 @@ const CustomInput = React.forwardRef<HTMLInputElement, InputProps>(
           onFocus={handleFocus}
           onBlur={handleBlur}
         />
-      </>
+        <s.ErrorMessage>{errorMessage}</s.ErrorMessage>
+      </s.Container>
     );
   }
 );

@@ -51,11 +51,13 @@ const inputFiels: Array<{
 const CheckoutPage: React.FC = () => {
   useCameFromProtect("fromCart", "/cart");
 
-  const { register, handleSubmit } = useForm<FormValues>({
+  const { errors, register, handleSubmit } = useForm<FormValues>({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = handleSubmit((data) => console.log(data));
+
+  const getError = <T, K extends keyof T>(obj: T, key: K): T[K] => obj[key];
 
   return (
     <form onSubmit={onSubmit}>
@@ -67,6 +69,9 @@ const CheckoutPage: React.FC = () => {
               label={field.label}
               name={field.name}
               ref={register}
+              errorMessage={
+                getError(errors, field.name as keyof FormValues)?.message
+              }
             />
           </div>
         ))}
@@ -83,6 +88,7 @@ const CheckoutPage: React.FC = () => {
         name="callBack"
         ref={register}
       />
+      <button type="submit">click</button>
     </form>
   );
 };
