@@ -5,6 +5,7 @@ import HomePage from "pages/HomePage";
 import CatalogPage from "pages/CatalogPage";
 import SearchPage from "pages/SearchPage";
 import Cart from "pages/Cart";
+import CheckoutPage from "pages/CheckoutPage";
 import Header from "../Header";
 import Footer from "../Footer";
 import * as s from "./App.styled";
@@ -31,6 +32,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/find">
               <SearchPage />
+            </Route>
+            <Route path="/checkout">
+              <CheckoutPage />
             </Route>
           </Switch>
         </s.Content>

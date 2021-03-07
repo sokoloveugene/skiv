@@ -14,7 +14,8 @@ export const ProductMainInfo = styled.div`
 `;
 
 export const ImageWrapper = styled.div`
-  width: 96px;
+  min-width: 96px;
+  max-width: 96px;
   height: 115px;
   border-radius: 6px;
   overflow: hidden;

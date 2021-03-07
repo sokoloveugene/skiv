@@ -9,6 +9,7 @@ interface ButtonI {
   maxWidth?: string;
   icon?: string;
   transparent?: boolean;
+  inversion?: boolean;
 }
 
 const Button: React.FC<ButtonI> = ({
@@ -19,6 +20,7 @@ const Button: React.FC<ButtonI> = ({
   icon,
   customPadding,
   transparent,
+  inversion,
 }) => {
   return (
     <s.Button
@@ -27,6 +29,7 @@ const Button: React.FC<ButtonI> = ({
       maxWidth={maxWidth}
       customPadding={customPadding}
       transparent={transparent}
+      inversion={inversion}
     >
       {icon && <s.Icon src={icon} />}
       {title}

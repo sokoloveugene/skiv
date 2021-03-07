@@ -14,29 +14,40 @@ const OrderInformation: React.FC = observer(() => {
     history.push("/catalog");
   };
 
+  const handleCheckoutRedirect = () => {
+    history.push({
+      pathname: "/checkout",
+      state: { fromCart: true },
+    });
+  };
+
   return (
     <s.Container>
-      <s.Title>INFORMATION ABOUT ORDER</s.Title>
+      <s.Title>ІНФОРМАЦІЯ ПРО ЗАМОВЛЕННЯ</s.Title>
       <s.List>
         <s.ListRow>
-          <s.Text>Cost of goods</s.Text>
+          <s.Text>Вартість</s.Text>
           <s.Text>{currency(cartStore.totalCost)}</s.Text>
         </s.ListRow>
         <s.ListRow>
-          <s.Text>Discount</s.Text>
+          <s.Text>Застосувати промокод</s.Text>
           <s.Text>-</s.Text>
         </s.ListRow>
         <s.ListRow>
-          <s.Text>Total</s.Text>
+          <s.Text>Всього</s.Text>
           <s.Text>{currency(3848)}</s.Text>
         </s.ListRow>
       </s.List>
       <Button
-        title="Checkout"
-        onClick={() => null}
+        title="Оформити замовлення"
+        onClick={handleCheckoutRedirect}
         customMargin="42px 0px 22px 0px"
       />
-      <Button title="Continue Shopping" onClick={handleContinueShopping} />
+      <Button
+        inversion
+        title="Продовжити покупки"
+        onClick={handleContinueShopping}
+      />
     </s.Container>
   );
 });

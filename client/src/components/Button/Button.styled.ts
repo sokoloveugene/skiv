@@ -6,14 +6,17 @@ export const Button = styled.button<{
   customPadding?: string;
   maxWidth?: string;
   transparent?: boolean;
+  inversion?: boolean;
 }>`
   justify-content: center;
   display: flex;
   align-items: center;
   background-color: ${(props) =>
-    props.transparent ? "transparent" : colors.peach};
-  color: ${(props) => (props.transparent ? colors.peach : colors.white)};
-  border: none;
+    props.transparent || props.inversion ? "transparent" : colors.peach};
+  color: ${(props) =>
+    props.transparent || props.inversion ? colors.peach : colors.white};
+  border: ${(props) =>
+    props.inversion ? `1px solid ${colors.peach}` : "none"};
   border-radius: 5px;
   font-size: 18px;
   line-height: 22px;

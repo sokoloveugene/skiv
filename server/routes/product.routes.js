@@ -79,9 +79,6 @@ router.post(
     if (!Array.isArray(value)) {
       throw new Error("Bad request");
     }
-    if (value.length === 0) {
-      throw new Error("At least one id is requred");
-    }
     return true;
   }),
   async (req, res) => {

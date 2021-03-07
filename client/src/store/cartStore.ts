@@ -213,6 +213,11 @@ class CartStore {
         (cartItem) => cartItem._id !== productInSavedCart._id
       );
     }
+
+    // if no items in cart show placeholder
+    if (!this.cart.length) {
+      this.cartData = [];
+    }
   }
 
   get totalCost(): number {
