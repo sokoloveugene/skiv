@@ -42,3 +42,8 @@ export interface CartNotificationI {
   price: number;
   image: string;
 }
+
+export interface OptionI {
+  label: string;
+  value: string;
+}

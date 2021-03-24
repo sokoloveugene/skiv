@@ -6,6 +6,8 @@ import CatalogPage from "pages/CatalogPage";
 import SearchPage from "pages/SearchPage";
 import Cart from "pages/Cart";
 import CheckoutPage from "pages/CheckoutPage";
+import LoginPage from "pages/LoginPage";
+import CreateProductPage from "pages/CreateProductPage";
 import Header from "../Header";
 import Footer from "../Footer";
 import * as s from "./App.styled";
@@ -35,6 +37,12 @@ const App: React.FC = () => {
             </Route>
             <Route path="/checkout">
               <CheckoutPage />
+            </Route>
+            <Route path="/login">
+              <LoginPage />
+            </Route>
+            <Route path="/create">
+              <CreateProductPage />
             </Route>
           </Switch>
         </s.Content>

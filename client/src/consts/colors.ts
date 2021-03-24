@@ -7,4 +7,7 @@ export const colors = {
   textColor: "#887569",
   disabled: "#E8DDD5",
   lightGrey: "#CDCBCA",
+  beige: "#F7F3F0",
+  lightBlue: "#D7FFFE",
+  blue: "#5199FF",
 };

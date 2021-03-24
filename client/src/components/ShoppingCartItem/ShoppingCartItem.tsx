@@ -45,19 +45,19 @@ const ShoppingCartItem: React.FC<ShoppingCartItemI> = observer(
                   <s.Number>{currency(product.price)}</s.Number>
                 </s.Сentered>
                 <s.QuantityContainer>
-                  <s.QuntityControl
+                  <s.QuantityControl
                     type="button"
                     onClick={() => cartStore.removeOne(product._id, size._id)}
                   >
                     <Minus />
-                  </s.QuntityControl>
+                  </s.QuantityControl>
                   <s.Number>{size.ordered}</s.Number>
-                  <s.QuntityControl
+                  <s.QuantityControl
                     type="button"
                     onClick={() => cartStore.addOne(product._id, size._id)}
                   >
                     <Plus />
-                  </s.QuntityControl>
+                  </s.QuantityControl>
                 </s.QuantityContainer>
                 <s.Сentered>
                   <s.Number>

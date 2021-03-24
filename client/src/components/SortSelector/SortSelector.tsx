@@ -52,10 +52,10 @@ const SortSelector: React.FC = () => {
 
   return (
     <s.Container>
-      <s.SvgIcon src={Sort} />
+      <s.SvgIcon src={Sort} alt="icon" />
       <s.InnerContainer onClick={() => setOpen(true)}>
         <s.Text>{selectedOption.title}</s.Text>
-        <s.SvgArrowIcon src={ArrowDown} toggle={open} />
+        <s.SvgArrowIcon alt="icon" src={ArrowDown} toggle={open} />
       </s.InnerContainer>
       {open && (
         <s.SortBlock ref={contentRef}>

@@ -13,26 +13,32 @@ export const Icon = styled.svg`
   stroke-width: 1px;
 `;
 
-export const Label = styled.label<{ checked: boolean }>`
+export const Label = styled.label<{ small?: boolean }>`
+  transform: ${({ small }) => small && "scale(0.7) translateX(-7px)"};
   display: block;
   height: 30px;
   width: 30px;
+  min-width: 30px;
   background-color: transparent;
   border: 1px solid ${colors.lightGrey};
   border-radius: 3px;
-
-  ${Icon} {
-    visibility: ${(props) => (props.checked ? "visible" : "hidden")};
-  }
 `;
 
 export const HiddenCheckbox = styled.input`
   display: none;
+
+  &:checked + ${Icon} {
+    visibility: visible;
+  }
+
+  &:not(:checked) + ${Icon} {
+    visibility: hidden;
+  }
 `;
 
-export const Title = styled.p`
+export const Title = styled.p<{ small?: boolean }>`
   color: ${colors.brown};
   margin-left: 10px;
-  font-size: 18px;
-  line-height: 22px;
+  font-size: ${({ small }) => (small ? "12px" : "18px")};
+  line-height: ${({ small }) => (small ? "14px" : "22px")};
 `;

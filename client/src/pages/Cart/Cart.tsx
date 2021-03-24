@@ -41,9 +41,9 @@ const Cart: React.FC = observer(() => {
 
             <Divider customMargin="27px 0px 10px 0px" />
 
-            {cartStore.cartData.map((item) => {
-              return <ShoppingCartItem key={item._id} product={item} />;
-            })}
+            {cartStore.cartData.map((item) => (
+              <ShoppingCartItem key={item._id} product={item} />
+            ))}
           </s.CartItemsContainer>
           <s.OrderInformationWrapper>
             <OrderInformation />

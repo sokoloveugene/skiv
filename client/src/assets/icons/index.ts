@@ -22,6 +22,7 @@ import PaginationArrow from "./PaginationArrow.svg";
 // OTHER
 import ArrowDown from "./ArrowDown.svg";
 import Sort from "./Sort.svg";
+import Upload from "./Upload.svg";
 
 // IMAGES
 import CartImage from "./CartImage.svg";
@@ -43,4 +44,5 @@ export {
   ArrowDown,
   Sort,
   CartImage,
+  Upload,
 };

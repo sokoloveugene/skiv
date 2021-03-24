@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router-dom";
 
 // eslint-disable-next-line
 export const useCameFromProtect = (stateKey: string, redirectLink: string) => {
@@ -10,5 +10,5 @@ export const useCameFromProtect = (stateKey: string, redirectLink: string) => {
     if (!state?.fromCart) {
       history.push(redirectLink);
     }
-  }, [state, history]);
+  }, [state, history, redirectLink]);
 };

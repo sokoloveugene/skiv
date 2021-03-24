@@ -48,12 +48,15 @@ export const QuantityContainer = styled.div`
   align-items: center;
 `;
 
-export const QuntityControl = styled.button`
+export const QuantityControl = styled.button`
   background-color: transparent;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 20px;
+  width: 20px;
+  outline: none;
 
   & > svg {
     fill: ${colors.brown};

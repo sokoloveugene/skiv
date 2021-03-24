@@ -10,10 +10,11 @@ type InputProps = React.DetailedHTMLProps<
   label: string;
   mask?: normalizeOptionType;
   errorMessage: string | undefined;
+  type?: string;
 };
 
 const CustomInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ errorMessage, label, mask, ...props }, ref) => {
+  ({ errorMessage, label, mask, type = "text", ...props }, ref) => {
     const [inputValue, setInputValue] = useState("");
     const [hasValue, setHasValue] = useState(false);
 
@@ -41,7 +42,7 @@ const CustomInput = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
           onChange={handleChange}
           autoComplete="off"
-          type="text"
+          type={type}
           ref={ref as any}
           onFocus={handleFocus}
           onBlur={handleBlur}

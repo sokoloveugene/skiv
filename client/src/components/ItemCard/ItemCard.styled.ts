@@ -1,26 +1,5 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { colors } from "consts/colors";
-
-const heartBeat = keyframes`
-  0% {
-    transform: scale( .8 );
-  } 20%
-  {
-    transform: scale( 1 );
-  } 40%
-  {
-    transform: scale( .8 );
-  } 60%
-  {
-    transform: scale( 1 );
-  } 80%
-  {
-    transform: scale( .8 );
-  } 100%
-  {
-    transform: scale( .8 );
-  }
-`;
 
 export const Card = styled.div`
   min-height: 100px;
@@ -78,21 +57,10 @@ export const ControlIcon = styled.img`
   position: absolute;
   top: 4%;
   right: 4%;
-  opacity: 0;
-  transition: opacity 0.3s;
-  animation: 2s ${heartBeat} infinite linear;
-
-  &:hover {
-    opacity: 1;
-  }
 `;
 
 export const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-
-  &:hover + ${ControlIcon} {
-    opacity: 1;
-  }
 `;

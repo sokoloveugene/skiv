@@ -15,6 +15,7 @@ export const Input = styled.input<{ hasError: boolean }>`
     props.hasError ? "red !important" : colors.lightGrey};
   padding: 14px 12px;
   width: 100%;
+  overflow: hidden;
 
   &:focus {
     outline: none;

@@ -16,4 +16,12 @@ export const schema = yup.object().shape({
   email: yup.string().email(emailError).required(requiredErrorMessage),
   mailing: yup.bool(),
   callBack: yup.bool(),
+  delivery: yup
+    .string()
+    .required(requiredErrorMessage)
+    .oneOf(["address delivery", "nova poshta"]),
+  payment: yup
+    .string()
+    .required(requiredErrorMessage)
+    .oneOf(["card", "payment on delivery"]),
 });
