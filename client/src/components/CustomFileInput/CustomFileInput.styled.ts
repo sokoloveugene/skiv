@@ -77,6 +77,6 @@ export const CloseButton = styled.button`
   & > svg {
     fill: ${colors.brown};
     width: 100%;
-    width: 100%;
+    height: 100%;
   }
 `;

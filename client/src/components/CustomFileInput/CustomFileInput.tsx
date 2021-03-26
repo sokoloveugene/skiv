@@ -15,7 +15,6 @@ interface FileWithId {
 
 const CustomFileInput: React.FC<CustomFileInputI> = ({ onChange }) => {
   const [files, setFiles] = useState<FileWithId[]>([]);
-  console.log(files);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -39,7 +38,12 @@ const CustomFileInput: React.FC<CustomFileInputI> = ({ onChange }) => {
       <s.StyledInputButton>
         <s.Icon src={Upload} alt="icon" />
         Завантажити фото
-        <s.HiddenInput multiple onChange={handleChange} type="file" />
+        <s.HiddenInput
+          accept="image/*"
+          multiple
+          onChange={handleChange}
+          type="file"
+        />
       </s.StyledInputButton>
       <s.List>
         {files.map(({ id, file }) => {
@@ -48,7 +52,7 @@ const CustomFileInput: React.FC<CustomFileInputI> = ({ onChange }) => {
           return (
             <s.ListItem key={id}>
               <s.Preview src={url} alt="preview" />
-              
+
               <s.TruncateContainer>
                 <s.Truncated>{file.name}</s.Truncated>
               </s.TruncateContainer>

@@ -1,6 +1,8 @@
-// eslint-disable-next-line
 export type normalizeOptionType = "onlyLetters" | "phone";
-export const normalize = (value: string, option: normalizeOptionType) => {
+export const normalize = (
+  value: string,
+  option: normalizeOptionType
+): string => {
   switch (option) {
     case "onlyLetters":
       return value.replace(/[^a-zа-яё ]/iu, "");

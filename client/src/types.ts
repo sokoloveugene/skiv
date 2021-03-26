@@ -47,3 +47,12 @@ export interface OptionI {
   label: string;
   value: string;
 }
+
+export interface AuthResponseI {
+  isAuthenticated: boolean;
+}
+
+export interface LoginCredentialsI {
+  email: string;
+  password: string;
+}

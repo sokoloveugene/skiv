@@ -2,6 +2,10 @@ import CustomInput from "components/CustomInput";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useHistory } from "react-router-dom";
+import { useStoreContext } from "store/storeContext";
+import { LoginCredentialsI } from "types";
+import { loginRequest } from "api/authApi";
 import Button from "components/Button";
 import * as yup from "yup";
 import * as s from "./LoginPage.styled";
@@ -15,19 +19,21 @@ const schema = yup.object().shape({
   password: yup.string().required(requiredErrorMessage).min(8, passLength),
 });
 
-type FormValues = {
-  email: string;
-  password: string;
-};
-
 const LoginPage: React.FC = () => {
-  const { errors, register, handleSubmit } = useForm<FormValues>({
+  const history = useHistory();
+  const { authStore } = useStoreContext();
+
+  const { errors, register, handleSubmit } = useForm<LoginCredentialsI>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
-    // TODO call api
+  const onSubmit = handleSubmit(async (data) => {
+    const resData = await loginRequest(data);
+
+    if (resData) {
+      authStore.setAuth(resData.isAuthenticated);
+      history.push("/create");
+    }
   });
 
   return (

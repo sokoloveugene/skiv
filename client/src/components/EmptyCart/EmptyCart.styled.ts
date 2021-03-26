@@ -16,7 +16,7 @@ export const ImageWrapper = styled.div`
     color: ${colors.brown};
     font-size: 20px;
     position: absolute;
-    top: 55%;
+    top: 47%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
@@ -27,7 +27,7 @@ export const ImageWrapper = styled.div`
     color: ${colors.brown};
     font-size: 8px;
     position: absolute;
-    top: 58%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }

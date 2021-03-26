@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import ProtectedRouteFromUnauthorized from "components/ProtectedRouteFromUnauthorized";
 import ProductPage from "pages/ProductPage";
 import HomePage from "pages/HomePage";
 import CatalogPage from "pages/CatalogPage";
@@ -41,9 +42,12 @@ const App: React.FC = () => {
             <Route path="/login">
               <LoginPage />
             </Route>
-            <Route path="/create">
+            <ProtectedRouteFromUnauthorized path="/create">
               <CreateProductPage />
-            </Route>
+            </ProtectedRouteFromUnauthorized>
+            {/* <Route path="/create">
+              <CreateProductPage />
+            </Route> */}
           </Switch>
         </s.Content>
         <Footer />
