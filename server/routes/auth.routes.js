@@ -1,24 +1,18 @@
 const { Router } = require("express");
-const router = Router();
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("config");
 const { check, validationResult } = require("express-validator");
+const passport = require("../helpers/passport/index");
+const router = Router();
 const User = require("../models/User");
 
-// /api/auth/register
 router.post(
-  "/register",
-  [
-    check("email", "Email is not Valid").isEmail(),
-    check("password", "Min length of password 5 symbols").isLength({ min: 5 }),
-  ],
+  "/signUp",
+  [check("email").isEmail(), check("password").isLength({ min: 8 })],
   async (req, res) => {
     try {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ message: "Validation error" });
       }
 
       const { email, password } = req.body;
@@ -28,12 +22,17 @@ router.post(
         return res.status(400).json({ message: "This user already exist" });
       }
 
-      // const hashedPassword = bcrypt.hashSync(password, 12);
-      const hashedPassword = await bcrypt.hash(password, 12);
+      const user = new User({ email });
 
-      const user = new User({ email, password: hashedPassword });
+      await user.setPassword(password);
 
       await user.save();
+
+      req.login(user, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
 
       res.status(201).json({ message: "User created" });
     } catch (e) {
@@ -42,50 +41,34 @@ router.post(
   }
 );
 
-// /api/auth/login
 router.post(
-  "/login",
-  [
-    check("email", "Email is not Valid").normalizeEmail().isEmail(),
-    check("password", "Min length of password 5 symbols").exists(),
-  ],
+  "/signIn",
+  passport.authenticate("local", { session: true }),
   async (req, res) => {
     try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
-      const { email, password } = req.body;
-
-      const user = await User.findOne({ email });
-
-      if (!user) {
-        return res.status(400).json({ message: "User not found" });
-      }
-
-      // check password
-      const isMatchPassword = await bcrypt.compare(password, user.password);
-
-      if (!isMatchPassword) {
-        res.status(400).json({ message: "Wrong password" });
-      }
-
-      const token = jwt.sign(
-        {
-          userId: user.id,
-        },
-        config.get("jwtSecret"),
-        { expiresIn: "1h" }
-      );
-
-      // default status 200
-      res.json({ token, userId: user.id });
+      res.json({ isAuthenticated: true });
     } catch (e) {
       res.status(500).json("Something went wrong, please try again");
     }
   }
 );
+
+router.post("/logOut", (req, res) => {
+  try {
+    req.logOut();
+    res.json({ isAuthenticated: false });
+  } catch (err) {
+    res.status(500).json("Something went wrong, please try again");
+  }
+});
+
+router.get("/isAuth", (req, res) => {
+  try {
+    const isAuthenticated = req.isAuthenticated();
+    res.json({ isAuthenticated });
+  } catch (err) {
+    res.status(500).json("Something went wrong, please try again");
+  }
+});
 
 module.exports = router;
