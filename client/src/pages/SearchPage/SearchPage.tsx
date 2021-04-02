@@ -5,6 +5,9 @@ import { useStoreContext } from "store/storeContext";
 import { parseQuery } from "helpers/parseQuery";
 import { useLocation } from "react-router-dom";
 import { ProductI } from "types";
+import ItemCard from "components/ItemCard";
+import Breadcrumbs from "components/Breadcrumbs";
+import * as s from "./SearchPage.styled";
 
 const SearchPage: React.FC = observer(() => {
   const { search } = useLocation();
@@ -20,7 +23,17 @@ const SearchPage: React.FC = observer(() => {
     return () => productStore.setSearchResults([]);
   }, [search, productStore]);
 
-  return <div>{JSON.stringify(productStore.searchResults)}</div>;
+  return (
+    <>
+      <Breadcrumbs />
+
+      <s.GridLayout>
+        {productStore.searchResults.map((product) => (
+          <ItemCard key={product._id} item={product} />
+        ))}
+      </s.GridLayout>
+    </>
+  );
 });
 
 export default SearchPage;

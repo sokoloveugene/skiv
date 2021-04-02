@@ -8,7 +8,7 @@ import { getProductsByIds } from "api/productsApi";
 class CartStore {
   rootStore: RootStore;
 
-  // localStorege cart
+  // localStorage cart
   cart: CartItemI[];
 
   similarProducts: Array<ProductI> = [];

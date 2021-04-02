@@ -25,7 +25,7 @@ export const getProductById = async (
 };
 
 export const getProductsByIds = async (
-  ids: Array<string>,
+  ids: string[],
   onLoad?: (data: ProductI[]) => void
 ): Promise<ProductI[]> => {
   const { data } = await instance.post<ProductI[]>(`/api/products/byIds`, {

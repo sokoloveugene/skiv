@@ -4,12 +4,13 @@ import { autorun } from "mobx";
 import { enableLogging } from "mobx-logger";
 import { Store } from "store/storeContext";
 import RootStore from "store/rootStore";
-import App from "components/App/App";
+import App from "components/App";
 import { setLocalStorage } from "helpers/localStorage";
 
 enableLogging();
 
-const rootStore = new RootStore();
+// eslint-disable-next-line
+export const rootStore = new RootStore();
 
 autorun(() => {
   setLocalStorage("cart", rootStore.cartStore.cart);
@@ -17,6 +18,10 @@ autorun(() => {
 
 autorun(() => {
   setLocalStorage("wishList", rootStore.wishStore.wishList);
+});
+
+autorun(() => {
+  console.log("user logged in", rootStore.authStore.isAuth);
 });
 
 ReactDOM.render(
