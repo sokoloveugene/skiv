@@ -1,37 +1,15 @@
-import CustomInput from "components/CustomInput";
-import React from "react";
+import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { OptionI } from "types";
+import CustomInput from "components/CustomInput";
 import CustomFileInput from "components/CustomFileInput";
 import CustomSelect from "components/CustomSelect";
-import SelectSize from "components/SelectSize";
 import Button from "components/Button";
 import * as yup from "yup";
+import { ReactComponent as Close } from "assets/icons/Close.svg";
 import * as s from "./CreateProductPage.styled";
-
-const testSizes = [
-  {
-    _id: "1",
-    title: "XS",
-    available: 3,
-  },
-  {
-    _id: "2",
-    title: "S",
-    available: 3,
-  },
-  {
-    _id: "3",
-    title: "M",
-    available: 3,
-  },
-  {
-    _id: "4",
-    title: "L",
-    available: 3,
-  },
-];
 
 const testOptions = [
   { value: "chocolate", label: "Chocolate" },
@@ -49,10 +27,23 @@ type FormValues = {
   composition: string;
   measurements: string;
   images: File[];
+  sizeTitle: string;
+  sizeAmount: number;
 };
 
+interface Size {
+  key: string;
+  title: string;
+  available: number;
+}
+
 const CreateProductPage: React.FC = () => {
+  const [sizeOptions, setSizeOptions] = useState<Size[]>([]);
+  // const [compositionOptions, setCompositionOptions] = useState<string[]>([]);
+
   const {
+    setValue,
+    getValues,
     errors,
     register,
     handleSubmit,
@@ -62,8 +53,30 @@ const CreateProductPage: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
+  const addSizeOption = (): void => {
+    const key = uuidv4();
+    const { sizeTitle, sizeAmount } = getValues();
+    if (!sizeTitle || !sizeAmount) return;
+    const title = sizeTitle;
+    const available = sizeAmount;
+    setSizeOptions((p) => [...p, { title, available, key }]);
+    setValue("sizeTitle", undefined);
+    setValue("sizeAmount", undefined);
+  };
+
+  const removeSizeOption = (key: string) => {
+    setSizeOptions((p) => p.filter((option) => option.key !== key));
+  };
+
   const onSubmit = handleSubmit((data) => {
+    if (!sizeOptions.length) return;
     console.log(data);
+    console.log(
+      sizeOptions.map((opt) => ({
+        title: opt.title,
+        available: Number(opt.available),
+      }))
+    );
     // TODO call api
   });
 
@@ -80,6 +93,7 @@ const CreateProductPage: React.FC = () => {
 
       <div style={{ gridArea: "price" }}>
         <CustomInput
+          type="number"
           label="Ціна"
           name="price"
           ref={register}
@@ -92,15 +106,6 @@ const CreateProductPage: React.FC = () => {
           name="images"
           control={control}
           render={({ onChange }) => <CustomFileInput onChange={onChange} />}
-        />
-      </div>
-
-      <div style={{ gridArea: "amount" }}>
-        <CustomInput
-          label="Кількість"
-          name="amount"
-          ref={register}
-          errorMessage={errors.amount?.message}
         />
       </div>
 
@@ -120,11 +125,38 @@ const CreateProductPage: React.FC = () => {
       </div>
 
       <div style={{ gridArea: "sizeSelector" }}>
-        <SelectSize
-          options={testSizes}
-          selectedOption={null}
-          setSelectedOption={() => null}
-        />
+        <s.CreateSize>
+          <CustomInput
+            mask="upperCase"
+            label="Введіть розмір"
+            name="sizeTitle"
+            ref={register}
+            errorMessage={errors.sizeTitle?.message}
+          />
+          <CustomInput
+            type="number"
+            label="Кількість"
+            name="sizeAmount"
+            ref={register}
+            errorMessage={errors.sizeAmount?.message}
+          />
+          <Button
+            customPadding="0px 57px"
+            title="Додати"
+            onClick={addSizeOption}
+          />
+        </s.CreateSize>
+        {sizeOptions.map((option) => (
+          <s.SizeOption key={option.key}>
+            {`${option.title} - ${option.available}шт`}
+            <s.CloseButton
+              role="button"
+              onClick={() => removeSizeOption(option.key)}
+            >
+              <Close />
+            </s.CloseButton>
+          </s.SizeOption>
+        ))}
       </div>
 
       <div style={{ gridArea: "composition" }}>

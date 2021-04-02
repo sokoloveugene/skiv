@@ -73,6 +73,7 @@ export const CloseButton = styled.button`
   background-color: transparent;
   border: none;
   outline: none;
+  cursor: pointer;
 
   & > svg {
     fill: ${colors.brown};

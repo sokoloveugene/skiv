@@ -1,12 +1,11 @@
 import { makeAutoObservable } from "mobx";
-// eslint-disable-next-line
-import RootStore from "./rootStore";
 import { getLocalStorage } from "helpers/localStorage";
 import { ProductI, SizeOptionI, CartItemI, CartNotificationI } from "types";
 import { getProductsByIds } from "api/productsApi";
+import ProductStore from "./productStore";
 
 class CartStore {
-  rootStore: RootStore;
+  productStore: ProductStore;
 
   // localStorage cart
   cart: CartItemI[];
@@ -20,14 +19,14 @@ class CartStore {
 
   cartDataLoading = false;
 
-  constructor(rootStore: RootStore) {
+  constructor(productStore: ProductStore) {
     makeAutoObservable(this);
-    this.rootStore = rootStore;
+    this.productStore = productStore;
     this.cart = getLocalStorage("cart", []);
   }
 
   get productInView(): ProductI | null {
-    return this.rootStore.productStore.productInView;
+    return this.productStore.productInView;
   }
 
   addToCart(size?: SizeOptionI | null): void {
