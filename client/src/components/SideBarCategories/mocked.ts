@@ -1,5 +1,6 @@
 import { CategoryI, SubCategoryI } from "./types";
 
+// TODO use unified data
 const mokedCategories: CategoryI[] = [
   { category: "Новинки", childs: null },
   {

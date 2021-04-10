@@ -1,5 +1,7 @@
 const { Router } = require("express");
 const { body, validationResult } = require("express-validator");
+const multer = require("multer");
+const authProtected = require("../helpers/authProtected");
 const router = Router();
 const Product = require("../models/Product");
 
@@ -111,6 +113,52 @@ router.post("/find", async (req, res) => {
     const regex = new RegExp(search, "ig");
     const products = await Product.find({ name: regex });
     res.json(products);
+  } catch (e) {
+    res.status(500).json("Something went wrong, please try again");
+  }
+});
+
+// @desc    Create new product
+// @route   POST /api/products/createProduct
+// @access  Private
+const fileStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "images");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix =
+      Date.now() + "-" + Math.round(Math.random() * 1e9) + file.originalname;
+    cb(null, file.fieldname + "-" + uniqueSuffix);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  const whiteList = ["image/png", "image/jpg", "image/jpeg"];
+  whiteList.includes(file.mimetype) ? cb(null, true) : cb(null, false);
+};
+
+const upload = multer({ storage: fileStorage, fileFilter }).array("images");
+
+router.post("/createProduct", authProtected, upload, async (req, res) => {
+  try {
+    if (!req.files.length) {
+      // no accepted files
+      res.status(400);
+      res.json("Invalid formData");
+      return;
+    }
+
+    const newProduct = req.body;
+
+    Object.keys(newProduct).forEach((key) => {
+      newProduct[key] = JSON.parse(newProduct[key]);
+    });
+
+    newProduct.images = [];
+    req.files.map((file) => newProduct.images.push(`/${file.path}`));
+
+    await Product.create(newProduct);
+    res.json("OK");
   } catch (e) {
     res.status(500).json("Something went wrong, please try again");
   }

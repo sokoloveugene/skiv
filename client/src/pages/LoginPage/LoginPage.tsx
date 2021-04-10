@@ -1,6 +1,6 @@
 import CustomInput from "components/CustomInput";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useHistory } from "react-router-dom";
 import { useStoreContext } from "store/storeContext";
@@ -23,7 +23,7 @@ const LoginPage: React.FC = () => {
   const history = useHistory();
   const { authStore } = useStoreContext();
 
-  const { errors, register, handleSubmit } = useForm<LoginCredentialsI>({
+  const { errors, handleSubmit, control } = useForm<LoginCredentialsI>({
     resolver: yupResolver(schema),
   });
 
@@ -39,18 +39,31 @@ const LoginPage: React.FC = () => {
   return (
     <s.Form onSubmit={onSubmit}>
       <s.Container>
-        <CustomInput
-          label="Email"
+        <Controller
           name="email"
-          ref={register}
-          errorMessage={errors.email?.message}
+          control={control}
+          render={({ value, onChange }) => (
+            <CustomInput
+              value={value}
+              onChange={onChange}
+              label="Email"
+              errorMessage={errors.email?.message}
+            />
+          )}
         />
-        <CustomInput
-          type="password"
-          label="Password"
+
+        <Controller
           name="password"
-          ref={register}
-          errorMessage={errors.password?.message}
+          control={control}
+          render={({ value, onChange }) => (
+            <CustomInput
+              value={value}
+              onChange={onChange}
+              type="password"
+              label="Password"
+              errorMessage={errors.password?.message}
+            />
+          )}
         />
       </s.Container>
       <Button

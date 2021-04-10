@@ -14,7 +14,8 @@ export const GridForm = styled.form`
     "category category"
     "sizeSelector sizeSelector"
     "composition composition"
-    "measurements measurements"
+    "measure measure"
+    "tags tags"
     "controls controls";
 `;
 
@@ -23,12 +24,12 @@ export const Controls = styled.div`
   justify-content: space-between;
 `;
 
-export const CreateSize = styled.div`
+export const InlineFlex = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-export const SizeOption = styled.div`
+export const Option = styled.div`
   display: flex;
   align-items: center;
   background-color: ${colors.beige};

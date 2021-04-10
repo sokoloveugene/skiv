@@ -20,7 +20,6 @@ const products = [
       { title: "S", available: 10 },
       { title: "XXL" },
     ],
-    description: "Сукня міді м'ятна з довгим рукавом Love&Live",
     category: "dress",
     additional: [
       {
@@ -57,7 +56,6 @@ const products = [
       { title: "M", available: 10 },
       { title: "L", available: 3 },
     ],
-    description: "Пальто класичне чорного кольору Love&Live",
     category: "jackets",
     additional: [
       {
@@ -93,7 +91,6 @@ const products = [
       { title: "M", available: 10 },
       { title: "L", available: 3 },
     ],
-    description: "Брюки-банани з деніму чорні Love&Live",
     category: "jeans",
     additional: [
       {
@@ -129,7 +126,6 @@ const products = [
       { title: "M", available: 10 },
       { title: "L", available: 3 },
     ],
-    description: "Брюки з еко-шкіри чорні прямі на резинці Love&Live",
     category: "jeans",
     additional: [
       {
@@ -165,7 +161,6 @@ const products = [
       { title: "M", available: 10 },
       { title: "L", available: 3 },
     ],
-    description: "Топ фіалковий з принтом тай-дай Katarina Ivanenko",
     category: "shirts",
     additional: [
       {

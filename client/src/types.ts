@@ -5,7 +5,7 @@ export interface SizeOptionI {
   ordered?: number;
 }
 
-interface AdditionalI {
+export interface AdditionalI {
   title: string;
   data: Array<string>;
 }
@@ -17,9 +17,7 @@ export interface ProductI {
   tag: string | null;
   name: string;
   price: number;
-  price_old: number | null;
   sizes: Array<SizeOptionI>;
-  description: string;
   category: string;
   additional: Array<AdditionalI>;
 }
@@ -56,3 +54,12 @@ export interface LoginCredentialsI {
   email: string;
   password: string;
 }
+
+export type Categories =
+  | "jackets"
+  | "costumes"
+  | "jeans"
+  | "skirts"
+  | "pants"
+  | "shirts"
+  | "dress";

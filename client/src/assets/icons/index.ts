@@ -23,6 +23,7 @@ import PaginationArrow from "./PaginationArrow.svg";
 import ArrowDown from "./ArrowDown.svg";
 import Sort from "./Sort.svg";
 import Upload from "./Upload.svg";
+import AddColorful from "./AddColorful.svg";
 
 // IMAGES
 import CartImage from "./CartImage.svg";
@@ -45,4 +46,5 @@ export {
   Sort,
   CartImage,
   Upload,
+  AddColorful,
 };

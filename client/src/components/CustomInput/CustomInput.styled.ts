@@ -5,7 +5,7 @@ export const Container = styled.div`
   position: relative;
 `;
 
-export const Input = styled.input<{ hasError: boolean }>`
+export const Input = styled.input<{ hasError: boolean; hasIcon: boolean }>`
   display: block;
   font-size: 18px;
   line-height: 22px;
@@ -14,6 +14,7 @@ export const Input = styled.input<{ hasError: boolean }>`
   border-color: ${(props) =>
     props.hasError ? "red !important" : colors.lightGrey};
   padding: 14px 12px;
+  padding-right: ${({ hasIcon }) => hasIcon && "35px"};
   width: 100%;
   overflow: hidden;
 
@@ -46,4 +47,16 @@ export const ErrorMessage = styled.p`
   color: red;
   background-color: ${colors.white};
   padding: 0px 4px;
+`;
+
+export const Icon = styled.img`
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(-10px, -50%);
+  z-index: 1;
+  background-color: ${colors.white};
+  height: 22px;
+  width: 22px;
+  cursor: pointer;
 `;

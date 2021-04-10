@@ -1,56 +1,75 @@
 /* eslint react/jsx-props-no-spreading: "off" */
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { normalize, normalizeOptionType } from "helpers/normalize";
+import { AddColorful } from "assets/icons";
 import * as s from "./CustomInput.styled";
 
-type InputProps = React.DetailedHTMLProps<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
-> & {
+interface CustomInputI {
+  value: any;
+  onChange: (...e: any[]) => void;
   label: string;
   mask?: normalizeOptionType;
   errorMessage: string | undefined;
   type?: string;
-};
+  icon?: boolean;
+  onIconClick?: () => void;
+}
 
-const CustomInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ errorMessage, label, mask, type = "text", ...props }, ref) => {
-    const [inputValue, setInputValue] = useState("");
-    const [hasValue, setHasValue] = useState(false);
+const CustomInput: React.FC<CustomInputI> = ({
+  value,
+  onChange,
+  errorMessage,
+  label,
+  mask,
+  type = "text",
+  onIconClick,
+  icon = false,
+}) => {
+  const [hasValue, setHasValue] = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { value } = e.target;
-      const normalizedValue = mask ? normalize(value, mask) : value;
-      setInputValue(normalizedValue);
-      e.target.value = normalizedValue;
-    };
-
-    const handleFocus = () => {
+  useEffect(() => {
+    if (value) {
       setHasValue(true);
-    };
+      return;
+    }
 
-    const handleBlur = () => {
-      if (inputValue) return;
-      setHasValue(false);
-    };
+    // hard reset input value on react-hook-form reset
+    if (inputRef.current && inputRef.current.value) {
+      inputRef.current.value = "";
+    }
+    setHasValue(false);
+  }, [value]);
 
-    return (
-      <s.Container>
-        <s.Label hasValue={hasValue}>{label}</s.Label>
-        <s.Input
-          hasError={!!errorMessage}
-          {...props}
-          onChange={handleChange}
-          autoComplete="off"
-          type={type}
-          ref={ref as any}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-        />
-        <s.ErrorMessage>{errorMessage}</s.ErrorMessage>
-      </s.Container>
-    );
-  }
-);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value: eventValue } = e.target;
+    e.target.value = mask ? normalize(eventValue, mask) : eventValue;
+    onChange(e);
+  };
+
+  const handleFocus = () => setHasValue(true);
+
+  const handleBlur = () => {
+    if (!value) setHasValue(false);
+  };
+
+  return (
+    <s.Container>
+      <s.Label hasValue={hasValue}>{label}</s.Label>
+      <s.Input
+        ref={inputRef}
+        hasIcon={icon}
+        hasError={!!errorMessage}
+        onChange={handleChange}
+        autoComplete="off"
+        type={type}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+      />
+      {icon && <s.Icon src={AddColorful} onClick={onIconClick} />}
+      <s.ErrorMessage>{errorMessage}</s.ErrorMessage>
+    </s.Container>
+  );
+};
 
 export default CustomInput;

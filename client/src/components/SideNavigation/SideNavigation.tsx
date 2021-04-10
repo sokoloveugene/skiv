@@ -1,20 +1,13 @@
 import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { parseQuery } from "helpers/parseQuery";
+import { CATEGORIES, TAGS, ALL } from "consts/categoriesWithLabels";
 import * as s from "./SideNavigation.styled";
 
-const links = [
-  { title: "Все", query: "" },
-  { title: "Пальто та куртки", query: "jackets" },
-  { title: "Костюми", query: "costumes" },
-  { title: "Джинси", query: "jeans" },
-  { title: "Спідниці", query: "skirts" },
-  { title: "Брюки", query: "pants" },
-  { title: "Сорочки", query: "shirts" },
-  { title: "Плаття", query: "dress" },
-  { title: "Новинки", query: "new" },
-  { title: "SALE", query: "sale" },
-];
+const links = [ALL, ...CATEGORIES, ...TAGS].map(({ label, value }) => ({
+  title: label,
+  query: value,
+}));
 
 const SideNavigation: React.FC = () => {
   const { search } = useLocation();

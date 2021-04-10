@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const additionalSchema = new Schema({
   title: { type: String, required: true },
-  data: [{ type: String }],
+  data: [{ type: String, required: true }],
 });
 
 const sizeSchema = new Schema({
@@ -16,12 +16,7 @@ const schema = new Schema(
     tag: { type: String, default: null },
     name: { type: String, required: true },
     price: { type: Number, required: true },
-    price_old: { type: Number, default: null },
     sizes: [sizeSchema],
-    description: {
-      type: String,
-      required: true,
-    },
     category: { type: String, required: true },
     additional: [additionalSchema],
   },

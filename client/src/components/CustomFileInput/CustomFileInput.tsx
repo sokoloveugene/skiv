@@ -5,6 +5,7 @@ import { Upload } from "assets/icons";
 import * as s from "./CustomFileInput.styled";
 
 interface CustomFileInputI {
+  value: any;
   onChange: (files: File[]) => void;
 }
 
@@ -13,7 +14,7 @@ interface FileWithId {
   file: File;
 }
 
-const CustomFileInput: React.FC<CustomFileInputI> = ({ onChange }) => {
+const CustomFileInput: React.FC<CustomFileInputI> = ({ value, onChange }) => {
   const [files, setFiles] = useState<FileWithId[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +25,11 @@ const CustomFileInput: React.FC<CustomFileInputI> = ({ onChange }) => {
     }));
     setFiles((p) => [...p, ...newFiles]);
   };
+
+  useEffect(() => {
+    // clearPreview
+    if (!value) setFiles([]);
+  }, [value]);
 
   useEffect(() => {
     if (!files.length) return;

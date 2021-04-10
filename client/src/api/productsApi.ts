@@ -63,3 +63,14 @@ export const getProductsBySearch = async (
   }
   return data;
 };
+
+export const createProduct = async (product: FormData): Promise<string> => {
+  const { data } = await instance({
+    method: "post",
+    url: "/api/products/createProduct",
+    data: product,
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+  return data;
+};

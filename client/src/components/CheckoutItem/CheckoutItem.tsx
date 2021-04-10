@@ -33,7 +33,7 @@ const CheckoutItem: React.FC<CheckoutItemI> = ({ product }) => {
                 </div>
               </s.MainContent>
 
-              <s.Amount>x3</s.Amount>
+              <s.Amount>{`x${size.ordered}`}</s.Amount>
 
               <s.Price>{currency(product.price)}</s.Price>
             </s.Container>

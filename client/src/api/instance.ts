@@ -14,7 +14,7 @@ instance.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
       window.location.assign("/");
       // TODO resolve cycle dep problem
       // rootStore.authStore.setAuth(false);

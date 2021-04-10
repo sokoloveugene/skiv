@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useStoreContext } from "store/storeContext";
 import { normalizeOptionType } from "helpers/normalize";
@@ -68,7 +68,7 @@ const CheckoutPage: React.FC = observer(() => {
     history.push("/cart");
   }, [cartStore.cartData, history]);
 
-  const { errors, register, handleSubmit } = useForm<FormValues>({
+  const { errors, register, handleSubmit, control } = useForm<FormValues>({
     resolver: yupResolver(schema),
   });
 
@@ -83,12 +83,21 @@ const CheckoutPage: React.FC = observer(() => {
         <s.InputsGridLayout>
           {inputFiels.map((field) => (
             <div key={field.name} style={{ gridArea: field.name }}>
-              <CustomInput
-                mask={field.mask}
-                label={field.label}
+              
+              <Controller
                 name={field.name}
-                ref={register}
-                errorMessage={errors[field.name as keyof FormValues]?.message}
+                control={control}
+                render={({ value, onChange }) => (
+                  <CustomInput
+                    value={value}
+                    onChange={onChange}
+                    mask={field.mask}
+                    label={field.label}
+                    errorMessage={
+                      errors[field.name as keyof FormValues]?.message
+                    }
+                  />
+                )}
               />
             </div>
           ))}

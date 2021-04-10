@@ -2,20 +2,17 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { OptionI } from "types";
+import { OptionI, AdditionalI } from "types";
 import CustomInput from "components/CustomInput";
 import CustomFileInput from "components/CustomFileInput";
 import CustomSelect from "components/CustomSelect";
 import Button from "components/Button";
+import CustomCheckbox from "components/CustomCheckbox";
 import * as yup from "yup";
 import { ReactComponent as Close } from "assets/icons/Close.svg";
+import { CATEGORIES } from "consts/categoriesWithLabels";
+import { createProduct } from "api/productsApi";
 import * as s from "./CreateProductPage.styled";
-
-const testOptions = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
 
 const schema = yup.object().shape({});
 
@@ -25,10 +22,11 @@ type FormValues = {
   amount: string;
   category: OptionI;
   composition: string;
-  measurements: string;
+  measure: string;
   images: File[];
   sizeTitle: string;
   sizeAmount: number;
+  tag: "sale" | "new" | "";
 };
 
 interface Size {
@@ -37,10 +35,17 @@ interface Size {
   available: number;
 }
 
-const CreateProductPage: React.FC = () => {
-  const [sizeOptions, setSizeOptions] = useState<Size[]>([]);
-  // const [compositionOptions, setCompositionOptions] = useState<string[]>([]);
+interface NewProduct {
+  images: File[];
+  tag?: "sale" | "new" | "";
+  name: string;
+  price: number;
+  sizes: Array<{ title: string; available: number }>;
+  category: string;
+  additional: AdditionalI[];
+}
 
+const CreateProductPage: React.FC = () => {
   const {
     setValue,
     getValues,
@@ -51,7 +56,14 @@ const CreateProductPage: React.FC = () => {
     reset,
   } = useForm<FormValues>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      tag: "",
+    },
   });
+
+  // size ======================================================= //
+
+  const [sizeOptions, setSizeOptions] = useState<Size[]>([]);
 
   const addSizeOption = (): void => {
     const key = uuidv4();
@@ -68,36 +80,129 @@ const CreateProductPage: React.FC = () => {
     setSizeOptions((p) => p.filter((option) => option.key !== key));
   };
 
+  // ============================================================ //
+
+  // composition ================================================ //
+
+  const [compositionOptions, setCompositionOptions] = useState<string[]>([]);
+
+  const addCompositionOption = () => {
+    const { composition } = getValues();
+    if (!composition) return;
+
+    setCompositionOptions((p) => [...p, composition]);
+    setValue("composition", undefined);
+  };
+
+  const removeCompositionOption = (option: string) => {
+    setCompositionOptions((p) => p.filter((opt) => opt !== option));
+  };
+
+  // =========================================================== //
+
+  // measurements ============================================== //
+
+  const [measureOptions, setMeasureOptions] = useState<string[]>([]);
+
+  const addMeasureOption = () => {
+    const { measure } = getValues();
+    if (!measure) return;
+
+    setMeasureOptions((p) => [...p, measure]);
+    setValue("measure", undefined);
+  };
+
+  const removeMeasureOption = (option: string) => {
+    setMeasureOptions((p) => p.filter((opt) => opt !== option));
+  };
+
+  // =========================================================== //
+
+  const handleReset = () => {
+    reset();
+    setSizeOptions([]);
+    setCompositionOptions([]);
+    setMeasureOptions([]);
+  };
+
   const onSubmit = handleSubmit((data) => {
     if (!sizeOptions.length) return;
-    console.log(data);
-    console.log(
-      sizeOptions.map((opt) => ({
-        title: opt.title,
-        available: Number(opt.available),
-      }))
-    );
-    // TODO call api
+
+    const sizes = sizeOptions.map((opt) => ({
+      title: opt.title,
+      available: Number(opt.available),
+    }));
+
+    const newProduct: NewProduct = {
+      images: data.images,
+      name: data.productName,
+      price: Number(data.price) || 0,
+      sizes,
+      category: data.category.value,
+      additional: [],
+    };
+
+    if (compositionOptions.length) {
+      newProduct.additional.push({
+        title: "Склад виробу",
+        data: compositionOptions,
+      });
+    }
+
+    if (measureOptions.length) {
+      newProduct.additional.push({
+        title: "Обміри виробу",
+        data: measureOptions,
+      });
+    }
+
+    if (data.tag) {
+      newProduct.tag = data.tag;
+    }
+
+    const bodyFormData: FormData = new FormData();
+
+    Object.entries(newProduct).forEach(([key, value]) => {
+      if (key === "images") {
+        value.forEach((file: File) => bodyFormData.append("images", file));
+        return;
+      }
+      bodyFormData.append(key, JSON.stringify(value));
+    });
+
+    createProduct(bodyFormData);
   });
 
   return (
     <s.GridForm onSubmit={onSubmit}>
       <div style={{ gridArea: "productName" }}>
-        <CustomInput
-          label="Найменування"
+        <Controller
           name="productName"
-          ref={register}
-          errorMessage={errors.productName?.message}
+          control={control}
+          render={({ value, onChange }) => (
+            <CustomInput
+              value={value}
+              onChange={onChange}
+              label="Найменування"
+              errorMessage={errors.productName?.message}
+            />
+          )}
         />
       </div>
 
       <div style={{ gridArea: "price" }}>
-        <CustomInput
-          type="number"
-          label="Ціна"
+        <Controller
           name="price"
-          ref={register}
-          errorMessage={errors.price?.message}
+          control={control}
+          render={({ value, onChange }) => (
+            <CustomInput
+              value={value}
+              onChange={onChange}
+              type="number"
+              label="Ціна"
+              errorMessage={errors.price?.message}
+            />
+          )}
         />
       </div>
 
@@ -105,7 +210,9 @@ const CreateProductPage: React.FC = () => {
         <Controller
           name="images"
           control={control}
-          render={({ onChange }) => <CustomFileInput onChange={onChange} />}
+          render={({ value, onChange }) => (
+            <CustomFileInput value={value} onChange={onChange} />
+          )}
         />
       </div>
 
@@ -117,7 +224,7 @@ const CreateProductPage: React.FC = () => {
             <CustomSelect
               selectedValue={value}
               placeholder="test"
-              options={testOptions}
+              options={CATEGORIES}
               onChange={onChange}
             />
           )}
@@ -125,29 +232,43 @@ const CreateProductPage: React.FC = () => {
       </div>
 
       <div style={{ gridArea: "sizeSelector" }}>
-        <s.CreateSize>
-          <CustomInput
-            mask="upperCase"
-            label="Введіть розмір"
+        <s.InlineFlex>
+          <Controller
             name="sizeTitle"
-            ref={register}
-            errorMessage={errors.sizeTitle?.message}
+            control={control}
+            render={({ value, onChange }) => (
+              <CustomInput
+                value={value}
+                onChange={onChange}
+                mask="upperCase"
+                label="Введіть розмір"
+                errorMessage={errors.sizeTitle?.message}
+              />
+            )}
           />
-          <CustomInput
-            type="number"
-            label="Кількість"
+          <Controller
             name="sizeAmount"
-            ref={register}
-            errorMessage={errors.sizeAmount?.message}
+            control={control}
+            render={({ value, onChange }) => (
+              <CustomInput
+                value={value}
+                onChange={onChange}
+                type="number"
+                mask="upperCase"
+                label="Кількість"
+                errorMessage={errors.sizeAmount?.message}
+              />
+            )}
           />
+
           <Button
             customPadding="0px 57px"
             title="Додати"
             onClick={addSizeOption}
           />
-        </s.CreateSize>
+        </s.InlineFlex>
         {sizeOptions.map((option) => (
-          <s.SizeOption key={option.key}>
+          <s.Option key={option.key}>
             {`${option.title} - ${option.available}шт`}
             <s.CloseButton
               role="button"
@@ -155,30 +276,97 @@ const CreateProductPage: React.FC = () => {
             >
               <Close />
             </s.CloseButton>
-          </s.SizeOption>
+          </s.Option>
         ))}
       </div>
 
       <div style={{ gridArea: "composition" }}>
-        <CustomInput
-          label="Склад та догляд"
+        <Controller
           name="composition"
-          ref={register}
-          errorMessage={errors.composition?.message}
+          control={control}
+          render={({ value, onChange }) => (
+            <CustomInput
+              value={value}
+              onChange={onChange}
+              mask="upperCase"
+              label="Склад та догляд"
+              errorMessage={errors.composition?.message}
+              icon
+              onIconClick={addCompositionOption}
+            />
+          )}
         />
+
+        {compositionOptions.map((option) => (
+          <s.Option key={option}>
+            {option}
+            <s.CloseButton
+              role="button"
+              onClick={() => removeCompositionOption(option)}
+            >
+              <Close />
+            </s.CloseButton>
+          </s.Option>
+        ))}
       </div>
 
-      <div style={{ gridArea: "measurements" }}>
-        <CustomInput
-          label="Обміри виробу"
-          name="measurements"
+      <div style={{ gridArea: "measure" }}>
+        <Controller
+          name="measure"
+          control={control}
+          render={({ value, onChange }) => (
+            <CustomInput
+              value={value}
+              onChange={onChange}
+              label="Обміри виробу"
+              errorMessage={errors.measure?.message}
+              icon
+              onIconClick={addMeasureOption}
+            />
+          )}
+        />
+
+        {measureOptions.map((option) => (
+          <s.Option key={option}>
+            {option}
+            <s.CloseButton
+              role="button"
+              onClick={() => removeMeasureOption(option)}
+            >
+              <Close />
+            </s.CloseButton>
+          </s.Option>
+        ))}
+      </div>
+
+      <div style={{ gridArea: "tags" }}>
+        <CustomCheckbox
+          type="radio"
+          title="No tag"
+          name="tag"
+          value=""
           ref={register}
-          errorMessage={errors.measurements?.message}
+          customMargin="0px 0px 10px 0px"
+        />
+        <CustomCheckbox
+          type="radio"
+          title="New"
+          name="tag"
+          value="new"
+          ref={register}
+          customMargin="0px 0px 10px 0px"
+        />
+        <CustomCheckbox
+          type="radio"
+          title="Sale"
+          name="tag"
+          value="sale"
+          ref={register}
         />
       </div>
 
       <s.Controls style={{ gridArea: "controls" }}>
-        <Button title="Видалити" onClick={reset} inversion />
+        <Button title="Видалити" onClick={handleReset} inversion />
         <Button title="Створити товар" onClick={onSubmit} />
       </s.Controls>
     </s.GridForm>
