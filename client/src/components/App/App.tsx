@@ -9,6 +9,7 @@ import Cart from "pages/Cart";
 import CheckoutPage from "pages/CheckoutPage";
 import LoginPage from "pages/LoginPage";
 import CreateProductPage from "pages/CreateProductPage";
+import EditProductPage from "pages/EditProductPage";
 import Header from "../Header";
 import Footer from "../Footer";
 import * as s from "./App.styled";
@@ -45,9 +46,9 @@ const App: React.FC = () => {
             <ProtectedRouteFromUnauthorized path="/create">
               <CreateProductPage />
             </ProtectedRouteFromUnauthorized>
-            {/* <Route path="/create">
-              <CreateProductPage />
-            </Route> */}
+            <ProtectedRouteFromUnauthorized path="/edit/:id">
+              <EditProductPage />
+            </ProtectedRouteFromUnauthorized>
           </Switch>
         </s.Content>
         <Footer />

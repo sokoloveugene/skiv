@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Plus, Minus } from "assets/icons";
 import { Divider } from "ui/ui.styled";
 import { CategoryI } from "./types";
@@ -26,11 +27,11 @@ const Category: React.FC<CategoryI> = ({ category, childs }) => {
         {childs &&
           open &&
           childs.map((c) => (
-            <React.Fragment key={c.title}>
+            <React.Fragment key={c.label}>
               <s.CategoryItem>
-                <s.SubCategoryLinkShift href={c.link}>
-                  {c.title}
-                </s.SubCategoryLinkShift>
+                <Link to={`catalog?category=${c.value}`}>
+                  <s.SubCategoryLinkShift>{c.label}</s.SubCategoryLinkShift>
+                </Link>
               </s.CategoryItem>
               <Divider />
             </React.Fragment>
@@ -50,9 +51,11 @@ const SideBarCategories: React.FC = () => {
       </s.CategoriesContainerFull>
 
       <s.CategoriesContainer>
-        {mockedExtra.map(({ title, link }) => (
-          <s.CategoryItem key={title}>
-            <s.SubCategoryLink href={link}>{title}</s.SubCategoryLink>
+        {mockedExtra.map(({ label, value }) => (
+          <s.CategoryItem key={label}>
+            <Link to={value}>
+              <s.SubCategoryLink>{label}</s.SubCategoryLink>
+            </Link>
           </s.CategoryItem>
         ))}
       </s.CategoriesContainer>

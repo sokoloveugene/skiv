@@ -18,19 +18,18 @@ export const MainOption = styled.div<{ hasValue: boolean }>`
   color: ${({ hasValue }) => !hasValue && colors.lightGrey};
 `;
 
-export const List = styled.ul`
+export const List = styled.div`
   z-index: 2;
   border-radius: 8px;
   width: 100%;
   position: absolute;
   top: 60px;
   padding: 5px 0px;
-  list-style: none;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   background-color: ${colors.white};
 `;
 
-export const Option = styled.li<{ active: boolean }>`
+export const Option = styled.div<{ active: boolean }>`
   background-color: ${({ active }) => (active ? colors.blue : colors.white)};
   color: ${({ active }) => (active ? colors.white : colors.lightGrey)};
   font-size: 18px;

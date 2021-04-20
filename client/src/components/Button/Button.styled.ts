@@ -23,6 +23,9 @@ export const Button = styled.button<{
   margin: ${(props) => props.customMargin || ""};
   padding: ${(props) => props.customPadding || "18px 57px"};
   max-width: ${(props) => props.maxWidth || ""};
+  outline: none;
+  cursor: pointer;
+  user-select: none;
 `;
 
 export const Icon = styled.img`

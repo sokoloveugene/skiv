@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
+import useOutsideAction from "hooks/useClickOutside";
 import { ArrowDown } from "assets/icons";
 import { OptionI } from "types";
 import * as s from "./CustomSelect.styled";
@@ -18,6 +19,9 @@ const CustomSelect: React.FC<CustomSelectI> = ({
 }) => {
   const [opened, setOpened] = useState(false);
 
+  const handleClose = useCallback(() => setOpened(false), []);
+  const [contentRef] = useOutsideAction(handleClose);
+
   const handleSelect = (option: OptionI): void => {
     setOpened(false);
     onChange(option);
@@ -31,7 +35,7 @@ const CustomSelect: React.FC<CustomSelectI> = ({
       </s.MainOption>
 
       {opened && (
-        <s.List>
+        <s.List ref={contentRef}>
           {options.map((opt) => (
             <s.Option
               active={value === opt.value}

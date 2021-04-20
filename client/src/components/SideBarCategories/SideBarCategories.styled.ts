@@ -19,8 +19,7 @@ export const CategoriesContainerFull = styled(CategoriesContainer)`
 
 export const CategoryItem = styled.li``;
 
-const Link = styled.a`
-  text-decoration: none;
+const Link = styled.p`
   color: ${colors.white};
   display: block;
   cursor: pointer;

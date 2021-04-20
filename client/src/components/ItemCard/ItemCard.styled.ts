@@ -11,17 +11,22 @@ export const Card = styled.div`
 `;
 
 export const Tag = styled.p`
+  position: absolute;
   color: ${`${colors.brown}45`};
   font-size: 14px;
   line-height: 16px;
-  margin-bottom: 8px;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 export const Name = styled.p`
   color: ${colors.brown};
   font-size: 18px;
   line-height: 22px;
+  margin-top: 22px;
   margin-bottom: 8px;
+  text-align: center;
 `;
 
 export const Price = styled.p`

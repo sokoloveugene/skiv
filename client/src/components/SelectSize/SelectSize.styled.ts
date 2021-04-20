@@ -12,6 +12,7 @@ export const Title = styled.h3`
 export const Container = styled.div`
   display: flex;
   margin-bottom: 54px;
+  flex-wrap: wrap;
 `;
 
 export const HiddenCheckbox = styled.input`
@@ -36,6 +37,7 @@ export const Label = styled.label<{
   user-select: none;
   font-size: 18px;
   position: relative;
+  margin: 5px 25px 5px 0px;
 
   &::after {
     content: "";
@@ -45,9 +47,5 @@ export const Label = styled.label<{
     top: 42%;
     right: 48%;
     transform: translate(-50%, -45%) rotate(45deg);
-  }
-
-  & + & {
-    margin-left: 25px;
   }
 `;

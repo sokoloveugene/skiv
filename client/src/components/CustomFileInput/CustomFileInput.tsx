@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { ReactComponent as Close } from "assets/icons/Close.svg";
+import FilePreview from "components/FilePreview";
 import { Upload } from "assets/icons";
 import * as s from "./CustomFileInput.styled";
 
@@ -56,17 +56,13 @@ const CustomFileInput: React.FC<CustomFileInputI> = ({ value, onChange }) => {
           const url = URL.createObjectURL(file);
 
           return (
-            <s.ListItem key={id}>
-              <s.Preview src={url} alt="preview" />
-
-              <s.TruncateContainer>
-                <s.Truncated>{file.name}</s.Truncated>
-              </s.TruncateContainer>
-
-              <s.CloseButton role="button" onClick={() => handleDelete(id)}>
-                <Close />
-              </s.CloseButton>
-            </s.ListItem>
+            <FilePreview
+              key={id}
+              filename={file.name}
+              id={id}
+              url={url}
+              onDelete={handleDelete}
+            />
           );
         })}
       </s.List>

@@ -1,11 +1,12 @@
 interface CategoryI {
   category: string;
   childs: SubCategoryI[] | null;
+  value?: string;
 }
 
 interface SubCategoryI {
-  title: string;
-  link: string;
+  label: string;
+  value: string;
 }
 
 export type { CategoryI, SubCategoryI };

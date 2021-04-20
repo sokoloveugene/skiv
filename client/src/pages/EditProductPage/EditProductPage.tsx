@@ -1,33 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useParams } from "react-router-dom";
 import { OptionI, AdditionalI } from "types";
+import { getProductById, createProduct } from "api/productsApi";
 import CustomInput from "components/CustomInput";
 import CustomFileInput from "components/CustomFileInput";
 import CustomSelect from "components/CustomSelect";
 import Button from "components/Button";
 import CustomCheckbox from "components/CustomCheckbox";
-import * as yup from "yup";
+import FilePreview from "components/FilePreview";
+import { Divider } from "ui/ui.styled";
+// import * as yup from "yup";
 import { ReactComponent as Close } from "assets/icons/Close.svg";
 import { CATEGORIES } from "consts/categoriesWithLabels";
-import { createProduct } from "api/productsApi";
-import * as s from "./CreateProductPage.styled";
+import * as s from "../CreateProductPage/CreateProductPage.styled";
 
-const requiredErrorMessage = "This field is required";
-const maxLenthError = "Value is too long";
-const priceError = "Price is not valid";
+// const requiredErrorMessage = "This field is required";
+// const maxLenthError = "Value is too long";
+// const priceError = "Price is not valid";
 
-const schema = yup.object().shape({
-  productName: yup
-    .string()
-    .required(requiredErrorMessage)
-    .max(30, maxLenthError),
-  price: yup
-    .string()
-    .required(requiredErrorMessage)
-    .matches(/^\d+(\.\d{2})?$/, { message: priceError }),
-});
+// const schema = yup.object().shape({
+//   productName: yup
+//     .string()
+//     .required(requiredErrorMessage)
+//     .max(30, maxLenthError),
+//   price: yup
+//     .string()
+//     .required(requiredErrorMessage)
+//     .matches(/^\d+(\.\d{2})?$/, { message: priceError }),
+// });
 
 type FormValues = {
   productName: string;
@@ -58,7 +60,13 @@ interface NewProduct {
   additional: AdditionalI[];
 }
 
-const CreateProductPage: React.FC = () => {
+const EditProductPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const [sizeOptions, setSizeOptions] = useState<Size[]>([]);
+  const [compositionOptions, setCompositionOptions] = useState<string[]>([]);
+  const [measureOptions, setMeasureOptions] = useState<string[]>([]);
+  const [backImages, setBackImages] = useState<string[]>([]);
+
   const {
     setValue,
     getValues,
@@ -67,18 +75,42 @@ const CreateProductPage: React.FC = () => {
     handleSubmit,
     control,
     reset,
-  } = useForm<FormValues>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      tag: "",
-      images: [],
-    },
-    reValidateMode: "onChange",
-  });
+    watch,
+  } = useForm<FormValues>({ defaultValues: { images: [] } });
+
+  useEffect(() => {
+    const loadProduct = async () => {
+      try {
+        const { product } = await getProductById(id);
+        setValue("tag", product.tag || "");
+        setValue("productName", product.name);
+        setValue("price", product.price);
+        setValue(
+          "category",
+          CATEGORIES.find((opt) => opt.value === product.category)
+        );
+        setSizeOptions(product.sizes);
+
+        if (product.additional) {
+          product.additional.forEach((info) => {
+            if (info.title === "Склад виробу") {
+              setCompositionOptions(info.data);
+            }
+            if (info.title === "Обміри виробу") {
+              setMeasureOptions(info.data);
+            }
+          });
+        }
+
+        setBackImages(product.images);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    loadProduct();
+  }, [id, setValue]);
 
   // size ======================================================= //
-
-  const [sizeOptions, setSizeOptions] = useState<Size[]>([]);
 
   const addSizeOption = (): void => {
     const _id = uuidv4();
@@ -99,8 +131,6 @@ const CreateProductPage: React.FC = () => {
 
   // composition ================================================ //
 
-  const [compositionOptions, setCompositionOptions] = useState<string[]>([]);
-
   const addCompositionOption = () => {
     const { composition } = getValues();
     if (!composition) return;
@@ -116,8 +146,6 @@ const CreateProductPage: React.FC = () => {
   // =========================================================== //
 
   // measurements ============================================== //
-
-  const [measureOptions, setMeasureOptions] = useState<string[]>([]);
 
   const addMeasureOption = () => {
     const { measure } = getValues();
@@ -188,6 +216,8 @@ const CreateProductPage: React.FC = () => {
     createProduct(bodyFormData);
   });
 
+  const newImages = watch("images") || [];
+
   return (
     <s.GridForm onSubmit={onSubmit}>
       <div style={{ gridArea: "productName" }}>
@@ -209,15 +239,17 @@ const CreateProductPage: React.FC = () => {
         <Controller
           name="price"
           control={control}
-          render={({ value, onChange }) => (
-            <CustomInput
-              value={value}
-              onChange={onChange}
-              type="number"
-              label="Ціна"
-              errorMessage={errors.price?.message}
-            />
-          )}
+          render={({ value, onChange }) => {
+            return (
+              <CustomInput
+                value={Number(value || "")}
+                onChange={onChange}
+                type="number"
+                label="Ціна"
+                errorMessage={errors.price?.message}
+              />
+            );
+          }}
         />
       </div>
 
@@ -229,6 +261,10 @@ const CreateProductPage: React.FC = () => {
             <CustomFileInput value={value} onChange={onChange} />
           )}
         />
+        {!!newImages.length && <Divider />}
+        {backImages.map((url) => (
+          <FilePreview key={url} id={url} url={url} onDelete={() => null} />
+        ))}
       </div>
 
       <div style={{ gridArea: "category" }}>
@@ -388,4 +424,4 @@ const CreateProductPage: React.FC = () => {
   );
 };
 
-export default CreateProductPage;
+export default EditProductPage;

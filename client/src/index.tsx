@@ -20,10 +20,6 @@ autorun(() => {
   setLocalStorage("wishList", rootStore.wishStore.wishList);
 });
 
-autorun(() => {
-  console.log("user logged in", rootStore.authStore.isAuth);
-});
-
 ReactDOM.render(
   <React.StrictMode>
     <Store store={rootStore}>

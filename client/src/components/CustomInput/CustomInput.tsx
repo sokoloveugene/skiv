@@ -39,7 +39,7 @@ const CustomInput: React.FC<CustomInputI> = ({
       inputRef.current.value = "";
     }
     setHasValue(false);
-  }, [value]);
+  }, [value, onChange]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value: eventValue } = e.target;
@@ -57,6 +57,7 @@ const CustomInput: React.FC<CustomInputI> = ({
     <s.Container>
       <s.Label hasValue={hasValue}>{label}</s.Label>
       <s.Input
+        value={value || ""}
         ref={inputRef}
         hasIcon={icon}
         hasError={!!errorMessage}

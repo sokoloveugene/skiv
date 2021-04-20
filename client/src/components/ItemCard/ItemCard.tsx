@@ -34,8 +34,8 @@ const ItemCard: React.FC<ItemCardI> = ({ item }) => {
           alt="wish icon"
           role="button"
         />
+        <s.Tag>{item.tag}</s.Tag>
       </ProportionWrapper>
-      <s.Tag>{item.tag}</s.Tag>
       <s.Name>{item.name}</s.Name>
       <s.Price>{currency(item.price)}</s.Price>
     </s.Card>

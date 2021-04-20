@@ -83,7 +83,6 @@ const CheckoutPage: React.FC = observer(() => {
         <s.InputsGridLayout>
           {inputFiels.map((field) => (
             <div key={field.name} style={{ gridArea: field.name }}>
-              
               <Controller
                 name={field.name}
                 control={control}
