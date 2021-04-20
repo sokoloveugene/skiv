@@ -5,6 +5,7 @@ export const Container = styled.div`
   max-width: 638px;
   width: 100%;
   border-bottom: 1px solid ${colors.white};
+  margin: 0 20px;
 `;
 
 export const Form = styled.form`

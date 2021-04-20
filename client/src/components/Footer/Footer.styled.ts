@@ -4,8 +4,9 @@ import { colors } from "consts/colors";
 export const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 100px;
-  margin-top: 50px;
+  max-width: 1100px;
+  padding: 0 20px;
+  margin: 50px auto 100px auto;
 `;
 
 export const Wrapper = styled.div``;

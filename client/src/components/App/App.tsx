@@ -16,44 +16,46 @@ import * as s from "./App.styled";
 
 const App: React.FC = () => {
   return (
-    <s.MainContainer>
-      <Router>
-        <s.GlobalStyle />
-        <Header />
-        <s.Content>
-          <Switch>
-            <Route exact path="/">
-              <HomePage />
-            </Route>
-            <Route path="/product/:id">
-              <ProductPage />
-            </Route>
-            <Route path="/catalog">
-              <CatalogPage />
-            </Route>
-            <Route path="/cart">
-              <Cart />
-            </Route>
-            <Route path="/find">
-              <SearchPage />
-            </Route>
-            <Route path="/checkout">
-              <CheckoutPage />
-            </Route>
-            <Route path="/login">
-              <LoginPage />
-            </Route>
-            <ProtectedRouteFromUnauthorized path="/create">
-              <CreateProductPage />
-            </ProtectedRouteFromUnauthorized>
-            <ProtectedRouteFromUnauthorized path="/edit/:id">
-              <EditProductPage />
-            </ProtectedRouteFromUnauthorized>
-          </Switch>
-        </s.Content>
-        <Footer />
-      </Router>
-    </s.MainContainer>
+    <>
+      <s.MainContainer>
+        <Router>
+          <s.GlobalStyle />
+          <Header />
+          <s.Content>
+            <Switch>
+              <Route exact path="/">
+                <HomePage />
+              </Route>
+              <Route path="/product/:id">
+                <ProductPage />
+              </Route>
+              <Route path="/catalog">
+                <CatalogPage />
+              </Route>
+              <Route path="/cart">
+                <Cart />
+              </Route>
+              <Route path="/find">
+                <SearchPage />
+              </Route>
+              <Route path="/checkout">
+                <CheckoutPage />
+              </Route>
+              <Route path="/login">
+                <LoginPage />
+              </Route>
+              <ProtectedRouteFromUnauthorized path="/create">
+                <CreateProductPage />
+              </ProtectedRouteFromUnauthorized>
+              <ProtectedRouteFromUnauthorized path="/edit/:id">
+                <EditProductPage />
+              </ProtectedRouteFromUnauthorized>
+            </Switch>
+          </s.Content>
+        </Router>
+      </s.MainContainer>
+      <Footer />
+    </>
   );
 };
 

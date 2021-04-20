@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { logOutRequest } from "api/authApi";
 import { useStoreContext } from "store/storeContext";
-import useOutsideAction from "hooks/useClickOutside";
+import { useOutsideAction } from "hooks/useClickOutside";
 import { Close } from "assets/icons";
 import SocialLinks from "../SocialLinks";
 import SideBarCategories from "../SideBarCategories";

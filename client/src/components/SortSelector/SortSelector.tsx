@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { parseQuery } from "helpers/parseQuery";
-import useOutsideAction from "hooks/useClickOutside";
+import { useOutsideAction } from "hooks/useClickOutside";
 import { Sort, ArrowDown } from "assets/icons";
 import * as s from "./SortSelector.styled";
 

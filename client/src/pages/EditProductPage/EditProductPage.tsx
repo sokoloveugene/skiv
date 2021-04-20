@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useParams } from "react-router-dom";
 import { OptionI, AdditionalI } from "types";
-import { getProductById, createProduct } from "api/productsApi";
+import { getProductById } from "api/productsApi";
 import CustomInput from "components/CustomInput";
 import CustomFileInput from "components/CustomFileInput";
 import CustomSelect from "components/CustomSelect";
@@ -11,25 +12,25 @@ import Button from "components/Button";
 import CustomCheckbox from "components/CustomCheckbox";
 import FilePreview from "components/FilePreview";
 import { Divider } from "ui/ui.styled";
-// import * as yup from "yup";
+import * as yup from "yup";
 import { ReactComponent as Close } from "assets/icons/Close.svg";
 import { CATEGORIES } from "consts/categoriesWithLabels";
 import * as s from "../CreateProductPage/CreateProductPage.styled";
 
-// const requiredErrorMessage = "This field is required";
-// const maxLenthError = "Value is too long";
-// const priceError = "Price is not valid";
+const requiredErrorMessage = "This field is required";
+const maxLenthError = "Value is too long";
+const priceError = "Price is not valid";
 
-// const schema = yup.object().shape({
-//   productName: yup
-//     .string()
-//     .required(requiredErrorMessage)
-//     .max(30, maxLenthError),
-//   price: yup
-//     .string()
-//     .required(requiredErrorMessage)
-//     .matches(/^\d+(\.\d{2})?$/, { message: priceError }),
-// });
+const schema = yup.object().shape({
+  productName: yup
+    .string()
+    .required(requiredErrorMessage)
+    .max(30, maxLenthError),
+  price: yup
+    .string()
+    .required(requiredErrorMessage)
+    .matches(/^\d+(\.\d{2})?$/, { message: priceError }),
+});
 
 type FormValues = {
   productName: string;
@@ -48,14 +49,22 @@ interface Size {
   _id: string;
   title: string;
   available: number;
+  new?: boolean;
 }
 
-interface NewProduct {
-  images: File[];
+interface MappedSize {
+  _id?: string;
+  title: string;
+  available: number;
+}
+
+interface UpdatedProduct {
+  newImages: File[];
+  deletedUrls: string[];
   tag?: "sale" | "new" | "";
   name: string;
   price: number;
-  sizes: Array<{ title: string; available: number }>;
+  sizes: Array<{ title: string; available: number; _id?: string }>;
   category: string;
   additional: AdditionalI[];
 }
@@ -66,6 +75,7 @@ const EditProductPage: React.FC = () => {
   const [compositionOptions, setCompositionOptions] = useState<string[]>([]);
   const [measureOptions, setMeasureOptions] = useState<string[]>([]);
   const [backImages, setBackImages] = useState<string[]>([]);
+  const [deletedBackImages, setDeletedBackImages] = useState<string[]>([]);
 
   const {
     setValue,
@@ -76,7 +86,10 @@ const EditProductPage: React.FC = () => {
     control,
     reset,
     watch,
-  } = useForm<FormValues>({ defaultValues: { images: [] } });
+  } = useForm<FormValues>({
+    defaultValues: { images: [] },
+    resolver: yupResolver(schema),
+  });
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -114,11 +127,9 @@ const EditProductPage: React.FC = () => {
 
   const addSizeOption = (): void => {
     const _id = uuidv4();
-    const { sizeTitle, sizeAmount } = getValues();
-    if (!sizeTitle || !sizeAmount) return;
-    const title = sizeTitle;
-    const available = sizeAmount;
-    setSizeOptions((p) => [...p, { title, available, _id }]);
+    const { sizeTitle: title, sizeAmount: available } = getValues();
+    if (!title || !available) return;
+    setSizeOptions((p) => [...p, { title, available, _id, new: true }]);
     setValue("sizeTitle", undefined);
     setValue("sizeAmount", undefined);
   };
@@ -161,6 +172,11 @@ const EditProductPage: React.FC = () => {
 
   // =========================================================== //
 
+  const deleteBackImage = (url: string) => {
+    setDeletedBackImages((p) => [...p, url]);
+    setBackImages((p) => p.filter((backUrl) => backUrl !== url));
+  };
+
   const handleReset = () => {
     reset();
     setSizeOptions([]);
@@ -171,13 +187,21 @@ const EditProductPage: React.FC = () => {
   const onSubmit = handleSubmit((data) => {
     if (!sizeOptions.length) return;
 
-    const sizes = sizeOptions.map((opt) => ({
-      title: opt.title,
-      available: Number(opt.available),
-    }));
+    const sizes = sizeOptions.map((opt) => {
+      const size: MappedSize = {
+        title: opt.title,
+        available: Number(opt.available),
+      };
 
-    const newProduct: NewProduct = {
-      images: data.images,
+      if (!opt.new) {
+        size._id = opt._id;
+      }
+      return size;
+    });
+
+    const updatedProduct: UpdatedProduct = {
+      newImages: data.images,
+      deletedUrls: deletedBackImages,
       name: data.productName,
       price: Number(data.price) || 0,
       sizes,
@@ -186,34 +210,35 @@ const EditProductPage: React.FC = () => {
     };
 
     if (compositionOptions.length) {
-      newProduct.additional.push({
+      updatedProduct.additional.push({
         title: "Склад виробу",
         data: compositionOptions,
       });
     }
 
     if (measureOptions.length) {
-      newProduct.additional.push({
+      updatedProduct.additional.push({
         title: "Обміри виробу",
         data: measureOptions,
       });
     }
 
     if (data.tag) {
-      newProduct.tag = data.tag;
+      updatedProduct.tag = data.tag;
     }
 
     const bodyFormData: FormData = new FormData();
 
-    Object.entries(newProduct).forEach(([key, value]) => {
-      if (key === "images") {
+    Object.entries(updatedProduct).forEach(([key, value]) => {
+      if (key === "newImages") {
         value.forEach((file: File) => bodyFormData.append("images", file));
         return;
       }
       bodyFormData.append(key, JSON.stringify(value));
     });
 
-    createProduct(bodyFormData);
+    console.log("updatedProduct", updatedProduct);
+    // createProduct(bodyFormData);
   });
 
   const newImages = watch("images") || [];
@@ -261,9 +286,14 @@ const EditProductPage: React.FC = () => {
             <CustomFileInput value={value} onChange={onChange} />
           )}
         />
-        {!!newImages.length && <Divider />}
+        {!!newImages.length && !!backImages.length && <Divider />}
         {backImages.map((url) => (
-          <FilePreview key={url} id={url} url={url} onDelete={() => null} />
+          <FilePreview
+            key={url}
+            id={url}
+            url={url}
+            onDelete={() => deleteBackImage(url)}
+          />
         ))}
       </div>
 

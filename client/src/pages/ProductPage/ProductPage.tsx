@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useWish } from "hooks/useWish";
+import { useScrollToTop } from "hooks/useScrollToTop";
 import { useStoreContext } from "store/storeContext";
 import { ProductWithSimilarI, SizeOptionI } from "types";
 import { getProductById } from "api/productsApi";
@@ -18,6 +19,7 @@ import NotificationPortal from "components/NotificationPortal";
 import * as s from "./ProductPage.styled";
 
 const ProductPage: React.FC = observer(() => {
+  useScrollToTop();
   const { cartStore, productStore } = useStoreContext();
   const { id } = useParams<{ id: string }>();
   const [mainImageUrl, setMainImageUrl] = useState("");

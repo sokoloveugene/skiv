@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import useOutsideAction from "hooks/useClickOutside";
+import { useOutsideAction } from "hooks/useClickOutside";
 import { ArrowDown } from "assets/icons";
 import { OptionI } from "types";
 import * as s from "./CustomSelect.styled";

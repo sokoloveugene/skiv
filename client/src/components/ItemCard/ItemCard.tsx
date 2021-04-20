@@ -13,11 +13,11 @@ interface ItemCardI {
 
 const ItemCard: React.FC<ItemCardI> = ({ item }) => {
   const history = useHistory();
-  const wishIconRef = useRef<HTMLImageElement>(null);
+  const iconRef = useRef<HTMLImageElement>(null);
   const [isWished, wishHandler] = useWish(item._id);
 
   const handleRedirect = (e: React.MouseEvent<HTMLDivElement>, id: string) => {
-    if (e.target === wishIconRef.current) {
+    if (e.target === iconRef.current) {
       wishHandler();
       return;
     }
@@ -29,7 +29,7 @@ const ItemCard: React.FC<ItemCardI> = ({ item }) => {
       <ProportionWrapper horizontalRation={374} verticatRation={500}>
         <s.Image src={item.images[0]} />
         <s.ControlIcon
-          ref={wishIconRef}
+          ref={iconRef}
           src={isWished ? WishActive : WishNotActive}
           alt="wish icon"
           role="button"

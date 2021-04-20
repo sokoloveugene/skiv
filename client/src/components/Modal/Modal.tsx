@@ -1,5 +1,6 @@
 import React from "react";
-import useOutsideAction from "hooks/useClickOutside";
+import { useOutsideAction } from "hooks/useClickOutside";
+import { useFreezeScroll } from "hooks/useFreezeScroll";
 import { ReactComponent as Close } from "assets/icons/Close.svg";
 import * as s from "./Modal.styled";
 
@@ -8,6 +9,7 @@ interface ModalI {
 }
 
 const Modal: React.FC<ModalI> = ({ children, onClose }) => {
+  useFreezeScroll();
   const [contentRef] = useOutsideAction(onClose);
 
   return (

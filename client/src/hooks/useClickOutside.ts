@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 
-const useOutsideAction = (
+// eslint-disable-next-line
+export const useOutsideAction = (
   action: () => void
 ): [React.RefObject<HTMLDivElement>] => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,5 +23,3 @@ const useOutsideAction = (
 
   return [ref];
 };
-
-export default useOutsideAction;

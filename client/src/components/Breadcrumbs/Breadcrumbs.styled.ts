@@ -11,6 +11,7 @@ export const TextItem = styled.span`
   line-height: 16px;
   color: ${`${colors.brown}45`};
   margin-right: 18px;
+  cursor: pointer;
 `;
 
 export const Wrapper = styled.div``;
