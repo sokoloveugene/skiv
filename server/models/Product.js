@@ -16,7 +16,10 @@ const schema = new Schema(
     tag: { type: String, default: null },
     name: { type: String, required: true },
     price: { type: Number, required: true },
-    sizes: [sizeSchema],
+    sizes: {
+      type: [sizeSchema],
+      validate: (v) => Array.isArray(v) && v.length > 0,
+    },
     category: { type: String, required: true },
     additional: [additionalSchema],
   },

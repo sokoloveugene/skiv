@@ -74,3 +74,17 @@ export const createProduct = async (product: FormData): Promise<string> => {
 
   return data;
 };
+
+export const updateProduct = async (
+  updatedProduct: FormData,
+  productId: string
+): Promise<string> => {
+  const { data } = await instance({
+    method: "put",
+    url: `/api/products/update/${productId}`,
+    data: updatedProduct,
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+  return data;
+};

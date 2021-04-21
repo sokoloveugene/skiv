@@ -4,7 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useParams } from "react-router-dom";
 import { OptionI, AdditionalI } from "types";
-import { getProductById } from "api/productsApi";
+import { getProductById, updateProduct } from "api/productsApi";
 import CustomInput from "components/CustomInput";
 import CustomFileInput from "components/CustomFileInput";
 import CustomSelect from "components/CustomSelect";
@@ -59,7 +59,7 @@ interface MappedSize {
 }
 
 interface UpdatedProduct {
-  newImages: File[];
+  images: File[];
   deletedUrls: string[];
   tag?: "sale" | "new" | "";
   name: string;
@@ -89,6 +89,7 @@ const EditProductPage: React.FC = () => {
   } = useForm<FormValues>({
     defaultValues: { images: [] },
     resolver: yupResolver(schema),
+    reValidateMode: "onChange",
   });
 
   useEffect(() => {
@@ -200,7 +201,7 @@ const EditProductPage: React.FC = () => {
     });
 
     const updatedProduct: UpdatedProduct = {
-      newImages: data.images,
+      images: data.images,
       deletedUrls: deletedBackImages,
       name: data.productName,
       price: Number(data.price) || 0,
@@ -230,15 +231,14 @@ const EditProductPage: React.FC = () => {
     const bodyFormData: FormData = new FormData();
 
     Object.entries(updatedProduct).forEach(([key, value]) => {
-      if (key === "newImages") {
+      if (key === "images") {
         value.forEach((file: File) => bodyFormData.append("images", file));
         return;
       }
       bodyFormData.append(key, JSON.stringify(value));
     });
 
-    console.log("updatedProduct", updatedProduct);
-    // createProduct(bodyFormData);
+    updateProduct(bodyFormData, id);
   });
 
   const newImages = watch("images") || [];

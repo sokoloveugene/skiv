@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const { body, validationResult } = require("express-validator");
-const multer = require("multer");
+const upload = require("../helpers/multer");
 const authProtected = require("../helpers/authProtected");
 const router = Router();
 const Product = require("../models/Product");
@@ -121,24 +121,6 @@ router.post("/find", async (req, res) => {
 // @desc    Create new product
 // @route   POST /api/products/createProduct
 // @access  Private
-const fileStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "images");
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix =
-      Date.now() + "-" + Math.round(Math.random() * 1e9) + file.originalname;
-    cb(null, file.fieldname + "-" + uniqueSuffix);
-  },
-});
-
-const fileFilter = (req, file, cb) => {
-  const whiteList = ["image/png", "image/jpg", "image/jpeg"];
-  whiteList.includes(file.mimetype) ? cb(null, true) : cb(null, false);
-};
-
-const upload = multer({ storage: fileStorage, fileFilter }).array("images");
-
 router.post("/createProduct", authProtected, upload, async (req, res) => {
   try {
     if (!req.files.length) {
@@ -160,6 +142,40 @@ router.post("/createProduct", authProtected, upload, async (req, res) => {
     await Product.create(newProduct);
     res.json("OK");
   } catch (e) {
+    res.status(500).json("Something went wrong, please try again");
+  }
+});
+
+// @desc    Update product
+// @route   POST /api/products/update/:id
+// @access  Private
+router.put("/update/:id", authProtected, upload, async (req, res) => {
+  try {
+    console.log(req.files);
+    // TODO delete file from disk
+    const product = await Product.findById(req.params.id);
+
+    const updatedProduct = req.body;
+
+    Object.keys(updatedProduct).forEach((key) => {
+      updatedProduct[key] = JSON.parse(updatedProduct[key]);
+    });
+
+    const deletedUrls = updatedProduct.deletedUrls || [];
+    delete updatedProduct.deletedUrls;
+
+    updatedProduct.images = product.images.filter(
+      (url) => !deletedUrls.includes(url)
+    );
+
+    req.files.map((file) => updatedProduct.images.push(`/${file.path}`));
+
+    product.overwrite(updatedProduct);
+    await product.save();
+
+    res.json("OK");
+  } catch (e) {
+    console.log(e);
     res.status(500).json("Something went wrong, please try again");
   }
 });
