@@ -2,6 +2,7 @@ const { Router } = require("express");
 const { body, validationResult } = require("express-validator");
 const upload = require("../helpers/multer");
 const authProtected = require("../helpers/authProtected");
+const deleteImage = require("../helpers/deleteImage");
 const router = Router();
 const Product = require("../models/Product");
 
@@ -151,7 +152,6 @@ router.post("/createProduct", authProtected, upload, async (req, res) => {
 // @access  Private
 router.put("/update/:id", authProtected, upload, async (req, res) => {
   try {
-    console.log(req.files);
     // TODO delete file from disk
     const product = await Product.findById(req.params.id);
 
@@ -162,6 +162,9 @@ router.put("/update/:id", authProtected, upload, async (req, res) => {
     });
 
     const deletedUrls = updatedProduct.deletedUrls || [];
+
+    deletedUrls.forEach(deleteImage);
+
     delete updatedProduct.deletedUrls;
 
     updatedProduct.images = product.images.filter(
