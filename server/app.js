@@ -9,6 +9,7 @@ const path = require("path");
 const colors = require("colors");
 
 const connectDB = require("./helpers/db");
+const checkImageFolder = require("./helpers/checkImageFolder");
 
 connectDB();
 
@@ -34,4 +35,7 @@ app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/products", require("./routes/product.routes"));
 
 const PORT = config.get("PORT") || 5000;
-app.listen(PORT, () => console.log(`App has been started at port ${PORT}`));
+app.listen(PORT, () => {
+  checkImageFolder();
+  console.log(`App has been started at port ${PORT}`)
+});

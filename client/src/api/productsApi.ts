@@ -64,7 +64,9 @@ export const getProductsBySearch = async (
   return data;
 };
 
-export const createProduct = async (product: FormData): Promise<string> => {
+export const createProduct = async (
+  product: FormData
+): Promise<{ id: string }> => {
   const { data } = await instance({
     method: "post",
     url: "/api/products/createProduct",

@@ -140,8 +140,9 @@ router.post("/createProduct", authProtected, upload, async (req, res) => {
     newProduct.images = [];
     req.files.map((file) => newProduct.images.push(`/${file.path}`));
 
-    await Product.create(newProduct);
-    res.json("OK");
+    const product = await Product.create(newProduct);
+    res.status(201);
+    res.json({ id: product.id });
   } catch (e) {
     res.status(500).json("Something went wrong, please try again");
   }
@@ -152,7 +153,6 @@ router.post("/createProduct", authProtected, upload, async (req, res) => {
 // @access  Private
 router.put("/update/:id", authProtected, upload, async (req, res) => {
   try {
-    // TODO delete file from disk
     const product = await Product.findById(req.params.id);
 
     const updatedProduct = req.body;

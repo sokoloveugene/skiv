@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Controller, useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { OptionI, AdditionalI } from "types";
 import CustomInput from "components/CustomInput";
@@ -59,6 +60,8 @@ interface NewProduct {
 }
 
 const CreateProductPage: React.FC = () => {
+  const history = useHistory();
+
   const {
     setValue,
     getValues,
@@ -140,7 +143,7 @@ const CreateProductPage: React.FC = () => {
     setMeasureOptions([]);
   };
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     if (!sizeOptions.length) return;
 
     const sizes = sizeOptions.map((opt) => ({
@@ -185,7 +188,9 @@ const CreateProductPage: React.FC = () => {
       bodyFormData.append(key, JSON.stringify(value));
     });
 
-    createProduct(bodyFormData);
+    const { id } = await createProduct(bodyFormData);
+
+    history.push(`/product/${id}`);
   });
 
   return (
