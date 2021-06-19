@@ -1,6 +1,13 @@
 import { makeAutoObservable } from "mobx";
 import { getLocalStorage } from "helpers/localStorage";
-import { ProductI, SizeOptionI, CartItemI, CartNotificationI } from "types";
+import {
+  ProductI,
+  SizeOptionI,
+  CartItemI,
+  CartNotificationI,
+  CheckoutProductI,
+  CheckoutSizeI,
+} from "types";
 import { getProductsByIds } from "api/productsApi";
 import ProductStore from "./productStore";
 
@@ -23,6 +30,28 @@ class CartStore {
     makeAutoObservable(this);
     this.productStore = productStore;
     this.cart = getLocalStorage("cart", []);
+  }
+
+  get checkoutProducts(): Array<CheckoutProductI> {
+    return this.cartData.map((product) => {
+      const id = product._id;
+      const orderedSizes = product.sizes.reduce(
+        (acc, { _id, title, ordered }) => {
+          if (ordered) {
+            const mapped = {
+              _id,
+              title,
+              ordered,
+            };
+            acc.push(mapped);
+          }
+          return acc;
+        },
+        [] as Array<CheckoutSizeI>
+      );
+
+      return { _id: id, sizes: orderedSizes };
+    });
   }
 
   get productInView(): ProductI | null {

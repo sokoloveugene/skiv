@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { createOrderRequest } from "api/orderApi";
 import { useStoreContext } from "store/storeContext";
 import { normalizeOptionType } from "helpers/normalize";
 import { useCameFromProtect } from "hooks/useCameFromProtect";
@@ -72,9 +73,13 @@ const CheckoutPage: React.FC = observer(() => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
-    // TODO call api clear cartData
+  const onSubmit = handleSubmit(async (data) => {
+    const requestPayload = {
+      ...data,
+      products: cartStore.checkoutProducts,
+    };
+    const response = await createOrderRequest(requestPayload);
+    alert(`Order created ${response.id}`);
   });
 
   return (

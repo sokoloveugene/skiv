@@ -63,3 +63,28 @@ export type Categories =
   | "pants"
   | "shirts"
   | "dress";
+
+export interface OrderI {
+  address: string;
+  callMeBack: boolean;
+  delivery: "address delivery" | "nova poshta";
+  email: string;
+  firstName: string;
+  lastName: string;
+  mailing: boolean;
+  payment: "card" | "payment on delivery";
+  phoneNumber: string;
+  status?: string;
+  products: Array<CheckoutProductI>;
+}
+
+export interface CheckoutSizeI {
+  _id: string;
+  title: string;
+  ordered: number;
+}
+
+export interface CheckoutProductI {
+  _id: string;
+  sizes: Array<CheckoutSizeI>;
+}

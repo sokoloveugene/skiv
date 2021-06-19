@@ -1,7 +1,10 @@
+const fs = require("fs");
+const path = require("path");
 const mongoose = require("mongoose");
 const colors = require("colors");
 const connectDB = require("./helpers/db");
 const Product = require("./models/Product");
+const Order = require("./models/Order");
 
 connectDB();
 
@@ -201,6 +204,15 @@ const importData = async () => {
 const destroyData = async () => {
   try {
     await Product.deleteMany();
+    await Order.deleteMany();
+
+    const imageFolderPath = path.join(process.cwd(), "images");
+
+    const files = fs.readdirSync(imageFolderPath);
+
+    files.forEach((filename) =>
+      fs.unlinkSync(path.join(imageFolderPath, filename))
+    );
 
     console.log("Data destroyed".brightGreen.inverse);
     process.exit();

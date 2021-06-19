@@ -33,9 +33,10 @@ app.use(passport.session());
 
 app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/products", require("./routes/product.routes"));
+app.use("/api/orders", require("./routes/order.routes"));
 
 const PORT = config.get("PORT") || 5000;
 app.listen(PORT, () => {
   checkImageFolder();
-  console.log(`App has been started at port ${PORT}`)
+  console.log(`App has been started at port ${PORT}`);
 });
