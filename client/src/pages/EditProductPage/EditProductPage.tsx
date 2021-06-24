@@ -448,7 +448,7 @@ const EditProductPage: React.FC = () => {
 
       <s.Controls style={{ gridArea: "controls" }}>
         <Button title="Видалити" onClick={handleReset} inversion />
-        <Button title="Створити товар" onClick={onSubmit} />
+        <Button title="Зберегти змiни" onClick={onSubmit} />
       </s.Controls>
     </s.GridForm>
   );
