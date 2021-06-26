@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-// import { setLocalStorage } from "helpers/localStorage";
+import { setLocalStorage } from "helpers/localStorage";
 import { createOrderRequest } from "api/orderApi";
 import { useStoreContext } from "store/storeContext";
 import { normalizeOptionType } from "helpers/normalize";
@@ -12,10 +12,10 @@ import Button from "components/Button";
 import CustomInput from "components/CustomInput";
 import CustomCheckbox from "components/CustomCheckbox";
 import CheckoutItem from "components/CheckoutItem";
+import OrderCreatedInfoPopup from "components/OrderCreatedInfoPopup";
 import Modal from "components/Modal";
 import { Divider } from "ui/ui.styled";
 import { schema } from "./validationSchema";
-import OrderCreatedInfo from "./OrderCreatedInfo";
 import * as s from "./CheckoutPage.styled";
 
 type FormValues = {
@@ -77,12 +77,18 @@ const CheckoutPage: React.FC = observer(() => {
     resolver: yupResolver(schema),
   });
 
-  // TODO clean up fn
-  // const handleCleanUp = (): void => {
-  //   cartStore.cartData = [];
-  //   cartStore.cart = [];
-  //   setLocalStorage("cart", []);
-  // };
+  const handleCleanUp = useCallback((): void => {
+    cartStore.cartData = [];
+    cartStore.cart = [];
+    setLocalStorage("cart", []);
+    history.push("/");
+  }, [cartStore, history]);
+
+  useEffect(() => {
+    if (!orderId) return () => null;
+
+    return () => handleCleanUp();
+  }, [orderId, handleCleanUp]);
 
   const onSubmit = handleSubmit(async (data) => {
     const requestPayload = {
@@ -96,10 +102,11 @@ const CheckoutPage: React.FC = observer(() => {
   return (
     <>
       {orderId && (
-        <Modal onClose={() => null}>
-          <OrderCreatedInfo id={orderId} />
+        <Modal onClose={handleCleanUp} clickOutside={false}>
+          <OrderCreatedInfoPopup id={orderId} onClose={handleCleanUp} />
         </Modal>
       )}
+
       <s.FormWrapper onSubmit={onSubmit}>
         <s.Left>
           <s.InputsGridLayout>

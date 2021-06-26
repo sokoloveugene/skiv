@@ -24,6 +24,7 @@ import ArrowDown from "./ArrowDown.svg";
 import Sort from "./Sort.svg";
 import Upload from "./Upload.svg";
 import AddColorful from "./AddColorful.svg";
+import Copy from "./Copy.svg";
 
 // IMAGES
 import CartImage from "./CartImage.svg";
@@ -47,4 +48,5 @@ export {
   CartImage,
   Upload,
   AddColorful,
+  Copy,
 };

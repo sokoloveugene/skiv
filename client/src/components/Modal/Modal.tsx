@@ -6,11 +6,18 @@ import * as s from "./Modal.styled";
 
 interface ModalI {
   onClose: () => void;
+  clickOutside?: boolean;
 }
 
-const Modal: React.FC<ModalI> = ({ children, onClose }) => {
+const emptyFn = () => null;
+
+const Modal: React.FC<ModalI> = ({
+  children,
+  onClose,
+  clickOutside = true,
+}) => {
   useFreezeScroll();
-  const [contentRef] = useOutsideAction(onClose);
+  const [contentRef] = useOutsideAction(clickOutside ? onClose : emptyFn);
 
   return (
     <s.BackDrop>
