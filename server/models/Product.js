@@ -26,4 +26,8 @@ const schema = new Schema(
   { timestamps: true }
 );
 
+schema.statics.findByName = function (name) {
+  return this.find({ name: new RegExp(name, "ig") });
+};
+
 module.exports = model("Product", schema);

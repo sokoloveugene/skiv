@@ -111,8 +111,7 @@ router.post(
 router.post("/find", async (req, res) => {
   try {
     const { search } = req.body;
-    const regex = new RegExp(search, "ig");
-    const products = await Product.find({ name: regex });
+    const products = await Product.findByName(search);
     res.json(products);
   } catch (e) {
     res.status(500).json("Something went wrong, please try again");
