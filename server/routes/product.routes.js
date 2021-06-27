@@ -63,7 +63,7 @@ router.post("/catalog", async (req, res) => {
       }
     };
 
-    const products = await Product.find(category ? { category } : {}).sort(
+    const products = await Product.findByCategory(category).sort(
       getSortOption(sortBy)
     );
 
@@ -94,7 +94,7 @@ router.post(
 
       const { ids } = req.body;
 
-      const records = await Product.find().where("_id").in(ids).exec();
+      const records = await Product.find().byIds(ids).exec();
 
       if (records) {
         return res.json(records);

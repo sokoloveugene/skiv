@@ -30,4 +30,12 @@ schema.statics.findByName = function (name) {
   return this.find({ name: new RegExp(name, "ig") });
 };
 
+schema.statics.findByCategory = function (category) {
+  return category ? this.find({ category }) : this.find();
+};
+
+schema.query.byIds = function (ids = []) {
+  return this.where("_id").in(ids);
+};
+
 module.exports = model("Product", schema);
