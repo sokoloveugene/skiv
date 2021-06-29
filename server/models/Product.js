@@ -18,7 +18,17 @@ const schema = new Schema(
     price: { type: Number, required: true },
     sizes: {
       type: [sizeSchema],
-      validate: (v) => Array.isArray(v) && v.length > 0,
+      validate: (v) => {
+        const namesSet = new Set();
+
+        if (!Array.isArray(v) || v.length === 0) return false;
+
+        v.forEach(({ title }) => namesSet.add(title.toLowerCase()));
+
+        if (v.length !== namesSet.size) return false;
+
+        return true;
+      },
     },
     category: { type: String, required: true },
     additional: [additionalSchema],
