@@ -94,7 +94,7 @@ router.post(
 
       const { ids } = req.body;
 
-      const records = await Product.find().byIds(ids).exec();
+      const records = await Product.find().byIds(ids);
 
       if (records) {
         return res.json(records);
