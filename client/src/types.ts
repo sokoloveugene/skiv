@@ -22,9 +22,17 @@ export interface ProductI {
   additional: Array<AdditionalI>;
 }
 
+export interface ProductReducedI {
+  _id: string;
+  images: Array<string>;
+  tag: string | null;
+  name: string;
+  price: number;
+}
+
 export interface ProductWithSimilarI {
   product: ProductI;
-  similarProducts: Array<ProductI>;
+  similarProducts: Array<ProductReducedI>;
 }
 
 export interface CartItemI {

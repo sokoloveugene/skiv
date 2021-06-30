@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ProductI } from "types";
+import { ProductReducedI } from "types";
 import ItemCard from "../ItemCard";
 import PaginationArrows from "../PaginationArrows";
 import Button from "../Button";
@@ -8,7 +8,7 @@ import * as s from "./Carousel.styled";
 interface CarouselI {
   title: string;
   step?: number;
-  items: ProductI[];
+  items: ProductReducedI[];
 }
 
 const Carousel: React.FC<CarouselI> = ({ title, step = 3, items = [] }) => {
@@ -54,7 +54,7 @@ const Carousel: React.FC<CarouselI> = ({ title, step = 3, items = [] }) => {
       </s.Head>
 
       <s.Container step={step}>
-        {dataToShow.map((item: ProductI) => (
+        {dataToShow.map((item: ProductReducedI) => (
           <ItemCard key={item._id} item={item} />
         ))}
       </s.Container>

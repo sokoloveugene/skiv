@@ -1,14 +1,14 @@
 import React, { useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useWish } from "hooks/useWish";
-import { ProductI } from "types";
+import { ProductReducedI } from "types";
 import { WishActive, WishNotActive } from "assets/icons";
 import currency from "helpers/currencyFormatter";
 import ProportionWrapper from "../ProportionWrapper/ProportionWrapper";
 import * as s from "./ItemCard.styled";
 
 interface ItemCardI {
-  item: ProductI;
+  item: ProductReducedI;
 }
 
 const ItemCard: React.FC<ItemCardI> = ({ item }) => {

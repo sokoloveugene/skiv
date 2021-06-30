@@ -1,10 +1,10 @@
 import { makeAutoObservable } from "mobx";
-import { ProductI } from "types";
+import { ProductI, ProductReducedI } from "types";
 
 class ProductStore {
   productInView: ProductI | null = null;
 
-  similarProducts: Array<ProductI> = [];
+  similarProducts: Array<ProductReducedI> = [];
 
   categoryProducts: Array<ProductI> = [];
 
@@ -18,7 +18,7 @@ class ProductStore {
     this.productInView = product;
   }
 
-  setSimilarProducts(products: Array<ProductI>): void {
+  setSimilarProducts(products: Array<ProductReducedI>): void {
     this.similarProducts = products;
   }
 
