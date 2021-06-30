@@ -11,7 +11,10 @@ const Product = require("../models/Product");
 // @access  Public
 router.get("/", async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find()
+      .select("tag price name images")
+      .lean();
+
     res.json(products);
   } catch (e) {
     res.status(500).json("Something went wrong, please try again");
@@ -31,7 +34,10 @@ router.get("/:id", async (req, res) => {
       const similarProducts = await Product.find({
         _id: { $ne: product._id },
         category,
-      }).limit(3);
+      })
+        .limit(3)
+        .select("tag price name images")
+        .lean();
 
       return res.json({
         product,
@@ -41,6 +47,7 @@ router.get("/:id", async (req, res) => {
 
     res.status(404).json({ message: "Product not found" });
   } catch (e) {
+    console.log(e);
     res.status(500).json("Something went wrong, please try again");
   }
 });
@@ -63,9 +70,10 @@ router.post("/catalog", async (req, res) => {
       }
     };
 
-    const products = await Product.findByCategory(category).sort(
-      getSortOption(sortBy)
-    );
+    const products = await Product.findByCategory(category)
+      .sort(getSortOption(sortBy))
+      .select("tag price name images")
+      .lean();
 
     return res.json(products);
   } catch (e) {
@@ -111,7 +119,10 @@ router.post(
 router.post("/find", async (req, res) => {
   try {
     const { search } = req.body;
-    const products = await Product.findByName(search);
+    const products = await Product.findByName(search)
+      .select("tag price name images")
+      .lean();
+
     res.json(products);
   } catch (e) {
     res.status(500).json("Something went wrong, please try again");
