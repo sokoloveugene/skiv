@@ -63,4 +63,9 @@ const schema = new Schema(
   { timestamps: true }
 );
 
+schema.post("save", function (doc) {
+  // TODO send notification to website owner
+  console.log(`Send notification to owner about new order with id ${doc._id}`);
+});
+
 module.exports = model("Order", schema);
